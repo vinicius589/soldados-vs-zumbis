@@ -1,0 +1,12 @@
+[project]
+name = "Soldados vs Zumbis"
+version = "1.2.0"
+source = "src/svz"
+assets = "assets"
+entrypoint = "main.py"
+python = "3.12"
+platform = "Windows x64"
+
+[release]
+executable = "SoldadosVsZumbis.exe"
+resources_manifest = "assets/manifest.json"

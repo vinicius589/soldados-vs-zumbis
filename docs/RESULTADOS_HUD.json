@@ -1,0 +1,27 @@
+{
+  "version": "1.1.1",
+  "date": "2026-10-09",
+  "tests": {
+    "passed": 127,
+    "duration_seconds": 59.166,
+    "smoke": true
+  },
+  "removal_scenarios": [
+    "city/easy",
+    "city/medium",
+    "city/hard",
+    "desert/easy",
+    "desert/medium",
+    "desert/hard",
+    "beach/easy",
+    "beach/medium",
+    "beach/hard"
+  ],
+  "assets": 109,
+  "zip_verified_files": 289,
+  "zip_executable_without_external_python": true,
+  "zip_sha256": "e465216befdac94f94a0fb4dd43ec4c5a48d46d2e2af76ccd7ca3d8307a88d73",
+  "exe_sha256": "7cbe6391f2009248e4723fd5f062f5446a431c70348888c155e396e3f57800b4",
+  "installed_executable_verified": true,
+  "extracted_distribution_updated": true
+}

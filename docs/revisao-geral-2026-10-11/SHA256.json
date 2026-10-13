@@ -1,0 +1,19 @@
+{
+  "audit-extra.py": "ed4e51dd450607987be4c6609ec1e064aebb2ad26c0cd4e23e7a75b03304adaf",
+  "audit.py": "f94b5ec7d44d05736154a7afbc0d486ec4d9c77679005f55a28d8d43965aa9f8",
+  "difficulty.png": "597f689640815ec8d8b313fd32d81af79d13633cc65963960c25272b8eee7e0f",
+  "evidencias-adicionais.json": "32447cc98c37363deb42e960dd85634b0ceb890dae6c6564402465082806cb00",
+  "evidencias-revisao.json": "95ca0860d5ffcc5d27838363b23be95f4f71e3faefa51bba5e8655978d02bb8c",
+  "exe-headless.json": "055c88196368dd57775665089669e57f3d25d5c1ac5b5382f1311b468680d5ba",
+  "exe-runs.json": "f7acce3636abcb7581efbfee4da4cf51bed32ee225b7d23d98998e70b5f31bc6",
+  "howto.png": "12ce1c93fac52e6b3ac06c056ee68f4c78fa0f14dafd4b210e0d2eff50341250",
+  "hud-beach.png": "33b87681e233ce226466f13cac51c2dce0d066e5ded90b2309cbd20a2a7fdeb0",
+  "hud-city.png": "d0a650e37f02514c866cc54c735ccce31c7514cbeeefef337ab3ea2cc2958367",
+  "hud-desert.png": "aad2835e3c04580c516182747f0c27c44b5dbc9c3675c6b8ec91d8b597f22e52",
+  "native-game.log": "3f389f60ceaabefb4fe9efe2eaf3d99fb787b4c68a5fe67c3c530a2f1288a051",
+  "native-pygame.log": "8c1e585cf50039db33566a5d0ee1695c8b55dc72c2c8a82221364355641f5cbb",
+  "regressao.json": "2b5c309078969e75b01115bc2170e6d7bbe3c1793f64525e4a547a1ad89411a8",
+  "regressao.log": "dbf39a3d56e4587ab6233739d39b2a62b56b9a4c42c4b7a84fb09a44a701f0a3",
+  "run-exe.py": "01fe79841f4f1ddcbac99b640251b18b9993f9c7057df290235a21b3cc84a8ee",
+  "suite.log": "6a4cf0db71359f5791ea29139953f423b63d7e7273044d9c7f7996be475ec622"
+}

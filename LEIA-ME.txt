@@ -1,0 +1,49 @@
+SOLDADOS VS ZUMBIS — VERSÃO 1.2.0
+Windows x64
+
+COMO JOGAR
+1. Extraia a pasta inteira do ZIP.
+2. Abra SoldadosVsZumbis.exe ou JOGAR.bat.
+3. Mantenha as pastas assets e _internal junto do executável.
+
+Não é necessário instalar Python nem baixar bibliotecas.
+
+Escolha a dificuldade, o território e posicione as tropas nas faixas.
+São três regiões e 12 ondas por região. As instruções completas estão no
+menu COMO JOGAR. O mouse é o controle padrão; o teclado pode ser habilitado
+em CONFIGURAÇÕES. O jogo usa renderização por software como padrão.
+
+PROGRESSO E REGISTROS
+O progresso fica em %LOCALAPPDATA%\SoldadosVsZumbis\campanha.json.
+O registro de erros fica na mesma pasta, em jogo.log.
+Atualizar ou extrair novamente o jogo não precisa apagar essa pasta.
+
+SE NÃO ABRIR
+Verifique se extraiu todos os arquivos, inclusive assets e _internal.
+Consulte jogo.log no local indicado acima.
+
+Créditos de áudio em CREDITOS.md; avisos das bibliotecas em licenses.
+Este pacote foi preparado para Windows x64. Não é um pacote para macOS/Linux.
+
+CONTINUAR UMA PARTIDA
+Ao sair para o MENU, escolha CONTINUAR. Isso também funciona após fechar e
+abrir o jogo. A partida volta pausada: clique em PAUSA ou pressione P.
+O salvamento é automático a cada 10 segundos, nas mudanças de onda, ao
+pausar, ao voltar ao menu e ao fechar normalmente. NOVA PARTIDA pede
+confirmação antes de substituir a partida atual. Existe um ponto de
+retomada por perfil local, válido para qualquer mapa e dificuldade.
+O arquivo é %LOCALAPPDATA%\SoldadosVsZumbis\campanha.partida.json.
+Se houver falha ao salvar, um aviso aparece; não feche sem salvar se quiser
+preservar os avanços que ainda estão somente na memória.
+
+REMOVER TROPAS
+O botão REMOVER fica entre PAUSA e PRÓXIMA e funciona em todas as
+dificuldades. Clique nele e depois na casa da tropa. R alterna a ferramenta.
+A retirada devolve 35% do custo, arredondado para cima.
+
+TELA CHEIA
+Em CONFIGURAÇÕES > VÍDEO, clique em TELA CHEIA.
+F11 ou Alt+Enter alternam entre janela e tela cheia a qualquer momento.
+A preferência é guardada para a próxima abertura. A partida não reinicia.
+O jogo mantém a proporção da imagem; podem aparecer margens pretas.
+Preferência: %LOCALAPPDATA%\SoldadosVsZumbis\campanha.video.json.

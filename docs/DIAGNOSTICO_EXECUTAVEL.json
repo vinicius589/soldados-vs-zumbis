@@ -1,0 +1,44 @@
+{
+  "version": "1.0.0",
+  "images": {
+    "title": "caef279bb14191b4509f154d4cd23eb69d7ed8fb6cc9f43b791f71aa5bdf6687",
+    "campaign": "72794f3adc646d3f04882da491d7ef8e801c8599cf754aa43f815c711221dcfd",
+    "characters": "e94944cdc1c595224885fe8b8e523eca7555caf3dafaf2e9840d421f069fe8eb",
+    "story": "a6c147aa99323a9acb02b819321022342702637f4e03597be303bad0018fd5d5",
+    "settings": "e1918deef5ed92fd08eea9dbfbf426fb8a0a604cc9d9cf5f256c34137ceb2d8f",
+    "howto": "a13974e488e10c21894d4bfd6d3fe8646b909c459fbde16ccc6d536dd7703524"
+  },
+  "regions": {
+    "city": {
+      "wave": 1,
+      "bosses": [
+        "bruto_demolidor",
+        "comandante_mortos",
+        "cuspidor_alfa"
+      ],
+      "defenders": 1
+    },
+    "desert": {
+      "wave": 1,
+      "bosses": [
+        "mutante_ruinas",
+        "necromante",
+        "colosso_mutante"
+      ],
+      "defenders": 1
+    },
+    "beach": {
+      "wave": 1,
+      "bosses": [
+        "tide_brute",
+        "cacador_abissal",
+        "leviata"
+      ],
+      "defenders": 1
+    }
+  },
+  "renderer": "SOFTWARE · CPU/RAM",
+  "audio_ready": true,
+  "verified_assets": 109,
+  "ok": true
+}
