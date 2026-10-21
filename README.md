@@ -60,13 +60,13 @@ Cada recurso novo deve mostrar seu caminho no código por meio de commits pequen
 
 Uma tag não contém um executável por si só. Quando uma versão Alfa ou Beta tiver um pacote independente e verificável, o pacote será anexado à **Release associada à tag**. Não vamos fabricar uma Beta 1 executável enquanto o arquivo original não for encontrado, nem chamar um pacote de testado sem evidência de execução.
 
-Veja o [plano de preservação e evolução histórica](docs/PLANO-EVOLUCAO-HISTORICA.md), o [guia de branches, tags e versões](docs/BRANCHING.md) e o [guia de instalação e desenvolvimento](docs/GUIA-DEV-E-RELEASES.md).
+Veja o [catálogo de versões históricas e seus pacotes](docs/HISTORICO-DE-VERSOES.md), o [plano de preservação e evolução histórica](docs/PLANO-EVOLUCAO-HISTORICA.md), o [guia de branches, tags e versões](docs/BRANCHING.md) e o [guia de instalação e desenvolvimento](docs/GUIA-DEV-E-RELEASES.md).
 
 ## Jogar ou desenvolver
 
 - **Para jogar:** confira primeiro as [Releases deste repositório](https://github.com/vinicius589/soldados-vs-zumbis/releases). Enquanto a migração não tiver sua primeira versão aprovada, as distribuições de referência continuam nas [Releases do repositório antigo](https://github.com/vinicius589/soldados-vs-zumbis-beta-4/releases).
 - **Para desenvolver:** comece em [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md). O [guia de arquitetura](docs/ARCHITECTURE.md) explica a organização dos módulos e os testes.
-- **Para estudar as versões anteriores:** use as branches históricas e as notas de cada etapa. Não misture pastas de versões distintas como se fossem uma única instalação.
+- **Para estudar as versões anteriores:** use o [catálogo histórico](docs/HISTORICO-DE-VERSOES.md), que aponta para os snapshots por tag e os pacotes separados nas Releases. Não misture pastas de versões distintas como se fossem uma única instalação.
 
 O botão **Code → Download ZIP** baixa o estado do código-fonte que está em uma branch; não garante, por si só, um pacote de jogo preparado para execução. Alguns recursos históricos foram guardados via Git LFS, então confirme os arquivos de arte e áudio antes de avaliar uma cópia extraída.
 
