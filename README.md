@@ -1,24 +1,10 @@
-﻿\# Soldados vs Zumbis
+﻿Soldados vs Zumbis
+
+==================
 
 
 
-\*\*Um jogo de estratégia 2D no estilo Tower Defense desenvolvido em Python, utilizando Pygame-CE e composição de iluminação/renderização via PyOpenGL.\*\*
-
-
-
-\---
-
-
-
-\## 💡 Como Surgiu o Projeto
-
-
-
-A ideia do \*\*Soldados vs Zumbis\*\* nasceu de partidas de \*Plants vs. Zombies\*, aliada ao desejo de criar uma mecânica autoral de estratégia em tempo real. O projeto começou como uma atividade acadêmica no curso de Ciência da Computação na UNIPAC, com o objetivo de aplicar na prática conceitos de arquitetura de software, matemática computacional, renderização gráfica 2D e física de combate em Python.
-
-
-
-O que começou como um protótipo inicial evoluiu ao longo de múltiplos ciclos de desenvolvimento (fases Alfa e Beta) até se tornar um jogo completo, com sistema de ondas, gerenciamento de tropas, iluminação e suporte a múltiplos cenários.
+Um jogo de estratégia 2D no estilo Tower Defense desenvolvido em Python, utilizando Pygame-CE e composição de iluminação/renderização via PyOpenGL.
 
 
 
@@ -26,7 +12,27 @@ O que começou como um protótipo inicial evoluiu ao longo de múltiplos ciclos 
 
 
 
-\## 📜 A História do Jogo
+Como Surgiu o Projeto
+
+\---------------------
+
+
+
+A ideia do Soldados vs Zumbis nasceu de partidas de Plants vs. Zombies, aliada ao desejo de criar uma mecânica autoral de estratégia em tempo real. O projeto começou como uma atividade académica no curso de Ciência da Computação na UNIPAC, idealizado por Vinícius da Motta Campos.
+
+
+
+O objetivo principal era aplicar na prática conceitos de arquitetura de software, matemática computacional, renderização gráfica 2D e física de combate em Python. O que começou como um protótipo inicial evoluiu ao longo de múltiplos ciclos de desenvolvimento até se tornar um jogo completo.
+
+
+
+\---
+
+
+
+A História do Jogo
+
+\------------------
 
 
 
@@ -34,35 +40,15 @@ O mundo entrou em colapso após um surto biológico devastador que transforma os
 
 
 
-A campanha do jogo se divide em três frentes de batalha:
+A campanha do jogo divide-se em três frentes de batalha:
 
 
 
-1\. \*\*Nova York (Caos Urbano):\*\* O ponto zero da infecção. As batalhas ocorrem entre ruínas de arranha-céus e barricadas policiais contra cidadãos infectados e tropas especiais contagiadas.
+1\. Nova York (Caos Urbano): O ponto zero da infecção. As batalhas ocorrem entre ruínas de arranha-céus e barricadas policiais contra cidadãos infectados e tropas especiais contagiadas.
 
-2\. \*\*Deserto do Egito (Ruínas Escaldantes):\*\* O vírus se espalhou pelas zonas áridas. A defesa precisa lidar com tempestades de areia, infectados adaptados ao calor e zonas de visibilidade reduzida.
+2\. Deserto do Egito (Ruínas Escaldantes): O vírus espalhou-se pelas zonas áridas. A defesa precisa de lidar com tempestades de areia, infectados adaptados ao calor e zonas de visibilidade reduzida.
 
-3\. \*\*Cachoeira de Minas Gerais (Resistência Nacional):\*\* A frente de combate em território brasileiro. Em meio à vegetação densa e rios, os soldados enfrentam mutações rápidas e terrenos de difícil posicionamento.
-
-
-
-\---
-
-
-
-\## 🎮 Mecânicas do Jogo
-
-
-
-\- \*\*Defesa por Faixas (Grid 4xN):\*\* Posicione suas tropas estrategicamente em quatro linhas de combate para barrar as investidas dos infectados.
-
-\- \*\*Gerenciamento de Tropas e Deck:\*\* Monte um esquadrão com até 8 cartas por operação, balanceando custo de recursos, alcance e poder de fogo.
-
-\- \*\*Campanha de 12 Ondas:\*\* Cada região apresenta ciclos progressivos de dificuldade, culminando no combate contra Subchefes e Chefes de área.
-
-\- \*\*Inimigos Especiais:\*\* Enfrente desde corredores rápidos e rastejadores até inimigos com habilidades de explosão e escudos.
-
-\- \*\*Efeitos Gráficos e Renderização:\*\* Interface construída em Pygame-CE integrada com PyOpenGL para efeitos de iluminação e composição visual.
+3\. Cachoeira de Minas Gerais (Resistência Nacional): A frente de combate em território brasileiro. Em meio à vegetação densa e rios, os soldados enfrentam mutações rápidas e terrenos de difícil posicionamento.
 
 
 
@@ -70,17 +56,21 @@ A campanha do jogo se divide em três frentes de batalha:
 
 
 
-\## 🛠️ Tecnologias Utilizadas
+Mecânicas do Jogo
+
+\-----------------
 
 
 
-\- \*\*Linguagem:\*\* Python 3.10+
+\- Defesa por Faixas (Grid 4xN): Posicione as suas tropas estrategicamente em quatro linhas de combate para barrar as investidas dos infectados.
 
-\- \*\*Motor 2D:\*\* Pygame-Community Edition (Pygame-CE)
+\- Gerenciamento de Tropas e Deck: Seleção de esquadrão com até 8 cartas por operação, equilibrando custo de recursos, tempo de recarga, dano e alcance.
 
-\- \*\*Renderização Gráfica:\*\* PyOpenGL / OpenGL
+\- Campanha de 12 Ondas: Ciclos progressivos de dificuldade, culminando no combate contra Subchefes e Chefes de área.
 
-\- \*\*Validação:\*\* Suíte de testes automatizados e ferramentas de regressão internas
+\- Inimigos Especiais: Enfrente desde infectados comuns e corredores velozes até rastejadores, blindados com escudo e unidades com explosivos.
+
+\- Renderização e Efeitos: Composição gráfica em Pygame-CE combinada com PyOpenGL para iluminação e efeitos visuais em tempo real.
 
 
 
@@ -88,15 +78,89 @@ A campanha do jogo se divide em três frentes de batalha:
 
 
 
-\## 🚀 Como Executar o Projeto
+Tecnologias Utilizadas
+
+\----------------------
 
 
 
-1\. \*\*Clone o repositório:\*\*
+\- Linguagem: Python 3.10+
 
-&#x20;  ```bash
+\- Motor 2D: Pygame-Community Edition (Pygame-CE)
 
-&#x20;  git clone \[https://github.com/vinicius589/soldados-vs-zumbis.git](https://github.com/vinicius589/soldados-vs-zumbis.git)
+\- Renderização Gráfica: PyOpenGL / OpenGL
+
+\- Processamento Numérico: NumPy
+
+\- Testes e Qualidade: Pytest e ferramentas de regressão internas
+
+
+
+\---
+
+
+
+Como Executar o Projeto
+
+\-----------------------
+
+
+
+1\. Clone o repositório:
+
+&#x20;  git clone https://github.com/vinicius589/soldados-vs-zumbis.git
 
 &#x20;  cd soldados-vs-zumbis
+
+
+
+2\. Prepare o ambiente (no Windows):
+
+&#x20;  Execute o ficheiro PREPARAR\_AMBIENTE.bat
+
+
+
+3\. Inicie o jogo:
+
+&#x20;  Execute o ficheiro JOGAR.bat ou rode no terminal:
+
+&#x20;  py main.py
+
+
+
+\---
+
+
+
+Histórico de Desenvolvimento
+
+\----------------------------
+
+
+
+O repositório mantém a versão estável na branch main e preserva o histórico de evolução em branches dedicadas:
+
+\- main: Versão de produção atualizada (Alfa da Beta 5).
+
+\- historico/alfas-e-betas: Registos históricos dos protótipos e evolução de código/arte.
+
+\- historico/beta-1: Base da primeira versão jogável estável.
+
+
+
+\---
+
+
+
+Licença
+
+\-------
+
+
+
+Este projeto está licenciado sob a MIT License - consulte o ficheiro LICENSE para mais detalhes.
+
+
+
+Desenvolvido por Vinícius da Motta Campos.
 
