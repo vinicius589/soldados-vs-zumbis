@@ -1,0 +1,17 @@
+# Artefatos locais de execução e compilação
+__pycache__/
+*.py[cod]
+
+# Progresso pessoal gerado pelo jogo
+campanha_v7.json
+
+# Materiais de versões anteriores preservados no diretório de trabalho.
+# A Beta 3 executa somente com assets/v7, portanto eles não entram no
+# repositório/distribuição nova, mas continuam intactos no computador.
+.package-v7/
+.package-v7-1/
+assets/hd/
+assets/units/
+assets/zombies/
+assets/menu_backdrop.png
+v7*_preview.png
