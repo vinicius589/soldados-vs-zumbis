@@ -3,6 +3,18 @@ from __future__ import annotations
 
 from src.game.runtime import *  # noqa: F403
 
+BOSS_SKILL_VISUALS: dict[str, tuple[str, tuple[int, int, int]]] = {
+    "bruto_demolidor": ("ground_slam", (230, 91, 61)),
+    "comandante": ("command_aura", (232, 77, 62)),
+    "alfa": ("toxic_wave", (132, 239, 80)),
+    "mutante": ("ground_slam", (225, 152, 70)),
+    "necromante": ("arcane_cast", (197, 128, 238)),
+    "colosso": ("ground_slam", (227, 163, 81)),
+    "tide": ("tidal_surge", (95, 195, 239)),
+    "hunter": ("tidal_surge", (95, 195, 239)),
+    "leviathan": ("tidal_surge", (95, 195, 239)),
+}
+
 class Battle:
     def __init__(self, app: Game, region: str, selected: list[tuple[str, str]]) -> None:
         self.app = app
@@ -1473,6 +1485,30 @@ class Battle:
         """
         return defender.stats["role"] not in {"barrier", "mine", "suicide_bomber"}
 
+    def _append_boss_visual_effect(
+        self,
+        enemy: Enemy,
+        visual_kind: str,
+        visual_color: tuple[int, int, int],
+        duration: float,
+        *,
+        scale: float,
+    ) -> None:
+        """Registra o efeito visual compartilhado de entrada/habilidade do chefe."""
+        effect_x, effect_y = self.enemy_effect_origin(enemy, visual_kind)
+        self.effects.append(
+            VisualEffect(
+                visual_kind,
+                effect_x,
+                effect_y,
+                visual_color,
+                duration,
+                scale=scale,
+                owner=enemy,
+                anchor_kind=visual_kind,
+            )
+        )
+
     def boss_entrance(self, enemy: Enemy) -> None:
         """Executa uma única ação de entrada. Ela nunca é reutilizada no ciclo.
 
@@ -1483,32 +1519,11 @@ class Battle:
         skill_duration = self.enemy_skill_duration(enemy, 0.72)
         enemy.motion.trigger("skill", skill_duration)
         self.shake = max(self.shake, 0.42)
-        entrance_visuals = {
-            "bruto_demolidor": ("ground_slam", (230, 91, 61)),
-            "comandante": ("command_aura", (232, 77, 62)),
-            "alfa": ("toxic_wave", (132, 239, 80)),
-            "mutante": ("ground_slam", (225, 152, 70)),
-            "necromante": ("arcane_cast", (197, 128, 238)),
-            "colosso": ("ground_slam", (227, 163, 81)),
-            "tide": ("tidal_surge", (95, 195, 239)),
-            "hunter": ("tidal_surge", (95, 195, 239)),
-            "leviathan": ("tidal_surge", (95, 195, 239)),
-        }
-        visual_kind, visual_color = entrance_visuals.get(
+        visual_kind, visual_color = BOSS_SKILL_VISUALS.get(
             str(boss_type), ("ground_slam", RED)
         )
-        effect_x, effect_y = self.enemy_effect_origin(enemy, visual_kind)
-        self.effects.append(
-            VisualEffect(
-                visual_kind,
-                effect_x,
-                effect_y,
-                visual_color,
-                skill_duration,
-                scale=1.45,
-                owner=enemy,
-                anchor_kind=visual_kind,
-            )
+        self._append_boss_visual_effect(
+            enemy, visual_kind, visual_color, skill_duration, scale=1.45
         )
         if boss_type == "bruto_demolidor":
             for defender in self.defenders:
@@ -1727,32 +1742,11 @@ class Battle:
         ):
             enemy.visual_animation.play("skill", restart=True)
         self.shake = max(self.shake, 0.24)
-        skill_visuals = {
-            "bruto_demolidor": ("ground_slam", (230, 91, 61)),
-            "comandante": ("command_aura", (232, 77, 62)),
-            "alfa": ("toxic_wave", (132, 239, 80)),
-            "mutante": ("ground_slam", (225, 152, 70)),
-            "necromante": ("arcane_cast", (197, 128, 238)),
-            "colosso": ("ground_slam", (227, 163, 81)),
-            "tide": ("tidal_surge", (95, 195, 239)),
-            "hunter": ("tidal_surge", (95, 195, 239)),
-            "leviathan": ("tidal_surge", (95, 195, 239)),
-        }
-        visual_kind, visual_color = skill_visuals.get(
+        visual_kind, visual_color = BOSS_SKILL_VISUALS.get(
             str(boss_type), ("ground_slam", RED)
         )
-        effect_x, effect_y = self.enemy_effect_origin(enemy, visual_kind)
-        self.effects.append(
-            VisualEffect(
-                visual_kind,
-                effect_x,
-                effect_y,
-                visual_color,
-                skill_duration,
-                scale=1.0,
-                owner=enemy,
-                anchor_kind=visual_kind,
-            )
+        self._append_boss_visual_effect(
+            enemy, visual_kind, visual_color, skill_duration, scale=1.0
         )
 
         if boss_type == "bruto_demolidor":
