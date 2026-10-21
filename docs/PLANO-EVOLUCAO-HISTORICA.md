@@ -58,3 +58,17 @@ Linhas removidas não são, sozinhas, um critério de sucesso. A meta é código
 ## Próximo marco
 
 Concluir a importação das referências e comparar os snapshots históricos com `migracao/base-jogavel`. Com essa comparação será possível definir uma sequência fiel de marcos e calcular a redução real de código nas refatorações futuras.
+
+
+## Situação da importação no novo repositório
+
+Conferência em 21/10/2026:
+
+- Importadas as branches históricas `historico/alfas-e-betas` e `historico/beta-1`.
+- Importadas as tags de origem `beta-4.0`, `v1.2.0`, `historico-corrigido-2026-09-30` e `pacote-completo-2026-09-30`, preservando seus commits originais.
+- A tentativa de importar `v1.3.0`, `v1.3.1`, `jogo` e `beta5-dev` foi bloqueada pelo GitHub porque os commits incluem arquivos em `.github/workflows/` e a credencial da automação não possui permissão para publicar esses caminhos. Os originais seguem disponíveis no repositório antigo; não recriamos refs falsas.
+- README, guia de branches, guia de contribuição e guia de instalação/publicação foram atualizados na branch de preparação.
+- Ainda falta associar os pacotes executáveis históricos a Releases do repositório novo. As tags importadas são referências de código, não copiam automaticamente os anexos de download da origem.
+- A importação de código não substitui a validação de assets LFS, testes automatizados nem teste gráfico no Windows.
+
+Links úteis: [repositório antigo e seus Releases](https://github.com/vinicius589/soldados-vs-zumbis-beta-4/releases), [branch histórica importada](https://github.com/vinicius589/soldados-vs-zumbis/tree/historico/alfas-e-betas) e [histórico de automação](https://github.com/vinicius589/soldados-vs-zumbis/actions).
