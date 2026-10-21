@@ -1,28 +1,12 @@
-﻿Soldados vs Zumbis
-
-==================
+﻿🧟‍♂️ Soldados vs Zumbis
 
 
 
-Um jogo de estratégia 2D no estilo Tower Defense desenvolvido em Python, utilizando Pygame-CE e composição de iluminação/renderização via PyOpenGL.
+O \*\*Soldados vs Zumbis\*\* é um jogo de estratégia 2D no estilo \*Tower Defense\* desenvolvido em Python. O projeto combina o motor Pygame-CE com recursos avançados de iluminação e composição visual renderizados via PyOpenGL.
 
 
 
-\---
-
-
-
-Como Surgiu o Projeto
-
-\---------------------
-
-
-
-A ideia do Soldados vs Zumbis nasceu de partidas de Plants vs. Zombies, aliada ao desejo de criar uma mecânica autoral de estratégia em tempo real. O projeto começou como uma atividade académica no curso de Ciência da Computação na UNIPAC, idealizado por Vinícius da Motta Campos.
-
-
-
-O objetivo principal era aplicar na prática conceitos de arquitetura de software, matemática computacional, renderização gráfica 2D e física de combate em Python. O que começou como um protótipo inicial evoluiu ao longo de múltiplos ciclos de desenvolvimento até se tornar um jogo completo.
+A ideia nasceu da paixão por jogos como \*Plants vs. Zombies\*, unida ao objetivo acadêmico de aplicar na prática conceitos de arquitetura de software, matemática computacional, física de combate e renderização gráfica no curso de Ciência da Computação na UNIPAC.
 
 
 
@@ -30,25 +14,69 @@ O objetivo principal era aplicar na prática conceitos de arquitetura de softwar
 
 
 
-A História do Jogo
-
-\------------------
+📱 Funcionalidades e Mecânicas do Jogo
 
 
 
-O mundo entrou em colapso após um surto biológico devastador que transforma os infectados em mutantes agressivos de rápida evolução. Com a queda das forças de segurança convencionais, cabe aos batalhões de elite remanescentes estabelecer linhas de defesa para conter o avanço da horda.
+🏠 Menu Principal
+
+\- Navegação centralizada pelas opções do jogo.
+
+\- Seleção de frentes de batalha (cenários) e configurações.
+
+\- Acesso rápido a instruções de controles e créditos.
 
 
 
-A campanha do jogo divide-se em três frentes de batalha:
+🛡️ Defesa por Faixas (Grid 4xN)
+
+\- Posicionamento tático de soldados em 4 linhas paralelas de combate.
+
+\- Controle espacial para otimizar o alcance de tiro e barrar o avanço inimigo.
 
 
 
-1\. Nova York (Caos Urbano): O ponto zero da infecção. As batalhas ocorrem entre ruínas de arranha-céus e barricadas policiais contra cidadãos infectados e tropas especiais contagiadas.
+🎴 Gerenciamento de Tropas e Deck
 
-2\. Deserto do Egito (Ruínas Escaldantes): O vírus espalhou-se pelas zonas áridas. A defesa precisa de lidar com tempestades de areia, infectados adaptados ao calor e zonas de visibilidade reduzida.
+\- Escolha de até 8 cartas de unidades por operação.
 
-3\. Cachoeira de Minas Gerais (Resistência Nacional): A frente de combate em território brasileiro. Em meio à vegetação densa e rios, os soldados enfrentam mutações rápidas e terrenos de difícil posicionamento.
+\- Equilíbrio entre custo de suprimentos, tempo de recarga (cooldown), alcance e poder de fogo.
+
+
+
+🌊 Campanha de 12 Ondas
+
+\- Ondas progressivas com diferentes padrões de aparecimento de inimigos.
+
+\- Enfrentamento de Subchefes intermediários e Chefes de área ao final dos ciclos.
+
+\- Progressão por três frentes de batalha com identidades visuais próprias:
+
+&#x20; - 🏙️ \*\*Nova York (Caos Urbano):\*\* Batalhas entre ruínas de arranha-céus e barricadas.
+
+&#x20; - 🏜️ \*\*Deserto do Egito (Ruínas Escaldantes):\*\* Enfrente a horda sob tempestades de areia e calor.
+
+&#x20; - 🌊 \*\*Cachoeira de Minas Gerais (Resistência Nacional):\*\* Combate em vegetação densa e terreno acidentado.
+
+
+
+🧟 Inimigos Especiais
+
+\- Corredores velozes de reação rápida.
+
+\- Rastejadores de baixo perfil.
+
+\- Unidades blindadas com escudos táticos.
+
+\- Infectados portadores de explosivos.
+
+
+
+💡 Renderização e Efeitos Gráficos
+
+\- Composição 2D integrada via PyOpenGL.
+
+\- Efeitos visuais de iluminação, transparências e iluminação ambiente em tempo real.
 
 
 
@@ -56,43 +84,25 @@ A campanha do jogo divide-se em três frentes de batalha:
 
 
 
-Mecânicas do Jogo
-
-\-----------------
+🚀 Tecnologias Utilizadas
 
 
 
-\- Defesa por Faixas (Grid 4xN): Posicione as suas tropas estrategicamente em quatro linhas de combate para barrar as investidas dos infectados.
+| Tecnologia | Finalidade |
 
-\- Gerenciamento de Tropas e Deck: Seleção de esquadrão com até 8 cartas por operação, equilibrando custo de recursos, tempo de recarga, dano e alcance.
+| :--- | :--- |
 
-\- Campanha de 12 Ondas: Ciclos progressivos de dificuldade, culminando no combate contra Subchefes e Chefes de área.
+| Python 3.10+ | Linguagem principal do projeto |
 
-\- Inimigos Especiais: Enfrente desde infectados comuns e corredores velozes até rastejadores, blindados com escudo e unidades com explosivos.
+| Pygame-CE (2.5.8) | Motor 2D, janela, eventos e reprodução de áudio |
 
-\- Renderização e Efeitos: Composição gráfica em Pygame-CE combinada com PyOpenGL para iluminação e efeitos visuais em tempo real.
+| PyOpenGL (3.1.10) | Renderização gráfica, iluminação e composição de cena |
 
+| NumPy (2.3.5) | Operações vetoriais e matrizes de transformação |
 
+| Pytest | Suíte automatizada de testes unitários e de integração |
 
-\---
-
-
-
-Tecnologias Utilizadas
-
-\----------------------
-
-
-
-\- Linguagem: Python 3.10+
-
-\- Motor 2D: Pygame-Community Edition (Pygame-CE)
-
-\- Renderização Gráfica: PyOpenGL / OpenGL
-
-\- Processamento Numérico: NumPy
-
-\- Testes e Qualidade: Pytest e ferramentas de regressão internas
+| Git / GitHub | Controle de versão e hospedagem do repositório |
 
 
 
@@ -100,29 +110,97 @@ Tecnologias Utilizadas
 
 
 
-Como Executar o Projeto
-
-\-----------------------
+📁 Estrutura de Pastas
 
 
 
-1\. Clone o repositório:
+soldados-vs-zumbis/
 
-&#x20;  git clone https://github.com/vinicius589/soldados-vs-zumbis.git
+├── assets/                          # Imagens, spritesheets e efeitos sonoros
 
-&#x20;  cd soldados-vs-zumbis
+│   ├── actors/                      # Sprites de soldados, zumbis e chefes
+
+│   ├── audio/                       # Efeitos sonoros (tiros, explosões, horda) e música
+
+│   ├── environment/                 # Elementos e cenários de fundo
+
+│   └── interface/                   # Telas de UI, cards e HUD de combate
+
+│
+
+├── docs/                            # Documentação técnica e relatórios de auditoria
+
+├── licenses/                        # Licenças das dependências e bibliotecas
+
+│
+
+├── src/
+
+│   └── svz/                         # Código-fonte principal da aplicação
+
+│       ├── app.py                   # Loop principal da aplicação e estados
+
+│       ├── battle.py                # Lógica de batalha e detecção de colisões
+
+│       ├── board.py                 # Grade (grid) de combate 4xN
+
+│       ├── content.py               # Mapeamento de tropas, inimigos e atributos
+
+│       ├── entities.py              # Entidades, projéteis e comportamentos
+
+│       ├── rendering.py             # Pipeline de renderização com PyOpenGL
+
+│       └── waves.py                 # Gerenciamento e spawn das ondas de infectados
+
+│
+
+├── tests/                           # Suíte com mais de 60 testes automatizados
+
+├── tools/                           # Ferramentas de benchmark e verificação de qualidade
+
+├── JOGAR.bat                        # Script para iniciar o jogo diretamente no Windows
+
+├── PREPARAR\_AMBIENTE.bat            # Script para criação do .venv e instalação automática
+
+├── main.py                          # Ponto de entrada da aplicação
+
+├── project.toml                     # Configurações do projeto
+
+├── requirements.txt                 # Dependências do projeto
+
+├── LICENSE                          # Licença MIT
+
+├── CONTRIBUTING.md                  # Diretrizes de contribuição
+
+└── README.md                        # Documentação principal do projeto
 
 
 
-2\. Prepare o ambiente (no Windows):
-
-&#x20;  Execute o ficheiro PREPARAR\_AMBIENTE.bat
+\---
 
 
 
-3\. Inicie o jogo:
+⚙️ Como Executar o Projeto
 
-&#x20;  Execute o ficheiro JOGAR.bat ou rode no terminal:
+
+
+Opção 1: Inicialização Automática (Windows)
+
+1\. Dê um duplo clique em `PREPARAR\_AMBIENTE.bat` (cria o ambiente virtual e instala as dependências).
+
+2\. Dê um duplo clique em `JOGAR.bat` para iniciar o jogo.
+
+
+
+Opção 2: Pelo Terminal / PowerShell
+
+1\. Instale as dependências:
+
+&#x20;  pip install -r requirements.txt
+
+
+
+2\. Execute o projeto:
 
 &#x20;  py main.py
 
@@ -132,19 +210,17 @@ Como Executar o Projeto
 
 
 
-Histórico de Desenvolvimento
-
-\----------------------------
+📦 Dependências Principais
 
 
 
-O repositório mantém a versão estável na branch main e preserva o histórico de evolução em branches dedicadas:
+Caso seja necessário instalar manualmente as dependências principais:
 
-\- main: Versão de produção atualizada (Alfa da Beta 5).
+pip install pygame-ce
 
-\- historico/alfas-e-betas: Registos históricos dos protótipos e evolução de código/arte.
+pip install PyOpenGL
 
-\- historico/beta-1: Base da primeira versão jogável estável.
+pip install numpy
 
 
 
@@ -152,15 +228,71 @@ O repositório mantém a versão estável na branch main e preserva o histórico
 
 
 
-Licença
-
-\-------
+🧮 Regras de Negócio e Lógica do Jogo
 
 
 
-Este projeto está licenciado sob a MIT License - consulte o ficheiro LICENSE para mais detalhes.
+Recursos e Invocação
+
+\- Cada tropa possui um custo específico em recursos de suprimento.
+
+\- Ao posicionar uma unidade no grid, o card entra em \*cooldown\* (tempo de recarga) antes de poder ser utilizado novamente.
 
 
 
-Desenvolvido por Vinícius da Motta Campos.
+Controle de Dano e Colisão
+
+\- Projéteis disparados pelos soldados possuem velocidade e valores de dano distintos conforme o tipo de arma (pistolas, fuzis, escopetas, lança-granadas).
+
+\- Colisões são processadas em tempo real verificando a interseção entre a posição dos projéteis e o \*hitbox\* dos infectados na mesma faixa.
+
+
+
+Sistema de Ondas
+
+\- A dificuldade escala gradativamente a cada onda.
+
+\- Ao atingir a onda 6, um Subchefe entra em campo; na onda 12, o Chefe da região deve ser derrotado para concluir a missão.
+
+
+
+\---
+
+
+
+📌 Status do Projeto
+
+
+
+O projeto encontra-se totalmente funcional (Versão Alfa da Beta 5).
+
+
+
+Funcionalidades disponíveis:
+
+\- Sistema de menu e navegação.
+
+\- Seleção de 3 frentes de batalha.
+
+\- Posicionamento tático no grid.
+
+\- Sistema de ondas com 12 níveis por região.
+
+\- Subchefes e Chefes com mecânicas próprias.
+
+\- Iluminação e efeitos gráficos via PyOpenGL.
+
+\- Suíte automatizada de testes com mais de 60 verificações passando.
+
+
+
+\---
+
+
+
+👨‍💻 Autor
+
+
+
+Vinícius da Motta Campos
 
