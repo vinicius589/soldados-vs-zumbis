@@ -1,82 +1,89 @@
 <!--
   Pull Request — Soldados vs Zumbis
-  Preencha todas as seções. PRs incompletos voltam para revisão.
-  Convenção: docs/COMMIT_CONVENTION.md  ·  Fluxo: docs/BRANCHING.md
+  Preencha as seções aplicáveis. Não marque um teste que não foi executado.
+  Convenção: ../docs/COMMIT_CONVENTION.md · Fluxo: ../docs/BRANCHING.md
 -->
 
-## 🎯 Descrição
+## Descrição
 
-<!-- O que este PR faz e por quê. Uma ou duas frases. -->
+O que este PR faz e por quê? Qual problema ou necessidade está resolvendo?
 
-## 🔗 Issue relacionada
+## Issue relacionada
 
-<!-- Ex.: Closes #42 — fecha a Issue ao mesclar. Use "Refs #" se não fechar. -->
+- **Issue:** # ou "não se aplica"
 
-- **Issue:** #
-
-## 🏷️ Tipo de mudança
+## Tipo de mudança
 
 - [ ] `feat` — Nova funcionalidade para o jogador
 - [ ] `fix` — Correção de bug
-- [ ] `art` — Mudança em assets (arte, som)
-- [ ] `refactor` — Refatoração sem mudar comportamento externo
-- [ ] `test` — Criação ou correção de testes
-- [ ] `docs` — Apenas documentação
-- [ ] `perf` — Ganho de desempenho
-- [ ] `chore` — Configuração, dependências, CI
+- [ ] `art` — Mudança em arte, som ou animação
+- [ ] `refactor` — Refatoração sem mudança intencional de comportamento
+- [ ] `test` — Testes
+- [ ] `docs` — Documentação
+- [ ] `perf` — Desempenho
+- [ ] `chore` — Configuração, dependências ou CI
 
-## 🗺️ Região / Sistema afetado
+## Área afetada
 
-- [ ] Cidade (Nova York)
-- [ ] Deserto (Egito)
-- [ ] Praia (Cachoeira-MG)
-- [ ] Sistema de cartas
-- [ ] Campanha / Ondas
-- [ ] Engine (animação, render)
+- [ ] Cidade / Nova York
+- [ ] Deserto / Egito
+- [ ] Cachoeira / Minas Gerais
+- [ ] Cartas e unidades
+- [ ] Combate e ondas
+- [ ] Recursos, saves ou perfil
+- [ ] Engine, animações ou renderização
 - [ ] Áudio
-- [ ] Interface do jogador
-- [ ] Outro: ___
+- [ ] Interface
+- [ ] Documentação ou pipeline
 
-## ⚠️ Breaking change
+## O que mudou
 
-- [ ] **Sim** — se marcado, o corpo do commit precisa conter `BREAKING CHANGE:`
-- [ ] Não
+- 
+- 
 
-## 🧪 Como testar
+## Como testar
 
-<!-- Passos objetivos que o revisor consegue reproduzir. -->
+Registre comandos e resultados reais. Se algo não foi executado, declare como pendente.
 
-1. `pip install -r requirements.txt`
-2. `python run.py`
-3. Navegue até…
-4. Verifique que…
+~~~bash
+python -m compileall -q src run.py
+python -m ruff check src tests
+python -m pytest -q
+python run.py
+~~~
 
-## ✅ Checklist do autor
+**Teste manual realizado:** descreva região, onda, unidades, menu ou fluxo conferido.
 
-**Código**
-- [ ] `pytest` passa localmente (`python -m pytest`)
-- [ ] Novos comportamentos têm teste
-- [ ] Sem `print` de depuração ou código comentado para trás
+**Não testado / limitações:** informe aqui o que faltou conferir.
 
-**Jogo**
-- [ ] O jogo abre e roda sem erros
-- [ ] Testei no mapa/afetado do PR
-- [ ] Testei em 1280×720 **e** em tela cheia (se mexeu em UI)
+## Se for uma refatoração
 
-**Repositório**
-- [ ] Commits seguem [Conventional Commits](../docs/COMMIT_CONVENTION.md)
-- [ ] Nenhum temporário incluído (`__pycache__`, `.venv`, `.ruff_cache`)
-- [ ] Nenhum segredo ou credencial versionado
-- [ ] Atualizei `docs/` se o comportamento mudou
+| Medida | Antes | Depois | Como foi obtida |
+| --- | --- | --- | --- |
+| Linhas Python do escopo | | | |
+| Arquivos/módulos afetados | | | |
+| Testes relevantes | | | |
+| Comportamentos mantidos | | | |
 
-## 📸 Capturas de tela
+Explique a razão da redução ou divisão do código. Menos linhas, por si só, não comprova uma melhoria: registre também legibilidade, responsabilidades, cobertura de teste e qualquer diferença intencional.
 
-<!-- Obrigatório para mudança visual: antes / depois. -->
+## Se alterar assets
 
-| Antes | Depois |
-| --- | --- |
-| | |
+- [ ] Preservei a identidade visual e as animações aprovadas.
+- [ ] Conferi caminhos e manifestos de recursos.
+- [ ] Mantive créditos e licenças dos arquivos.
+- [ ] Testei no jogo os assets alterados.
+- [ ] Incluí capturas de antes/depois quando a mudança é visual.
 
-## 📝 Notas para o revisor
+## Checklist
 
-<!-- Arquivos sensíveis, decisões discutíveis, dívida técnica consciente. -->
+- [ ] Os commits seguem [Conventional Commits](../docs/COMMIT_CONVENTION.md).
+- [ ] Adicionei ou atualizei testes quando necessário.
+- [ ] Revisei o diff e removi arquivos temporários, caches e saves pessoais.
+- [ ] Não incluí credenciais ou segredos.
+- [ ] Atualizei a documentação se comandos, comportamento ou requisitos mudaram.
+- [ ] Não marquei como aprovado um teste que não executei.
+
+## Observações para revisão
+
+Arquivos sensíveis, decisões técnicas, riscos ou dívida técnica que ficou para outra etapa.
