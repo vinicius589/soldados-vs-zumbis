@@ -1,0 +1,51 @@
+SOLDADOS VS ZUMBIS - CENARIOS NOVOS - QA VISUAL V3
+Data: 12/09/2026
+
+ARTES V3 ATIVAS NA GALERIA, CRIADAS DO ZERO
+- 01_nova_york_terminal_helix_final_v3.png
+- 02_egito_escavacao_helix_final_v3.png
+- 03_minas_cachoeira_helix_final_v3.png
+
+COMPOSICAO
+- Faixa lateral compacta de base a esquerda, separada do campo por um limite.
+- Plataforma de piso visivel para dois soldados conversando em cada base.
+- Tema/apocalipse ocupa o fundo e o lado direito; sem bandeiras.
+- Quatro caminhos completos, paralelos e sem estrutura de base sobre o campo.
+
+EIXOS E PONTOS INICIAIS
+- Cidade: Y 280/368/458/553; X 215. O Y coincide com o tracejado branco.
+- Egito: Y 255/353/450/551; X 215. O Y coincide com o centro da areia.
+- Minas: Y 239/327/427/529; X 215. Superficies terra/agua/agua/terra.
+- O X foi escolhido pelo primeiro ponto em que a sprite inteira fica depois do
+  muro lateral: nenhuma defesa invade a base e nenhuma fica longe do inicio.
+- Todas as defesas usam ancora pelo centro, nunca pelo canto da imagem.
+
+ANIMACOES
+- Egito: todas as piramides/portas animadas antigas foram retiradas e
+  arquivadas. Nevoa contaminada fica concentrada nas quatro entradas da direita.
+- Sarcofago egipcio: folha nova de 8 quadros; repousa, treme, abre pouco e
+  fecha. Fica apoiado na escavacao e nao funciona como porta.
+- Cachoeira: folha dedicada de 6 poses de queda e espuma; fica somente na
+  entrada da direita.
+- Correnteza: destaques horizontais discretos somente nas duas pistas de agua.
+- Soldados conversando: 6 poses, pes ancorados no piso lateral da base.
+- Trator, drone, minas, explosao, chuva de boss e alerta de boss preservados.
+
+PREVIAS
+- qa/cidade_v3_integrado.png
+- qa/egito_v3_integrado.png
+- qa/minas_v3_integrado.png
+- qa/entrada_cidade_nevoa_helix.gif
+- qa/entrada_egito_nevoa_contaminada.gif
+- qa/entrada_minas_caverna_cachoeira.gif
+
+STATUS
+- Aprovado: quatro eixos, centro vertical e ponto inicial de trator, drones,
+  cargas terrestres e minas aquaticas.
+- Corrigido tecnicamente, ainda sujeito a validacao no novo fundo: pes dos
+  soldados decorativos ancorados no piso das plataformas.
+- Os tres fundos V3 cumprem base compacta, campo central continuo e entrada
+  inimiga ampla e tematica. Aguardam aprovacao visual do usuario.
+- Todas as artes egipcias rejeitadas foram movidas para
+  ARQUIVO_REJEITADO_NAO_USAR e nao sao carregadas pelo visualizador.
+- Galeria de avaliacao visual. Ainda nao integrada ao jogo principal.

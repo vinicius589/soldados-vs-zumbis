@@ -1,0 +1,48 @@
+SOLDADOS VS ZUMBIS — QA DOS CENÁRIOS BETA 4 V6
+================================================
+
+ARQUIVOS ATIVOS
+- Nova York: 01_nova_york_zona_helix_v4.png
+- Egito: 02_egito_necropole_khepra_v4.png
+- Minas Gerais: 03_minas_cachoeira_veu_verde_v5.png
+- Soldados ambientais: soldados_conversando_3x6_chroma_v2.png
+- Bandeiras: bandeiras_4x6_chroma.png
+- Mina aquática: mina_aquatica_1x8_chroma.png
+- Carga terrestre de Minas: carga_terrestre_minas_1x8_chroma.png
+
+SIMETRIA E CONTATO COM O SOLO
+- As quatro pistas de cada mapa são horizontais e possuem centro fixo.
+- Figurantes foram reduzidos para escala de retaguarda.
+- Duplas são posicionadas pelo ponto dos pés e recebem sombra de contato.
+- Tratores, drones, minas e cargas começam em x=215, dentro do campo.
+- Nenhuma defesa começa sobre a base nem fora do tabuleiro.
+
+GEOMETRIA E AMBIENTE
+- Nova York: quatro pistas livres e névoa tóxica restrita à zona contaminada.
+- Egito: quatro pistas livres; a linha 4 não possui obstrução.
+- Egito: sol pulsa e focos da invasão transitam entre turquesa e dourado.
+- Minas: as superfícies terra/água/água/terra chegam até a cachoeira.
+- Minas: não existe transição de água para terra dentro das pistas.
+- Minas: canais limpos e cachoeira usam a mesma paleta contaminada.
+- Minas: correnteza, espuma e queda são animadas por delta time.
+
+BANDEIRAS
+- Estados Unidos, Egito, Brasil e Minas possuem seis quadros de ondulação.
+- O pivô permanece preso ao mastro e não há fundo verde residual.
+
+DEFESAS DE LINHA
+- Nova York: um trator animado em cada uma das quatro pistas.
+- Egito: um drone animado em cada uma das quatro pistas.
+- Minas: carga terrestre nas pistas 1 e 4; mina aquática nas pistas 2 e 3.
+- Ao acionar, a defesa afeta somente a pista selecionada.
+
+TESTES
+- Compilação de visualizar_cenarios.py: OK.
+- Compilação de preparar_cenarios.py: OK.
+- Preparação dos três fundos em 1280x720: OK.
+- Execução headless dos três cenários: OK.
+- Capturas estáticas dos três cenários inspecionadas: OK.
+- Captura da defesa do mapa de Minas inspecionada: OK.
+- Sem traceback durante os testes: OK.
+
+RESULTADO: APROVADO PARA AVALIAÇÃO VISUAL DO USUÁRIO.

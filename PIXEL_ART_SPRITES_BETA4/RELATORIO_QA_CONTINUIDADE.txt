@@ -1,0 +1,27 @@
+SOLDADOS VS ZUMBIS — QA DE CONTINUIDADE
+===========================================
+
+OK  tropa_fuzil: 18 quadros; direção direita
+OK  tropa_lancachamas: 18 quadros; direção direita
+OK  tropa_morteiro: 18 quadros; direção direita
+OK  tropa_operadora_drone: 18 quadros; direção direita
+OK  tropa_socorrista: 18 quadros; direção neutra/direita
+OK  veiculos: 32 quadros; direção direita
+OK  zumbi_classico: 18 quadros; direção esquerda
+OK  zumbi_mergulhador: 18 quadros; direção esquerda
+OK  zumbi_baiacu: 18 quadros; direção esquerda
+OK  boss_mutante_gigante: 24 quadros; direção esquerda
+OK  vfx: 32 quadros; direção neutra
+
+TOTAL: 232 quadros ativos
+ERROS ESTRUTURAIS: 0
+
+RESULTADO: aprovado na verificação estrutural.
+- fundo transparente
+- nenhum quadro vazio
+- nenhuma silhueta tocando/invadindo a borda
+- nenhum chroma verde puro visível
+- nenhum halo de chroma nas tropas e nos veículos
+- pixels transparentes com RGB zerado, sem vazamento ao redimensionar
+- soldados e veículos orientados para a direita
+- zumbis e boss orientados para a esquerda

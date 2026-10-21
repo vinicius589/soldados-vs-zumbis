@@ -1,0 +1,34 @@
+SOLDADOS VS ZUMBIS - QA VISUAL DOS CENARIOS - RECOMPOSICAO V8
+Data: 11/09/2026
+
+ESCOPO
+- Galeria/testador isolado da Beta 4; ainda nao integrado ao jogo principal.
+- Composicao visual restaurada: base a esquerda e tema da regiao a direita.
+- Bandeiras removidas dos tres cenarios.
+
+ALINHAMENTO VALIDADO
+- Cidade: centros Y 303, 381, 472 e 586; tratores nos tracejados centrais.
+- Egito: centros Y 300, 395, 495 e 605; drones no meio de cada corredor.
+- Minas: centros Y 263, 367, 474 e 587; terra/agua/agua/terra.
+- Pontos iniciais X: cidade 205/173/128/250; Egito 215; Minas 132.
+- Todas as sprites usam get_rect(center=(x, lane_y)); nao usam canto como pivo.
+
+CORRECOES VISUAIS
+- Soldados conversando ancorados pelos pes em uma area da base fora das pistas.
+- Minas recortado antes da queda lateral que interrompia a quarta faixa.
+- Animacao vertical da cachoeira limitada ao fundo; nao atravessa mais o campo.
+- Piramide: somente energia/glifos/escaravelho do sprite sheet e sobreposta ao
+  arenito da piramide existente; corpo de templo/portao foi mascarado.
+- GIF da piramide exportado em qa/animacao_piramide_khepra.gif.
+- Atalho direto criado: VER_ANIMACAO_PIRAMIDE.bat.
+
+TESTES EXECUTADOS
+- preparar_cenarios.py: 3 cenarios preparados em 1280x720.
+- py_compile: visualizar_cenarios.py, preparar_cenarios.py e
+  exportar_gif_piramide.py aprovados.
+- Inicializacao headless SDL dummy: cenas 1, 2 e 3 aprovadas.
+- Capturas revisadas: restored_city_final.png, restored_egypt_final.png,
+  restored_minas_final.png, egypt_energy_phase1.png e egypt_energy_peak.png.
+
+RESULTADO
+APROVADO PARA AVALIACAO VISUAL NO TESTADOR. NAO E AINDA A INTEGRACAO FINAL.

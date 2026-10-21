@@ -1,0 +1,50 @@
+SOLDADOS VS ZUMBIS — QA DOS CENÁRIOS BETA 4 V7
+================================================
+
+CORREÇÕES ORIENTADAS PELAS IMAGENS DO USUÁRIO
+- Cidade: tratores centralizados em x=205/173/128/250; linha 4 afastada da grade.
+- Minas: quatro defesas alinhadas em x=132 conforme os círculos marcados.
+- Personagens conversando: nenhuma sombra artificial permanece no código.
+- Centros verticais recalculados pelo meio visível de cada faixa, não pela borda.
+- O pivô dos figurantes continua preso aos pés.
+
+MINAS GERAIS
+- Carga terrestre antiga substituída por bomba redonda V2 de oito quadros.
+- Mina aquática antiga substituída por bomba naval V2 de oito quadros.
+- Pistas 1 e 4 usam bomba terrestre; pistas 2 e 3 usam bomba aquática.
+- A animação ativa passa por armação física antes da explosão em cadeia.
+- A escala permanece idêntica entre o estado parado e o estado acionado.
+- As quatro defesas ficam dentro da pista, perto da base e fora das estruturas.
+
+NOVA YORK
+- Fundo V5 possui pátio de concreto largo e vazio atrás da primeira rua.
+- A dupla fica inteira sobre esse pátio, sem caminhão ou caixas sob os pés.
+- Estado normal: somente fumaça fraca na zona contaminada.
+- Chefe ativo: chuva em movimento e pequenos impactos nas pistas.
+- Após o aviso, a chuva continua enquanto o chefe permanece ativo.
+- Pressionar B novamente simula a derrota do chefe e encerra a chuva.
+- A dupla ambiental permanece na plataforma da base, sem sombra adicionada.
+
+EGITO
+- Fundo e geometria aprovados foram preservados.
+- A metade esquerda da base foi preservada e a metade direita foi refeita.
+- Porta, portal, escadaria e ponto artificial de surgimento foram removidos.
+- As quatro estradas continuam sem corte até a borda direita.
+- Riscos luminosos foram retirados.
+- Animação de oito quadros cria areia, escaravelho e feixe sobre a pirâmide.
+- Soldados do deserto permanecem no mesmo lugar e sem sombra adicionada.
+
+TESTES
+- Compilação de visualizar_cenarios.py: OK.
+- Cidade normal headless: OK.
+- Cidade com aviso do chefe e chuva: OK.
+- Cidade após o aviso, com chuva persistente: OK.
+- Egito com portal animado: OK.
+- Minas com quatro defesas paradas: OK.
+- Minas com defesa aquática acionada: OK.
+- Recorte de fundo preto/verde sem caixa residual: OK.
+- Liga/desliga da chuva junto ao estado do chefe: OK.
+- Coleção principal: 232 quadros e 0 erros estruturais.
+- Nenhum traceback: OK.
+
+RESULTADO: PRONTO PARA NOVA AVALIAÇÃO VISUAL DO USUÁRIO.

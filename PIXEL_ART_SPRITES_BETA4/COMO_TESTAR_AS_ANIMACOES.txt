@@ -1,0 +1,77 @@
+SOLDADOS VS ZUMBIS — TESTE DAS ANIMACOES PIXEL ART
+===================================================
+
+COMO ABRIR
+
+1. De dois cliques em TESTAR_TODAS_AS_ANIMACOES.bat.
+2. Escolha uma animacao na lista da esquerda.
+3. Observe o movimento e confira cada quadro na faixa inferior.
+4. Clique em APROVAR quando estiver boa.
+5. Clique em AJUSTAR quando precisar ser refeita.
+
+CONTROLES
+
+- Setas para cima/baixo: animacao anterior ou proxima.
+- Setas esquerda/direita ou Tab: anterior ou proxima.
+- Espaco: pausar ou reproduzir.
+- + e -: aumentar ou diminuir a velocidade.
+- [ e ]: voltar ou avancar exatamente um quadro.
+- A: aprovar.
+- R: marcar para ajuste.
+- C: mostrar ou esconder o fundo verde chroma key.
+- L: mostrar ou esconder a linha do chao.
+- 0: restaurar velocidade e zoom.
+- Esc: sair.
+
+VELOCIDADES DESTA RODADA
+
+- Idle/respiracao: 5 FPS.
+- Caminhada e ataques de zumbi: 4,5 FPS.
+- Disparo de morteiro, drone e ataque pesado: 4 FPS.
+- Morte: 4 FPS.
+- Recarga, troca de bateria e reposicao: 2,5 FPS.
+- Efeitos visuais: 7 FPS.
+
+Ao mudar de animacao, o laboratorio aplica automaticamente a velocidade
+correta para aquele gesto. As teclas + e - continuam permitindo comparacao.
+
+O QUE ESTA INCLUIDO NESTA RODADA
+
+- 15 animacoes de tropas.
+- 4 animacoes de veiculos e maquinas.
+- 9 animacoes de zumbis.
+- 4 animacoes do boss mutante gigante.
+- 4 animacoes de efeitos visuais.
+- Total: 36 animacoes e 232 quadros.
+
+As seis animacoes genericas de ambiente foram retiradas da avaliacao. Ondas do
+mar, agua de trincheira, luzes do pier, brilho de caverna, nevoa e relampagos
+nao fazem mais parte da lista ativa. O ambiente sera reconstruido depois com
+pequenas cenas que pertencem de verdade a cada mapa.
+
+SUAS ESCOLHAS SAO SALVAS
+
+As aprovacoes e marcacoes para ajuste desta segunda rodada ficam registradas
+automaticamente no arquivo REVISAO_DAS_ANIMACOES_V2.json. Fechar o programa nao
+apaga a avaliacao. A revisao anterior foi preservada separadamente.
+
+IMPORTANTE
+
+Este laboratorio nao altera o jogo principal. Ele serve somente para validar
+as artes e os movimentos antes da integracao definitiva.
+
+Os arquivos transparentes corrigidos ficam em frames_sem_chroma. Os quadros
+originais com fundo verde continuam guardados em frames para comparacao e
+recuperacao, mas o laboratorio usa as copias corrigidas.
+
+As folhas completas sem fundo verde ficam em final_sem_chroma. Essa e a versao
+indicada para a futura integracao no jogo.
+
+Zumbis e boss atravessam a tela da direita para a esquerda e atacam para a
+esquerda. Isso evita a falsa impressao de que estao andando de costas. Soldados
+e veiculos defensivos apontam para a direita; o trator avanca para a direita,
+enquanto barco, submarino e drone animam no proprio ponto de apoio.
+
+Cada quadro possui margem transparente. Armas, arpoes, bracos, sombras,
+destrocos e os ultimos quadros de morte foram conferidos para nao invadir o
+quadro anterior nem o seguinte.

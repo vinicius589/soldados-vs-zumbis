@@ -1,0 +1,77 @@
+{
+  "chroma_key": [0, 255, 0],
+  "sheets": [
+    {
+      "file": "01_ambiente_6x6.png",
+      "key": "ambiente",
+      "columns": 6,
+      "rows": ["ondas_mar", "agua_trincheira", "luzes_pier", "brilho_caverna", "nevoa", "relampagos"]
+    },
+    {
+      "file": "02_tropa_fuzil_3x6.png",
+      "key": "tropa_fuzil",
+      "columns": 6,
+      "rows": ["idle", "atirando", "recarregando"]
+    },
+    {
+      "file": "03_tropa_lancachamas_3x6.png",
+      "key": "tropa_lancachamas",
+      "columns": 6,
+      "rows": ["idle", "atirando", "recarregando"]
+    },
+    {
+      "file": "04_tropa_morteiro_3x6.png",
+      "key": "tropa_morteiro",
+      "columns": 6,
+      "rows": ["idle", "disparando", "recarregando"]
+    },
+    {
+      "file": "05_tropa_operadora_drone_3x6.png",
+      "key": "tropa_operadora_drone",
+      "columns": 6,
+      "rows": ["idle", "acionando_drone", "trocando_bateria"]
+    },
+    {
+      "file": "06_tropa_socorrista_3x6.png",
+      "key": "tropa_socorrista",
+      "columns": 6,
+      "rows": ["idle", "prestando_socorro", "repondo_maleta"]
+    },
+    {
+      "file": "07_veiculos_4x8.png",
+      "key": "veiculos",
+      "columns": 8,
+      "rows": ["barco_flutuando", "submarino_flutuando", "trator_esteiras", "drone_helices"]
+    },
+    {
+      "file": "08_zumbi_classico_3x6_v2.png",
+      "key": "zumbi_classico",
+      "columns": 6,
+      "rows": ["andando", "atacando", "morrendo"]
+    },
+    {
+      "file": "09_zumbi_mergulhador_3x6_v2.png",
+      "key": "zumbi_mergulhador",
+      "columns": 6,
+      "rows": ["andando", "atacando_arpao", "morrendo"]
+    },
+    {
+      "file": "10_zumbi_baiacu_3x6.png",
+      "key": "zumbi_baiacu",
+      "columns": 6,
+      "rows": ["andando", "inflando_atacando", "morrendo"]
+    },
+    {
+      "file": "11_boss_mutante_gigante_4x6.png",
+      "key": "boss_mutante_gigante",
+      "columns": 6,
+      "rows": ["idle", "andando", "ataque_pesado", "morrendo"]
+    },
+    {
+      "file": "12_vfx_4x8.png",
+      "key": "vfx",
+      "columns": 8,
+      "rows": ["muzzle_flash", "chamas", "explosao", "respingo_agua"]
+    }
+  ]
+}

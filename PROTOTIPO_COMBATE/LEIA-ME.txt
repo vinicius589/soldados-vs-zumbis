@@ -1,0 +1,34 @@
+TESTE DE COMBATE ANIMADO
+
+Execute TESTAR_COMBATE_ANIMADO.bat na pasta anterior.
+
+Tecla 1 ou primeiro botão:
+- o zumbi entra na linha;
+- o soldado espera o inimigo entrar no alcance;
+- dispara com recuo, clarão e cápsulas;
+- o zumbi reage ao dano;
+- ao acabar quatro balas de teste, o soldado retira, descarta e insere os
+  carregadores antes de voltar a mirar.
+
+Tecla 2 ou segundo botão:
+- o zumbi entra na linha;
+- aproxima-se até a distância de contato;
+- arma as pernas, agarra, projeta a mandíbula e executa a mordida;
+- o soldado absorve o impacto no tronco, sem mudar de tamanho ou mover os pés;
+- o soldado recupera a postura e volta a mirar.
+
+Garantias visuais desta versão:
+- caminhada, espera, tiro, recarga e dano usam a mesma caixa e a mesma escala;
+- o ponto de apoio dos pés não muda durante a troca de animação;
+- mordida e dano do zumbi têm folhas próprias e não reutilizam a caminhada;
+- resíduos desconectados da célula vizinha são removidos antes da animação;
+- uma margem transparente protege armas, mãos, casaco e pés contra recorte;
+- o dano é mostrado pelo movimento corporal, sem depender de um flash colorido.
+
+Outros controles:
+- P pausa/continua;
+- R reinicia o ensaio atual;
+- ESC fecha.
+
+Não há animação de morte para tropas ou zumbis comuns. Essa animação fica
+reservada a chefes e subchefes.

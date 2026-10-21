@@ -1,0 +1,43 @@
+SOLDADOS VS ZUMBIS — QA DOS CENÁRIOS BETA 4 V4
+================================================
+
+ARQUIVOS ATIVOS
+- Nova York: 01_nova_york_zona_helix_v3.png
+- Egito: 02_egito_necropole_khepra_v3.png
+- Minas Gerais: 03_minas_cachoeira_veu_verde_v4.png
+- Soldados ambientais: soldados_conversando_3x6_chroma_v2.png
+- Mina aquática: mina_aquatica_1x8_chroma.png
+
+GEOMETRIA E AMBIENTE
+- Nova York: quatro pistas livres; sem chuva; névoa tóxica na zona Hélix.
+- Egito: quatro pistas livres; quarta linha sem cabeça de estátua/escombros.
+- Egito: nascer do sol e focos mágicos possuem animação por delta time.
+- Minas: quatro pistas na ordem terra/água/água/terra.
+- Minas: canais aquáticos limpos e ligados diretamente à cachoeira.
+- Minas: água dos canais e cachoeira possui a mesma paleta tóxica.
+- Minas: movimento da queda e da corrente é controlado por delta time.
+
+PERSONAGENS AMBIENTAIS
+- Estados Unidos, Egito e Brasil têm seis quadros de conversa.
+- Uniforme egípcio usa equipamento funcional de deserto, não só recoloração.
+- Fundo chroma é removido por componente conectado à borda.
+- Emblemas verdes e uniforme brasileiro são preservados.
+- Cada sequência usa recorte comum e pivô nos pés para não flutuar.
+
+DEFESAS DE LINHA
+- Nova York: quatro tratores estacionados dentro do começo das pistas.
+- Egito: quatro drones estacionados dentro do começo das pistas.
+- Minas: minas aquáticas estacionadas dentro das linhas 2 e 3.
+- A defesa ativada permanece centralizada e percorre/explode a própria linha.
+
+TESTES
+- Compilação de visualizar_cenarios.py: OK.
+- Compilação de preparar_cenarios.py: OK.
+- Preparação das três imagens 1280x720: OK.
+- Execução headless do cenário 1 com defesa: OK.
+- Execução headless do cenário 2 com defesa: OK.
+- Execução headless do cenário 3 com defesa: OK.
+- Launcher TESTAR_CENARIOS_BETA4.bat em modo headless: OK.
+- Coleção principal de sprites: 232 quadros; 0 erros estruturais.
+
+RESULTADO: APROVADO PARA AVALIAÇÃO VISUAL DO USUÁRIO.

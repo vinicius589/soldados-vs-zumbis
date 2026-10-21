@@ -1,0 +1,16 @@
+PROTÓTIPO ISOLADO — CARTA, CAMPO E PRIMEIRO ZUMBI
+
+Execute o arquivo TESTAR_CARTA_CAMPO.bat que está na pasta anterior.
+
+Como testar:
+1. Clique na carta GUARDA DE RUA.
+2. Clique em qualquer quadrado iluminado nas quatro pistas.
+3. Observe o soldado caminhar da base até o quadrado escolhido.
+4. Depois da implantação, observe o Caminhante Urbano entrar pela direita,
+   sempre na mesma pista.
+5. Pressione R ou clique em RECOMEÇAR para testar outra posição.
+6. Pressione ESC para sair.
+
+Este ensaio ainda não inclui tiro, mordida ou dano. A aprovação desta etapa
+define a escala, o encaixe no chão, a direção e a cadência visual que serão
+usados nas próximas animações.
