@@ -1,298 +1,150 @@
 ﻿🧟‍♂️ Soldados vs Zumbis
+==================
 
+O Soldados vs Zumbis e um jogo de estrategia 2D em tempo real no estilo Tower Defense tatico desenvolvido em Python. O projeto utiliza o motor Pygame-CE para gerenciamento de janelas, entrada de usuario e audio, integrado a um pipeline de renderizacao customizado via PyOpenGL com suporte a iluminacao dinamica e composicao de shaders.
 
+Desenvolvido como projeto do curso de Ciencia da Computacao na UNIPAC por Vinicius da Motta Campos, o jogo aplica conceitos avancados de arquitetura de software, estruturacao de game loop, deteccao de colisoes, programacao orientada a objetos e matematica computacional aplicada a jogos.
 
-O \*\*Soldados vs Zumbis\*\* é um jogo de estratégia 2D no estilo \*Tower Defense\* desenvolvido em Python. O projeto combina o motor Pygame-CE com recursos avançados de iluminação e composição visual renderizados via PyOpenGL.
+--------------------------------------------------
 
+🎮 Mecanicas e Arquitetura de Gameplay
+-----------------------------------
 
+🏠 Loop de Interface e Menu Principal
+- Gerenciamento de estados de jogo (Menu, Selecao de Fase, Gameplay, Pause, Game Over).
+- Acesso direto as configuracoes taticas, instrucoes de controle e creditos.
 
-A ideia nasceu da paixão por jogos como \*Plants vs. Zombies\*, unida ao objetivo acadêmico de aplicar na prática conceitos de arquitetura de software, matemática computacional, física de combate e renderização gráfica no curso de Ciência da Computação na UNIPAC.
+🛡️ Sistema de Posicionamento Tatico (Grid 4xN)
+- Matriz de combate dividida em 4 faixas independentes de defesa.
+- Controle de posicionamento espacial de unidades com checagem de ocupacao de celula.
 
+🎴 Deck de Tropas e Economia de Suprimentos
+- Selecao de ate 8 cartas taticas por partida.
+- Economia baseada em suprimentos para invocacao e gerenciamento de tempo de recarga (cooldown).
 
+🌊 Motor de Ondas e Progressao de Dificuldade
+- Algoritmo de spawn incremental para controle de densidade da horda ao longo de 12 ondas.
+- Batalhas contra Subchefes e Chefes de fase com padroes comportamentais especificos.
+- Tres cenarios com identidades visuais e layouts proprios:
+  - 🏙️ Nova York (Caos Urbano): Combate urbano com barricadas e destrocos.
+  - 🏜️ Deserto do Egito (Ruinas Escaldantes): Visibilidade reduzida e tempestades de areia.
+  - 🌊 Cachoeira de Minas Gerais (Resistencia Nacional): Terreno acidentado e densa vegetacao.
 
-\---
+🧟 Inteligencia dos Infectados e Variedade de Inimigos
+- Unidades com diferentes atributos de velocidade, vida e tipos de ataque (corredores, rastejadores, unidades blindadas e infectados explosivos).
 
+💡 Pipeline de Renderizacao e Shaders (PyOpenGL)
+- Pipeline 2D hibrido utilizando PyOpenGL para aceleracao via GPU.
+- Composicao visual com suporte a transparencias, iluminacao ambiente e efeitos de luz em tempo real.
 
+--------------------------------------------------
 
-📱 Funcionalidades e Mecânicas do Jogo
+🚀 Stack Tecnologica
+------------------
 
-
-
-🏠 Menu Principal
-
-\- Navegação centralizada pelas opções do jogo.
-
-\- Seleção de frentes de batalha (cenários) e configurações.
-
-\- Acesso rápido a instruções de controles e créditos.
-
-
-
-🛡️ Defesa por Faixas (Grid 4xN)
-
-\- Posicionamento tático de soldados em 4 linhas paralelas de combate.
-
-\- Controle espacial para otimizar o alcance de tiro e barrar o avanço inimigo.
-
-
-
-🎴 Gerenciamento de Tropas e Deck
-
-\- Escolha de até 8 cartas de unidades por operação.
-
-\- Equilíbrio entre custo de suprimentos, tempo de recarga (cooldown), alcance e poder de fogo.
-
-
-
-🌊 Campanha de 12 Ondas
-
-\- Ondas progressivas com diferentes padrões de aparecimento de inimigos.
-
-\- Enfrentamento de Subchefes intermediários e Chefes de área ao final dos ciclos.
-
-\- Progressão por três frentes de batalha com identidades visuais próprias:
-
-&#x20; - 🏙️ \*\*Nova York (Caos Urbano):\*\* Batalhas entre ruínas de arranha-céus e barricadas.
-
-&#x20; - 🏜️ \*\*Deserto do Egito (Ruínas Escaldantes):\*\* Enfrente a horda sob tempestades de areia e calor.
-
-&#x20; - 🌊 \*\*Cachoeira de Minas Gerais (Resistência Nacional):\*\* Combate em vegetação densa e terreno acidentado.
-
-
-
-🧟 Inimigos Especiais
-
-\- Corredores velozes de reação rápida.
-
-\- Rastejadores de baixo perfil.
-
-\- Unidades blindadas com escudos táticos.
-
-\- Infectados portadores de explosivos.
-
-
-
-💡 Renderização e Efeitos Gráficos
-
-\- Composição 2D integrada via PyOpenGL.
-
-\- Efeitos visuais de iluminação, transparências e iluminação ambiente em tempo real.
-
-
-
-\---
-
-
-
-🚀 Tecnologias Utilizadas
-
-
-
-| Tecnologia | Finalidade |
-
+| Tecnologia | Modulo / Aplicacao |
 | :--- | :--- |
+| Python 3.10+ | Linguagem base do projeto |
+| Pygame-CE (2.5.8) | Eventos, janela, input de usuario e mixagem de audio |
+| PyOpenGL (3.1.10) | Pipeline de renderizacao 2D, shaders e iluminacao |
+| NumPy (2.3.5) | Vetores, matrizes e calculos matematicos de transformacao |
+| Pytest | Suite automatizada de testes unitarios e de integracao |
+| Git / GitHub | Controle de versao e repositorio |
 
-| Python 3.10+ | Linguagem principal do projeto |
-
-| Pygame-CE (2.5.8) | Motor 2D, janela, eventos e reprodução de áudio |
-
-| PyOpenGL (3.1.10) | Renderização gráfica, iluminação e composição de cena |
-
-| NumPy (2.3.5) | Operações vetoriais e matrizes de transformação |
-
-| Pytest | Suíte automatizada de testes unitários e de integração |
-
-| Git / GitHub | Controle de versão e hospedagem do repositório |
-
-
-
-\---
-
-
+--------------------------------------------------
 
 📁 Estrutura de Pastas
-
-
+-------------------
 
 soldados-vs-zumbis/
-
-├── assets/                          # Imagens, spritesheets e efeitos sonoros
-
-│   ├── actors/                      # Sprites de soldados, zumbis e chefes
-
-│   ├── audio/                       # Efeitos sonoros (tiros, explosões, horda) e música
-
-│   ├── environment/                 # Elementos e cenários de fundo
-
-│   └── interface/                   # Telas de UI, cards e HUD de combate
-
+├── assets/                          # Recursos visuais (sprites, tilesets) e sonoros (SFX, BGM)
+│   ├── actors/                      # Spritesheet de tropas, infectados e chefes
+│   ├── audio/                       # Efeitos sonoros de tiro, explosoes e trilhas
+│   ├── environment/                 # Elementos de cenario, planos de fundo e iluminacao
+│   └── interface/                   # HUD, botoes, cards e menus
 │
-
-├── docs/                            # Documentação técnica e relatórios de auditoria
-
-├── licenses/                        # Licenças das dependências e bibliotecas
-
+├── docs/                            # Documentacao de arquitetura e relatorios
+├── licenses/                        # Licencas das bibliotecas e recursos de terceiros
 │
-
 ├── src/
-
-│   └── svz/                         # Código-fonte principal da aplicação
-
-│       ├── app.py                   # Loop principal da aplicação e estados
-
-│       ├── battle.py                # Lógica de batalha e detecção de colisões
-
-│       ├── board.py                 # Grade (grid) de combate 4xN
-
-│       ├── content.py               # Mapeamento de tropas, inimigos e atributos
-
-│       ├── entities.py              # Entidades, projéteis e comportamentos
-
-│       ├── rendering.py             # Pipeline de renderização com PyOpenGL
-
-│       └── waves.py                 # Gerenciamento e spawn das ondas de infectados
-
+│   └── svz/                         # Modulo principal do motor do jogo
+│       ├── app.py                   # Game loop principal e gerenciador de estados
+│       ├── battle.py                # Sistema de colisoes e fisica de combate
+│       ├── board.py                 # Estrutura matricial do grid (4xN)
+│       ├── content.py               # Banco de dados de atributos de unidades e itens
+│       ├── entities.py              # Classes base de tropas, projeteis e inimigos
+│       ├── rendering.py             # Renderizador PyOpenGL e integracao de iluminacao
+│       └── waves.py                 # Gerenciador de ondas e controle de spawn
 │
+├── tests/                           # Testes automatizados da logica de jogo
+├── tools/                           # Scripts de profiling, benchmark e automacao
+├── JOGAR.bat                        # Inicializador do jogo no Windows
+├── PREPARAR_AMBIENTE.bat            # Instalacao automatica do .venv e dependencias
+├── main.py                          # Ponto de entrada da aplicacao
+├── project.toml                     # Configuracao do projeto
+├── requirements.txt                 # Lista de dependencias
+├── LICENSE                          # Licenca MIT
+├── CONTRIBUTING.md                  # Guia de contribuicao
+└── README.md                        # Documentacao do repositorio
 
-├── tests/                           # Suíte com mais de 60 testes automatizados
+--------------------------------------------------
 
-├── tools/                           # Ferramentas de benchmark e verificação de qualidade
+⚙️ Como Executar o Jogo
+----------------------
 
-├── JOGAR.bat                        # Script para iniciar o jogo diretamente no Windows
+Opcao 1: Execucao Rapida no Windows
+1. Executar PREPARAR_AMBIENTE.bat (configura o ambiente virtual .venv e instala dependencias).
+2. Executar JOGAR.bat para abrir o jogo.
 
-├── PREPARAR\_AMBIENTE.bat            # Script para criação do .venv e instalação automática
+Opcao 2: Execucao Via Terminal
+1. Instalar as dependencias do arquivo requirements.txt:
+   pip install -r requirements.txt
 
-├── main.py                          # Ponto de entrada da aplicação
+2. Iniciar a aplicacao:
+   py main.py
 
-├── project.toml                     # Configurações do projeto
+--------------------------------------------------
 
-├── requirements.txt                 # Dependências do projeto
+📦 Instalacao Manual de Dependencias
+-----------------------------------
 
-├── LICENSE                          # Licença MIT
-
-├── CONTRIBUTING.md                  # Diretrizes de contribuição
-
-└── README.md                        # Documentação principal do projeto
-
-
-
-\---
-
-
-
-⚙️ Como Executar o Projeto
-
-
-
-Opção 1: Inicialização Automática (Windows)
-
-1\. Dê um duplo clique em `PREPARAR\_AMBIENTE.bat` (cria o ambiente virtual e instala as dependências).
-
-2\. Dê um duplo clique em `JOGAR.bat` para iniciar o jogo.
-
-
-
-Opção 2: Pelo Terminal / PowerShell
-
-1\. Instale as dependências:
-
-&#x20;  pip install -r requirements.txt
-
-
-
-2\. Execute o projeto:
-
-&#x20;  py main.py
-
-
-
-\---
-
-
-
-📦 Dependências Principais
-
-
-
-Caso seja necessário instalar manualmente as dependências principais:
-
+Caso opte por instalar manualmente no seu ambiente Python:
 pip install pygame-ce
-
 pip install PyOpenGL
-
 pip install numpy
 
+--------------------------------------------------
 
+🧠 Engenharia e Logica de Combate
+---------------------------------
 
-\---
+Sistema de Cooldown e Invocacao
+- Cada carta de unidade consome uma quantidade de recursos taticos.
+- Posicionar uma unidade ativa o tempo de recarga (cooldown) especifico da tropa, impedindo invocacoes repetidas instantaneas.
 
+Fisica de Projeteis e Dano por Faixa
+- Os projeteis sao processados individualmente em termos de trajetoria, velocidade e valor de dano.
+- As verificacoes de colisao sao isoladas por faixa (linha do grid), otimizando a performance do loop de fisica.
 
+Comportamento dos Infectados
+- Cada tipo de inimigo implementa algoritmos de navegacao em linha reta com verificacao de obstaculo frontal.
+- Inimigos atacam tropas ao entrar no raio de contato e alteram para estado de marcha na ausencia de alvos.
 
-🧮 Regras de Negócio e Lógica do Jogo
+--------------------------------------------------
 
+📌 Status de Desenvolvimento
+--------------------------
 
+Versao atual: Alfa da Beta 5 (Estavel e funcional).
 
-Recursos e Invocação
+Recursos implementados:
+- Engine 2D com Game Loop estruturado.
+- Suporte a 3 cenarios completos de batalha.
+- Sistema de grid tatico 4xN funcional.
+- Motor de ondas com 12 niveis de progressao.
+- Batalhas de chefes com mecanicas proprias.
+- Renderizador OpenGL com iluminacao e composicao.
+- Cobertura de testes automatizados com mais de 60 verificacoes validadas.
 
-\- Cada tropa possui um custo específico em recursos de suprimento.
-
-\- Ao posicionar uma unidade no grid, o card entra em \*cooldown\* (tempo de recarga) antes de poder ser utilizado novamente.
-
-
-
-Controle de Dano e Colisão
-
-\- Projéteis disparados pelos soldados possuem velocidade e valores de dano distintos conforme o tipo de arma (pistolas, fuzis, escopetas, lança-granadas).
-
-\- Colisões são processadas em tempo real verificando a interseção entre a posição dos projéteis e o \*hitbox\* dos infectados na mesma faixa.
-
-
-
-Sistema de Ondas
-
-\- A dificuldade escala gradativamente a cada onda.
-
-\- Ao atingir a onda 6, um Subchefe entra em campo; na onda 12, o Chefe da região deve ser derrotado para concluir a missão.
-
-
-
-\---
-
-
-
-📌 Status do Projeto
-
-
-
-O projeto encontra-se totalmente funcional (Versão Alfa da Beta 5).
-
-
-
-Funcionalidades disponíveis:
-
-\- Sistema de menu e navegação.
-
-\- Seleção de 3 frentes de batalha.
-
-\- Posicionamento tático no grid.
-
-\- Sistema de ondas com 12 níveis por região.
-
-\- Subchefes e Chefes com mecânicas próprias.
-
-\- Iluminação e efeitos gráficos via PyOpenGL.
-
-\- Suíte automatizada de testes com mais de 60 verificações passando.
-
-
-
-\---
-
-
-
-👨‍💻 Autor
-
-
-
-Vinícius da Motta Campos
+--------------------------------------------------
 
