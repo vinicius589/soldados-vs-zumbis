@@ -16,7 +16,7 @@ SOLDADOS VS ZUMBIS — PACOTE WINDOWS
 2. Abra JOGAR AGORA.exe.
 3. Não mova o executável sozinho; os arquivos internos são necessários.
 "@ | Set-Content -Encoding utf8 (Join-Path $packageRoot "LEIA-ME.txt")
-python .github/scripts/smoke_test_exe.py --exe $exe --seconds 8
+python .github/scripts/smoke_test_exe.py --exe $exe --timeout 90
 if ($LASTEXITCODE -ne 0) { throw "O teste de inicialização falhou." }
 $zip = Join-Path $env:GITHUB_WORKSPACE "dist\Soldados-vs-Zumbis-Windows.zip"
 Compress-Archive -Path "$packageRoot\*" -DestinationPath $zip -CompressionLevel Optimal -Force
