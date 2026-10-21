@@ -1,0 +1,408 @@
+name: Migrar base jogável da Beta 4
+
+on:
+  push:
+    branches: [migracao/base-jogavel]
+    paths:
+      - ".github/workflows/migrate-beta4.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  migrate-test-package:
+    runs-on: windows-latest
+    timeout-minutes: 70
+    steps:
+      - name: Checkout do novo repositório
+        uses: actions/checkout@v4
+        with:
+          ref: migracao/base-jogavel
+          fetch-depth: 1
+
+      - name: Checkout do código-fonte histórico
+        uses: actions/checkout@v4
+        with:
+          repository: vinicius589/soldados-vs-zumbis-beta-4
+          ref: jogo
+          path: _source
+          fetch-depth: 1
+          lfs: false
+
+      - name: Importar somente código e recursos da execução
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          $target = $env:GITHUB_WORKSPACE
+          $source = Join-Path $target "_source"
+          $stage = Join-Path $env:RUNNER_TEMP "svz-docs-preservados"
+          New-Item -ItemType Directory -Force -Path $stage | Out-Null
+
+          $preserve = @(
+            "README.md",
+            "docs/CONTRIBUTING.md",
+            "docs/BRANCHING.md",
+            "docs/ARCHITECTURE.md",
+            "docs/CHANGELOG.md",
+            "docs/AUDITORIA_MIGRACAO.md"
+          )
+          foreach ($relative in $preserve) {
+            $from = Join-Path $target $relative
+            if (Test-Path $from -PathType Leaf) {
+              $backup = Join-Path $stage $relative
+              New-Item -ItemType Directory -Force -Path (Split-Path $backup) | Out-Null
+              Copy-Item $from $backup -Force
+            }
+          }
+
+          foreach ($name in @(".gitattributes", ".gitignore", "LICENSE", "pyproject.toml", "requirements.txt", "run.py")) {
+            Copy-Item (Join-Path $source $name) $target -Force
+          }
+
+          foreach ($name in @("assets", "src", "tests", ".githooks")) {
+            $from = Join-Path $source $name
+            $to = Join-Path $target $name
+            if (Test-Path $to) { Remove-Item $to -Recurse -Force }
+            Copy-Item $from $to -Recurse -Force
+          }
+
+          $sourceDocs = Join-Path $source "docs"
+          Copy-Item (Join-Path $sourceDocs "*") (Join-Path $target "docs") -Recurse -Force
+
+          foreach ($relative in $preserve) {
+            $backup = Join-Path $stage $relative
+            if (Test-Path $backup -PathType Leaf) {
+              $destination = Join-Path $target $relative
+              New-Item -ItemType Directory -Force -Path (Split-Path $destination) | Out-Null
+              Copy-Item $backup $destination -Force
+            }
+          }
+
+          foreach ($name in @("ISSUE_TEMPLATE", "pull_request_template.md")) {
+            $from = Join-Path $source ".github/$name"
+            $to = Join-Path $target ".github/$name"
+            if (Test-Path $from) {
+              if (Test-Path $to -PathType Container) { Remove-Item $to -Recurse -Force }
+              New-Item -ItemType Directory -Force -Path (Split-Path $to) | Out-Null
+              Copy-Item $from $to -Recurse -Force
+            }
+          }
+
+          $main = Join-Path $target "src/main.py"
+          $runtime = Join-Path $target "src/game/runtime.py"
+          if (-not (Test-Path $main -PathType Leaf)) { throw "src/main.py não foi encontrado." }
+          Copy-Item $main $runtime -Force
+          @'
+          """Ponto de entrada público; a implementação está em src.game.runtime."""
+          from src.game.runtime import *  # noqa: F403
+          from src.game.runtime import main
+          '@ | Set-Content -Path $main -Encoding utf8
+
+          $pyprojectPath = Join-Path $target "pyproject.toml"
+          $pyproject = Get-Content $pyprojectPath -Raw -Encoding utf8
+          $pyproject = $pyproject.Replace("https://github.com/vinicius589/soldados-vs-zumbis-beta-4", "https://github.com/vinicius589/soldados-vs-zumbis")
+          $pyproject = $pyproject.Replace('"src/main.py" = [', '"src/game/runtime.py" = [')
+          Set-Content -Path $pyprojectPath -Value $pyproject -Encoding utf8
+
+          @'
+          # Arquivos de texto com finais de linha previsíveis.
+          *.py text eol=lf
+          *.md text eol=lf
+          *.yml text eol=lf
+          *.yaml text eol=lf
+          *.sh text eol=lf
+          *.command text eol=lf
+          .githooks/** text eol=lf
+          '@ | Set-Content -Path (Join-Path $target ".gitattributes") -Encoding utf8
+
+          $assets = Join-Path $target "assets"
+          foreach ($required in @(
+            "v7/city_beta4_four_lanes.png",
+            "v7/desert_beta4_grounded.png",
+            "v7/beach_banded_v72.png",
+            "audio_beta4/music_menu.wav"
+          )) {
+            if (-not (Test-Path (Join-Path $assets $required) -PathType Leaf)) {
+              throw "Recurso necessário não encontrado na importação: $required"
+            }
+          }
+
+          # Ferramentas de produção e material bruto ficam no repositório antigo.
+          if (Test-Path (Join-Path $target "tools")) {
+            Remove-Item (Join-Path $target "tools") -Recurse -Force
+          }
+
+          Write-Host "Código, testes, documentação útil e assets de runtime importados; tools/ ficou no acervo antigo."
+
+      - name: Criar validação de inicialização do executável
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path ".github/scripts" | Out-Null
+          @'
+          from __future__ import annotations
+          import argparse
+          import subprocess
+          import time
+          from pathlib import Path
+
+          def main() -> int:
+              parser = argparse.ArgumentParser(description="Confere se o executável inicia.")
+              parser.add_argument("--exe", type=Path, required=True)
+              parser.add_argument("--seconds", type=float, default=8.0)
+              args = parser.parse_args()
+              exe = args.exe.resolve()
+              if not exe.is_file():
+                  raise FileNotFoundError(f"Executável não encontrado: {exe}")
+              log = exe.parent / "smoke-test.log"
+              with log.open("w", encoding="utf-8") as stream:
+                  process = subprocess.Popen([str(exe)], cwd=exe.parent, stdin=subprocess.DEVNULL,
+                      stdout=stream, stderr=subprocess.STDOUT,
+                      creationflags=getattr(subprocess, "CREATE_NEW_PROCESS_GROUP", 0))
+                  try:
+                      deadline = time.monotonic() + args.seconds
+                      while time.monotonic() < deadline:
+                          code = process.poll()
+                          if code is not None:
+                              stream.flush()
+                              detail = log.read_text(encoding="utf-8", errors="replace")[-4000:]
+                              raise RuntimeError(f"O jogo encerrou durante o teste de inicialização (código {code}). Log:\n{detail}")
+                          time.sleep(0.25)
+                  finally:
+                      if process.poll() is None:
+                          process.terminate()
+                          try:
+                              process.wait(timeout=5)
+                          except subprocess.TimeoutExpired:
+                              process.kill()
+                              process.wait(timeout=5)
+              log.unlink(missing_ok=True)
+              print(f"Inicialização verificada por {args.seconds:.1f}s.")
+              return 0
+          if __name__ == "__main__":
+              raise SystemExit(main())
+          '@ | Set-Content -Path ".github/scripts/smoke_test_exe.py" -Encoding utf8
+
+          @'
+          $ErrorActionPreference = "Stop"
+          python -m PyInstaller --noconfirm --clean --onedir --windowed --name "JOGAR AGORA" --add-data "assets;assets" run.py
+          if ($LASTEXITCODE -ne 0) { throw "A compilação do executável falhou." }
+          $packageRoot = Join-Path $env:GITHUB_WORKSPACE "dist\JOGAR AGORA"
+          $exe = Join-Path $packageRoot "JOGAR AGORA.exe"
+          if (-not (Test-Path $exe -PathType Leaf)) { throw "A compilação não criou o executável esperado." }
+          $assetRoot = Join-Path $packageRoot "_internal\assets"
+          if (-not (Test-Path (Join-Path $assetRoot "v7\city_beta4_four_lanes.png"))) { $assetRoot = Join-Path $packageRoot "assets" }
+          foreach ($relative in @("v7\city_beta4_four_lanes.png", "v7\desert_beta4_grounded.png", "v7\beach_banded_v72.png", "audio_beta4\music_menu.wav")) {
+            if (-not (Test-Path (Join-Path $assetRoot $relative) -PathType Leaf)) { throw "Recurso essencial ausente no pacote: $relative" }
+          }
+          @"
+          SOLDADOS VS ZUMBIS — PACOTE WINDOWS
+
+          1. Extraia este ZIP inteiro para uma pasta.
+          2. Abra JOGAR AGORA.exe.
+          3. Não mova o executável sozinho; os arquivos internos são necessários.
+          "@ | Set-Content -Encoding utf8 (Join-Path $packageRoot "LEIA-ME.txt")
+          python .github/scripts/smoke_test_exe.py --exe $exe --seconds 8
+          if ($LASTEXITCODE -ne 0) { throw "O teste de inicialização falhou." }
+          $zip = Join-Path $env:GITHUB_WORKSPACE "dist\Soldados-vs-Zumbis-Windows.zip"
+          Compress-Archive -Path "$packageRoot\*" -DestinationPath $zip -CompressionLevel Optimal -Force
+          if ((Get-Item $zip).Length -lt 1MB) { throw "O ZIP final parece incompleto." }
+          Write-Host "Pacote preparado: $zip"
+          '@ | Set-Content -Path ".github/scripts/package_windows.ps1" -Encoding utf8
+
+      - name: Corrigir e criar workflows de CI e distribuição
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          @'
+          name: CI
+
+          on:
+            push:
+              branches: [main]
+            pull_request:
+              branches: [main]
+
+          permissions:
+            contents: read
+
+          concurrency:
+            group: ci-${{ github.workflow }}-${{ github.ref }}
+            cancel-in-progress: true
+
+          jobs:
+            test:
+              runs-on: ubuntu-latest
+              steps:
+                - uses: actions/checkout@v4
+                - uses: actions/setup-python@v5
+                  with:
+                    python-version: "3.12"
+                    cache: pip
+                    cache-dependency-path: requirements.txt
+                - name: Instalar dependências
+                  run: python -m pip install -r requirements.txt "pytest>=8.0" "ruff>=0.6"
+                - name: Compilar sintaxe
+                  run: python -m compileall -q src run.py
+                - name: Verificar estilo
+                  run: python -m ruff check src tests
+                - name: Executar testes
+                  run: python -m pytest -q
+                  env:
+                    SDL_VIDEODRIVER: dummy
+                    SDL_AUDIODRIVER: dummy
+          '@ | Set-Content -Path ".github/workflows/ci.yml" -Encoding utf8
+
+          @'
+          name: Build Windows
+
+          on:
+            push:
+              branches: [main]
+            pull_request:
+              branches: [main]
+            workflow_dispatch:
+
+          permissions:
+            contents: read
+
+          jobs:
+            package:
+              runs-on: windows-latest
+              timeout-minutes: 45
+              steps:
+                - uses: actions/checkout@v4
+                - uses: actions/setup-python@v5
+                  with:
+                    python-version: "3.12"
+                    cache: pip
+                    cache-dependency-path: requirements.txt
+                - name: Instalar dependências e ferramentas
+                  shell: pwsh
+                  run: python -m pip install --upgrade pip; if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }; python -m pip install -r requirements.txt "pytest>=8.0" "ruff>=0.6" "pyinstaller>=6.0"
+                - name: Validar sintaxe e estilo
+                  run: |
+                    python -m compileall -q src run.py
+                    python -m ruff check src tests
+                - name: Executar testes
+                  run: python -m pytest -q
+                  env:
+                    SDL_VIDEODRIVER: dummy
+                    SDL_AUDIODRIVER: dummy
+                - name: Compilar e testar o pacote
+                  shell: pwsh
+                  run: .github/scripts/package_windows.ps1
+                - name: Disponibilizar pacote de teste
+                  uses: actions/upload-artifact@v4
+                  with:
+                    name: Soldados-vs-Zumbis-Windows
+                    path: dist/Soldados-vs-Zumbis-Windows.zip
+                    if-no-files-found: error
+                    compression-level: 0
+                    retention-days: 14
+          '@ | Set-Content -Path ".github/workflows/build-windows.yml" -Encoding utf8
+
+          @'
+          name: Publicar Release Windows
+
+          on:
+            push:
+              tags:
+                - "v*"
+
+          permissions:
+            contents: write
+
+          jobs:
+            publish:
+              runs-on: windows-latest
+              timeout-minutes: 45
+              steps:
+                - uses: actions/checkout@v4
+                - uses: actions/setup-python@v5
+                  with:
+                    python-version: "3.12"
+                    cache: pip
+                    cache-dependency-path: requirements.txt
+                - name: Instalar dependências e ferramentas
+                  shell: pwsh
+                  run: python -m pip install --upgrade pip; if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }; python -m pip install -r requirements.txt "pytest>=8.0" "ruff>=0.6" "pyinstaller>=6.0"
+                - name: Validar código
+                  run: |
+                    python -m compileall -q src run.py
+                    python -m ruff check src tests
+                - name: Executar testes
+                  run: python -m pytest -q
+                  env:
+                    SDL_VIDEODRIVER: dummy
+                    SDL_AUDIODRIVER: dummy
+                - name: Compilar e testar o pacote
+                  shell: pwsh
+                  run: .github/scripts/package_windows.ps1
+                - name: Publicar o pacote jogável
+                  uses: softprops/action-gh-release@v2
+                  with:
+                    name: Soldados vs Zumbis ${{ github.ref_name }}
+                    body: |
+                      ## Como jogar no Windows
+
+                      1. Baixe Soldados-vs-Zumbis-Windows.zip nesta Release.
+                      2. Extraia o ZIP inteiro para uma pasta.
+                      3. Abra JOGAR AGORA.exe dentro da pasta extraída.
+                      4. Não mova o executável sozinho; os arquivos internos são necessários.
+
+                      ## O que foi verificado
+
+                      O pacote passou pelos testes automatizados, verificação de recursos e teste de inicialização. Isso não substitui uma partida completa em computadores diferentes.
+                    prerelease: ${{ contains(github.ref_name, '-') }}
+                    overwrite_files: true
+                    files: dist/Soldados-vs-Zumbis-Windows.zip
+                  env:
+                    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          '@ | Set-Content -Path ".github/workflows/release-windows.yml" -Encoding utf8
+
+      - name: Commit da migração na branch de trabalho
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if (-not (git diff --cached --quiet)) {
+            git commit -m "chore(repo): importar base jogável organizada da Beta 4"
+            git push origin HEAD:migracao/base-jogavel
+          }
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements.txt
+
+      - name: Instalar dependências e ferramentas
+        shell: pwsh
+        run: python -m pip install --upgrade pip; if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }; python -m pip install -r requirements.txt "pytest>=8.0" "ruff>=0.6" "pyinstaller>=6.0"
+
+      - name: Verificar sintaxe e estilo
+        run: |
+          python -m compileall -q src run.py
+          python -m ruff check src tests
+
+      - name: Executar testes automatizados
+        run: python -m pytest -q
+        env:
+          SDL_VIDEODRIVER: dummy
+          SDL_AUDIODRIVER: dummy
+
+      - name: Compilar e validar pacote jogável
+        shell: pwsh
+        run: .github/scripts/package_windows.ps1
+
+      - name: Guardar pacote para revisão
+        uses: actions/upload-artifact@v4
+        with:
+          name: Soldados-vs-Zumbis-Windows-migracao
+          path: dist/Soldados-vs-Zumbis-Windows.zip
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 14
