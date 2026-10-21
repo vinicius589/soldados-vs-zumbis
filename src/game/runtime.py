@@ -6697,7 +6697,11 @@ def main():
                 "O pacote nao conseguiu carregar as artes e o menu inicial"
             )
         pygame.quit()
-        print("PACOTE_OK")
+        marker_path = os.environ.get("SVZ_PACKAGE_CHECK_FILE")
+        if marker_path:
+            Path(marker_path).write_text("PACOTE_OK", encoding="utf-8")
+        if sys.stdout is not None:
+            print("PACOTE_OK", flush=True)
     else:
         Game(integration_preview="--integracao-beta4" in sys.argv[1:]).run()
 
