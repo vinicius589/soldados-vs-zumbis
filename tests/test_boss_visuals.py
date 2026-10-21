@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import src.game.runtime  # noqa: F401  # inicializa o runtime antes do módulo acoplado
 from src.game.battle import BOSS_SKILL_VISUALS, Battle
 
 
