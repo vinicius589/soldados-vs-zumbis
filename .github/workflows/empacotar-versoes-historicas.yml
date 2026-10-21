@@ -1,0 +1,321 @@
+name: Preparar pacotes e tags históricas
+
+on:
+  push:
+    branches:
+      - chore/importar-historico-legado
+    paths:
+      - ".github/workflows/empacotar-versoes-historicas.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  package-historical-versions:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Checkout do repositório novo
+        uses: actions/checkout@v4
+        with:
+          ref: chore/importar-historico-legado
+          fetch-depth: 0
+
+      - name: Preparar autenticação do Git e do GitHub CLI
+        run: gh auth setup-git --hostname github.com
+
+      - name: Baixar o acervo histórico preservado
+        shell: bash
+        run: |
+          curl --fail --location --retry 4 --retry-all-errors \
+            "https://github.com/vinicius589/soldados-vs-zumbis-beta-4/releases/download/historico-corrigido-2026-09-30/soldados-vs-zumbis-pacote-jogavel.zip" \
+            --output "$RUNNER_TEMP/svz-acervo-historico.zip"
+          ls -lh "$RUNNER_TEMP/svz-acervo-historico.zip"
+
+      - name: Criar snapshots e pacotes por versão
+        shell: bash
+        run: |
+          python - <<'PY'
+          from __future__ import annotations
+
+          import hashlib
+          import shutil
+          import subprocess
+          import zipfile
+          from pathlib import Path, PurePosixPath
+          import os
+
+          repository = os.environ["GITHUB_REPOSITORY"]
+          source_commit = "45f142375d60a01940fcbc0a1263e51b4bdb92b4"
+          archive_path = Path(os.environ["RUNNER_TEMP"]) / "svz-acervo-historico.zip"
+          output_root = Path(os.environ["RUNNER_TEMP"]) / "svz-historic-packages"
+          output_root.mkdir(parents=True, exist_ok=True)
+
+          versions = [
+              {
+                  "slug": "alfa-inicial",
+                  "tag": "arquivo/alfa-inicial",
+                  "title": "Alfa inicial — snapshot histórico",
+                  "folder": "alphas/alfa-inicial",
+              },
+              {
+                  "slug": "alfa-beta-2",
+                  "tag": "arquivo/alfa-beta-2",
+                  "title": "Alfa da Beta 2 — arenas e estabilidade",
+                  "folder": "alphas/alfa-beta-2",
+              },
+              {
+                  "slug": "alfa-beta-3-v7-4",
+                  "tag": "arquivo/alfa-beta-3-v7.4",
+                  "title": "Alfa da Beta 3 — v7.4, elenco e promoção",
+                  "folder": "alphas/alfa-beta-3-v7-4",
+              },
+              {
+                  "slug": "alfa-beta-3-v7-5",
+                  "tag": "arquivo/alfa-beta-3-v7.5",
+                  "title": "Alfa da Beta 3 — v7.5, minas e equilíbrio",
+                  "folder": "alphas/alfa-beta-3-v7-5",
+              },
+              {
+                  "slug": "alfa-beta-4",
+                  "tag": "arquivo/alfa-beta-4",
+                  "title": "Alfa de revisão da Beta 4",
+                  "folder": "alphas/alfa-beta-4",
+              },
+              {
+                  "slug": "beta-2",
+                  "tag": "arquivo/beta-2",
+                  "title": "Beta 2 — menu, carregamento e consulta ao elenco",
+                  "folder": "betas/beta-2",
+              },
+              {
+                  "slug": "beta-3",
+                  "tag": "arquivo/beta-3",
+                  "title": "Beta 3 — unidades regionais e dificuldades",
+                  "folder": "betas/beta-3",
+              },
+              {
+                  "slug": "beta-4",
+                  "tag": "arquivo/beta-4",
+                  "title": "Beta 4 — campanha regional de 12 ondas",
+                  "folder": "betas/beta-4",
+              },
+          ]
+
+          ignored_parts = {
+              ".git", ".venv", "venv", "__pycache__", ".pytest_cache",
+              ".ruff_cache", "build", "dist"
+          }
+
+          def run(args: list[str], cwd: Path | None = None, check: bool = True) -> subprocess.CompletedProcess:
+              return subprocess.run(
+                  args,
+                  cwd=str(cwd) if cwd else None,
+                  text=True,
+                  stdout=subprocess.PIPE,
+                  stderr=subprocess.PIPE,
+                  check=check,
+              )
+
+          def remote_ref_exists(repo: Path, kind: str, name: str) -> bool:
+              result = run(
+                  ["git", "ls-remote", "--exit-code", kind, "origin", name],
+                  cwd=repo,
+                  check=False,
+              )
+              return result.returncode == 0 and bool(result.stdout.strip())
+
+          def snapshot_attrs() -> str:
+              lines = [
+                  "*.py text eol=lf",
+                  "*.md text eol=lf",
+                  "*.yml text eol=lf",
+                  "*.yaml text eol=lf",
+                  "*.sh text eol=lf",
+                  "*.bat text eol=crlf",
+                  "*.png filter=lfs diff=lfs merge=lfs -text",
+                  "*.jpg filter=lfs diff=lfs merge=lfs -text",
+                  "*.jpeg filter=lfs diff=lfs merge=lfs -text",
+                  "*.webp filter=lfs diff=lfs merge=lfs -text",
+                  "*.gif filter=lfs diff=lfs merge=lfs -text",
+                  "*.wav filter=lfs diff=lfs merge=lfs -text",
+                  "*.ogg filter=lfs diff=lfs merge=lfs -text",
+                  "*.mp3 filter=lfs diff=lfs merge=lfs -text",
+                  "*.ttf filter=lfs diff=lfs merge=lfs -text",
+                  "*.otf filter=lfs diff=lfs merge=lfs -text",
+              ]
+              return "\n".join(lines) + "\n"
+
+          with zipfile.ZipFile(archive_path, "r") as archive:
+              infos = archive.infolist()
+              names = [item.filename.replace("\\", "/") for item in infos]
+              marker = "alphas/alfa-inicial/"
+              match = next((name for name in names if marker in name), None)
+              if match is None:
+                  raise SystemExit("O ZIP histórico não contém a pasta alphas/alfa-inicial.")
+              archive_prefix = match[:match.index(marker)]
+
+              for version in versions:
+                  folder = version["folder"]
+                  member_prefix = archive_prefix + folder + "/"
+                  slug = version["slug"]
+                  package_path = output_root / f"soldados-vs-zumbis-{slug}.zip"
+                  checksum_path = Path(str(package_path) + ".sha256")
+                  notes_path = output_root / f"{slug}-RELEASE.md"
+                  snapshot_dir = output_root / f"snapshot-{slug}"
+
+                  if snapshot_dir.exists():
+                      shutil.rmtree(snapshot_dir)
+                  snapshot_dir.mkdir(parents=True)
+
+                  copied = 0
+                  with zipfile.ZipFile(
+                      package_path,
+                      "w",
+                      compression=zipfile.ZIP_DEFLATED,
+                      compresslevel=1,
+                      allowZip64=True,
+                  ) as package:
+                      for info, name in zip(infos, names):
+                          if info.is_dir() or not name.startswith(member_prefix):
+                              continue
+                          tail = name[len(member_prefix):]
+                          if not tail:
+                              continue
+                          relative = PurePosixPath(tail)
+                          if relative.is_absolute() or ".." in relative.parts:
+                              raise SystemExit(f"Caminho inválido no acervo: {name}")
+                          if any(part in ignored_parts for part in relative.parts):
+                              continue
+                          if relative.parts and relative.parts[0] == ".github" and len(relative.parts) > 1 and relative.parts[1] == "workflows":
+                              continue
+
+                          destination = snapshot_dir.joinpath(*relative.parts)
+                          destination.parent.mkdir(parents=True, exist_ok=True)
+                          output_info = zipfile.ZipInfo(relative.as_posix(), date_time=info.date_time)
+                          output_info.compress_type = zipfile.ZIP_DEFLATED
+                          output_info.external_attr = info.external_attr
+                          output_info.create_system = info.create_system
+
+                          with archive.open(info, "r") as source_file, destination.open("wb") as disk_file, package.open(output_info, "w", force_zip64=True) as packaged_file:
+                              while True:
+                                  chunk = source_file.read(1024 * 1024)
+                                  if not chunk:
+                                      break
+                                  disk_file.write(chunk)
+                                  packaged_file.write(chunk)
+                          copied += 1
+
+                  if copied == 0 or not (snapshot_dir / "executar.bat").is_file() or not (snapshot_dir / "main.py").is_file():
+                      raise SystemExit(
+                          f"A pasta histórica {folder} não produziu um pacote independente: "
+                          f"arquivos={copied}, executar.bat={(snapshot_dir / 'executar.bat').is_file()}, "
+                          f"main.py={(snapshot_dir / 'main.py').is_file()}"
+                      )
+
+                  digest = hashlib.sha256()
+                  with package_path.open("rb") as packaged_file:
+                      for chunk in iter(lambda: packaged_file.read(1024 * 1024), b""):
+                          digest.update(chunk)
+                  checksum_path.write_text(
+                      f"{digest.hexdigest()}  {package_path.name}\n",
+                      encoding="utf-8",
+                  )
+
+                  historical_path = f"https://github.com/vinicius589/soldados-vs-zumbis/tree/historico/alfas-e-betas/{folder}"
+                  developer_guide = "https://github.com/vinicius589/soldados-vs-zumbis/blob/chore/importar-historico-legado/docs/GUIA-DEV-E-RELEASES.md"
+                  notes = f"""## Versão histórica: {version['title']}
+
+          Este pacote foi separado da pasta original preservada no acervo histórico. O código está marcado com a tag **{version['tag']}** e em uma branch de snapshot independente. O commit do snapshot foi criado durante esta migração a partir da pasta documentada; ele não se apresenta como um hash original de lançamento.
+
+          **Origem:** [{folder}]({historical_path})  
+          **Como executar:** baixe o ZIP, extraia todos os arquivos para uma pasta e abra **executar.bat** no Windows. Consulte o README e o requirements.txt que acompanham esta versão para os requisitos exatos. Não misture arquivos de versões diferentes.  
+          **Para desenvolver:** consulte o [guia de instalação e desenvolvimento]({developer_guide}).
+
+          **Validação:** esta Release é um pacote histórico preparado para revisão. Os registros antigos informam checagens básicas em 30/09/2026, mas esta importação não equivale a uma nova validação gráfica de toda a campanha no Windows. Os testes e limitações devem ser conferidos antes de tratar o pacote como versão oficialmente aprovada.
+
+          **Integridade:** o anexo .sha256 contém o SHA-256 do ZIP.
+          """
+                  notes_path.write_text(notes, encoding="utf-8")
+
+                  snapshot_note = f"""# Snapshot histórico — {version['title']}
+
+          Esta pasta foi extraída da distribuição histórica publicada no repositório
+          vinicius589/soldados-vs-zumbis-beta-4, release/tag
+          historico-corrigido-2026-09-30.
+
+          - Pasta de origem no acervo: {folder}
+          - Commit do snapshot histórico que continha o acervo: {source_commit}
+          - Tag de snapshot nesta migração: {version['tag']}
+          - Pacote jogável: {package_path.name}
+
+          **Importante:** este commit foi criado na migração para dar uma referência
+          navegável à pasta preservada. Não é apresentado como commit Git original
+          daquela versão. A Beta 1 original foi documentada no acervo, mas não foi
+          encontrada em formato executável e, por isso, não é empacotada aqui.
+          """
+                  (snapshot_dir / "HISTORICAL_SNAPSHOT.md").write_text(snapshot_note, encoding="utf-8")
+                  (snapshot_dir / ".gitattributes").write_text(snapshot_attrs(), encoding="utf-8")
+
+                  tag = version["tag"]
+                  branch = f"snapshot/{slug}"
+                  repo_dir = snapshot_dir
+
+                  run(["git", "init", "-q"], cwd=repo_dir)
+                  run(["git", "config", "user.name", "github-actions[bot]"], cwd=repo_dir)
+                  run(["git", "config", "user.email", "41898282+github-actions[bot]@users.noreply.github.com"], cwd=repo_dir)
+                  run(["git", "remote", "add", "origin", f"https://github.com/{repository}.git"], cwd=repo_dir)
+                  run(["git", "lfs", "install", "--local"], cwd=repo_dir)
+                  run(["git", "add", "-f", "-A"], cwd=repo_dir)
+                  run(["git", "commit", "-m", f"chore(history): snapshot {version['title']}"], cwd=repo_dir)
+
+                  if remote_ref_exists(repo_dir, "--heads", f"refs/heads/{branch}"):
+                      run(
+                          ["git", "fetch", "origin", f"refs/heads/{branch}:refs/remotes/origin/{branch}"],
+                          cwd=repo_dir,
+                      )
+                      commit_ref = f"refs/remotes/origin/{branch}"
+                      run(["git", "lfs", "push", "origin", commit_ref], cwd=repo_dir)
+                  else:
+                      run(["git", "push", "origin", f"HEAD:refs/heads/{branch}"], cwd=repo_dir)
+                      commit_ref = "HEAD"
+
+                  if not remote_ref_exists(repo_dir, "--tags", f"refs/tags/{tag}"):
+                      run(["git", "tag", "-a", tag, commit_ref, "-m", f"Snapshot histórico: {version['title']}"], cwd=repo_dir)
+                      run(["git", "push", "origin", f"refs/tags/{tag}"], cwd=repo_dir)
+
+                  release_exists = run(
+                      ["gh", "release", "view", tag, "--repo", repository],
+                      cwd=repo_dir,
+                      check=False,
+                  ).returncode == 0
+                  if release_exists:
+                      run(
+                          ["gh", "release", "upload", tag, str(package_path), str(checksum_path), "--clobber", "--repo", repository],
+                          cwd=repo_dir,
+                      )
+                  else:
+                      run(
+                          [
+                              "gh", "release", "create", tag,
+                              str(package_path), str(checksum_path),
+                              "--title", version["title"],
+                              "--notes-file", str(notes_path),
+                              "--draft",
+                              "--repo", repository,
+                          ],
+                          cwd=repo_dir,
+                      )
+
+                  print(
+                      f"OK {version['title']}: tag={tag}, branch={branch}, "
+                      f"arquivos={copied}, ZIP={package_path.stat().st_size} bytes, "
+                      f"SHA256={digest.hexdigest()}"
+                  )
+                  shutil.rmtree(snapshot_dir)
+
+          print("Snapshots separados e Releases em rascunho. A Beta 1 original foi excluída porque o executável não foi localizado.")
+          PY

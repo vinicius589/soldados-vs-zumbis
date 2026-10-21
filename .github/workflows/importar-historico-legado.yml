@@ -1,0 +1,71 @@
+name: Importar histórico do repositório antigo
+
+on:
+  push:
+    branches:
+      - chore/importar-historico-legado
+    paths:
+      - ".github/workflows/importar-historico-legado.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  import-history:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout da branch de preparação
+        uses: actions/checkout@v4
+        with:
+          ref: chore/importar-historico-legado
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Buscar referências do repositório antigo
+        shell: bash
+        run: |
+          git remote add legado https://github.com/vinicius589/soldados-vs-zumbis-beta-4.git
+          git fetch legado --tags \
+            '+refs/heads/historico/alfas-e-betas:refs/remotes/legado/historico/alfas-e-betas' \
+            '+refs/heads/historico/beta-1:refs/remotes/legado/historico/beta-1' \
+            '+refs/heads/jogo:refs/remotes/legado/jogo' \
+            '+refs/heads/beta5-dev:refs/remotes/legado/beta5-dev'
+
+      - name: Preservar branches de arquivo histórico
+        shell: bash
+        run: |
+          git push origin \
+            refs/remotes/legado/historico/alfas-e-betas:refs/heads/historico/alfas-e-betas \
+            refs/remotes/legado/historico/beta-1:refs/heads/historico/beta-1
+
+      - name: Importar tags históricas que não exigem permissão extra
+        shell: bash
+        run: |
+          # O token desta automação não pode publicar históricos que incluam
+          # .github/workflows. Tentamos cada tag separadamente para preservar
+          # as que forem permitidas sem fingir que todas foram copiadas.
+          imported=0
+          skipped=0
+          for tag in beta-4.0 v1.2.0 v1.3.0 v1.3.1 historico-corrigido-2026-09-30 pacote-completo-2026-09-30; do
+            if git ls-remote --exit-code --tags origin "refs/tags/$tag" >/dev/null 2>&1; then
+              echo "Tag já existe no destino: $tag"
+              continue
+            fi
+            if git push origin "refs/tags/$tag:refs/tags/$tag"; then
+              echo "Tag importada: $tag"
+              imported=$((imported + 1))
+            else
+              echo "::warning::Tag não importada automaticamente por restrição de permissão ou política do destino: $tag"
+              skipped=$((skipped + 1))
+            fi
+          done
+          echo "Tags importadas nesta execução: $imported; pendentes: $skipped"
+
+      - name: Resumo das referências que exigem revisão
+        shell: bash
+        run: |
+          echo "Branches históricas preservadas: historico/alfas-e-betas, historico/beta-1."
+          echo "As linhas jogo e beta5-dev permanecem no repositório antigo até resolver a importação segura de commits que contêm workflows."
+          echo "As versões executáveis devem ser anexadas às Releases correspondentes às tags depois da conferência de cada pacote."
