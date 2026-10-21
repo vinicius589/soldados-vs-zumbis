@@ -1,0 +1,8 @@
+# Arquivos de texto com finais de linha previsíveis.
+*.py text eol=lf
+*.md text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.sh text eol=lf
+*.command text eol=lf
+.githooks/** text eol=lf

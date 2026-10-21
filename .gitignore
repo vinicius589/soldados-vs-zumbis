@@ -1,0 +1,98 @@
+# ============================================================ Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg
+*.egg-info/
+.eggs/
+dist/
+build/
+sdist/
+wheels/
+pip-wheel-metadata/
+MANIFEST
+
+# ============================================================ Ambientes virtuais
+.venv/
+.venv-beta4/
+venv/
+ENV/
+env/
+
+# ============================================================ Ferramentas de teste e cobertura
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+.tox/
+.nox/
+.hypothesis/
+junit*.xml
+
+# ============================================================ Linters e formatação
+.mypy_cache/
+.pytype/
+.ruff_cache/
+.dmypy.json
+dmypy.json/
+.black/
+
+# ============================================================ IDEs e editores
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.classpath
+.settings/
+*.sublime-project
+*.sublime-workspace
+.spyderproject
+.spyproject
+
+# ============================================================ Sistema operacional
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# ============================================================ Credenciais (nunca versionar)
+# Regra de ouro: nenhuma chave, token ou senha entra no repositório.
+*.pem
+*.key
+secrets.json
+credentials.json
+config.local.json
+.env
+.env.local
+
+# ============================================================ Acervo histórico
+# Publicado nos Releases separadamente — não versionar aqui.
+alphas/
+betas/
+material-bruto/
+Soldados vs Zumbis Beta 4/
+
+# ============================================================ Progresso pessoal gerado pelo jogo
+campanha_v7.json
+campaign_progress.json
+
+# ============================================================ Capturas geradas pelas ferramentas da Beta 4
+visual_qa_beta4/*
+!visual_qa_beta4/entrega/
+
+# ============================================================ Diversos
+*.log
+logs/
+*.bak
+*.tmp
+*.temp
+*.backup
+*.orig
+*.rej

@@ -1,0 +1,68 @@
+#!/bin/sh
+# ------------------------------------------------------------------
+# Valida Conventional Commits (docs/COMMIT_CONVENTION.md)
+# Instalado via:  git config core.hooksPath .githooks
+# Pular nesta execução:  git commit --no-verify   (use só em emergência)
+# ------------------------------------------------------------------
+
+msg_file="$1"
+first_line=$(head -n 1 "$msg_file" 2>/dev/null | tr -d '\r')
+total_lines=$(grep -c . "$msg_file" 2>/dev/null || echo 0)
+
+# Mensagem vazia: deixa o git reclamar com a mensagem dele.
+[ -z "$first_line" ] && exit 0
+
+# Mensagens geradas pelo próprio git são aceitas.
+case "$first_line" in
+  Merge\ *|Revert\ *|fixup!\ *|squash!\ *) exit 0 ;;
+esac
+
+tipo='(feat|fix|art|docs|refactor|test|style|perf|chore|ci|build|revert)'
+escopo='\([a-z0-9][a-z0-9-]*\)'
+padrao="^${tipo}(${escopo})?(!)?: .+"
+
+fail() {
+  echo "" >&2
+  echo "  ✗ Mensagem de commit fora da convenção." >&2
+  echo "" >&2
+  echo "    Recebido: $first_line" >&2
+  echo "    Esperado: <tipo>[(<escopo>)]: <descrição>" >&2
+  echo "" >&2
+  echo "    Tipos: feat fix art docs refactor test style perf chore ci build revert" >&2
+  echo "    Regras: docs/COMMIT_CONVENTION.md" >&2
+  echo "" >&2
+  exit 1
+}
+
+# 1. Formato
+echo "$first_line" | grep -Eq "$padrao" || fail
+
+# 2. Tamanho: tipo + escopo + descrição ≤ 72 caracteres
+[ "${#first_line}" -gt 72 ] && {
+  echo "" >&2
+  echo "  ✗ Assunto com ${#first_line} caracteres (máx. 72)." >&2
+  echo "     $first_line" >&2
+  exit 1
+}
+
+# 3. Sem ponto final no assunto
+case "$first_line" in
+  *. ) echo "" >&2; echo "  ✗ Assunto não pode terminar com ponto." >&2; exit 1 ;;
+esac
+
+# 4. Sem maiúsculas indevidas nem emoji na descrição
+desc=$(echo "$first_line" | sed -E "s/^${tipo}(${escopo})?(!)?: //")
+case "$desc" in
+  [A-Z]*) echo "" >&2; echo "  ✗ Descrição deve começar com minúscula: $desc" >&2; exit 1 ;;
+esac
+
+# 5. Breaking change precisa da declaração no corpo
+if echo "$first_line" | grep -q '!:'; then
+  if ! grep -q 'BREAKING CHANGE' "$msg_file"; then
+    echo "" >&2
+    echo "  ✗ Commit marcado com '!:' precisa de 'BREAKING CHANGE:' no corpo." >&2
+    exit 1
+  fi
+fi
+
+exit 0

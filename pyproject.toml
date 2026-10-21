@@ -1,0 +1,68 @@
+[project]
+name = "soldados-vs-zumbis"
+version = "4.0.1"
+description = "Tower defense 2D original em Pygame — projeto acadêmico de programação."
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.12"
+authors = [
+    { name = "Equipe Soldados vs Zumbis" },
+]
+keywords = ["tower-defense", "pygame", "jogo", "acadêmico"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Education",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Games/Entertainment :: Real Time Strategy",
+]
+dependencies = [
+    "pygame-ce==2.5.8",
+    "PyOpenGL==3.1.10",
+    "numpy==2.5.3",
+    "Pillow==12.3.0",
+]
+
+[project.optional-dependencies]
+# pip install -e ".[dev]"
+dev = [
+    "pytest>=8.0",
+    "ruff>=0.6",
+]
+
+[project.urls]
+Repository = "https://github.com/vinicius589/soldados-vs-zumbis"
+Issues = "https://github.com/vinicius589/soldados-vs-zumbis/issues"
+Changelog = "https://github.com/vinicius589/soldados-vs-zumbis/releases"
+
+[project.scripts]
+soldados-vs-zumbis = "src.main:main"
+
+[build-system]
+requires = ["setuptools>=75.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["src*"]
+
+# --------------------------------------------------------------- Testes
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+addopts = "-q"
+
+# --------------------------------------------------------------- Linter
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B"]
+ignore = ["E501"]
+
+[tool.ruff.lint.per-file-ignores]
+# src/main.py é monolítico legado: a padronização é incremental.
+"src/game/runtime.py" = ["E", "F", "W", "B"]
+
