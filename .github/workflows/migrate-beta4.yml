@@ -365,6 +365,7 @@ jobs:
         shell: pwsh
         run: |
           $ErrorActionPreference = "Stop"
+          if (Test-Path (Join-Path $env:GITHUB_WORKSPACE "_source")) { Remove-Item (Join-Path $env:GITHUB_WORKSPACE "_source") -Recurse -Force }
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A
