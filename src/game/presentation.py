@@ -1,11 +1,7 @@
 """Métodos de interface e desenho, separados do fluxo principal do jogo."""
 from __future__ import annotations
 
-from src.game import runtime as _runtime
-
-# A interface usa as mesmas tabelas, classes e helpers do runtime existente.
-# Copiar apenas os nomes públicos permite mover os métodos sem duplicar dados.
-globals().update({name: value for name, value in vars(_runtime).items() if not name.startswith("__")})
+from src.game.runtime import *  # noqa: F403
 
 def button_rect(self, label: str, x: int, y: int, w: int, h: int) -> pygame.Rect:
     return pygame.Rect(x, y, w, h)
