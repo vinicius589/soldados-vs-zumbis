@@ -1,7 +1,25 @@
 """Entidades e objetos de combate do jogo."""
 from __future__ import annotations
 
-from src.game.runtime import *  # noqa: F403
+from dataclasses import dataclass, field
+
+import pygame
+
+from src.engine.animation2d import AnimationManager
+from src.game.runtime import (
+    ActorMotion,
+    BOSSES,
+    LANE_BOMB_HOME_X,
+    PROJECTILE_LAUNCH_GAPS,
+    boss_wave_scale,
+    cell_center,
+    difficulty_profile,
+    defender_render_scale,
+    enemy_render_scale,
+    enemy_wave_scale,
+    lane_depth,
+    terrain_y,
+)
 
 @dataclass
 class Defender:
