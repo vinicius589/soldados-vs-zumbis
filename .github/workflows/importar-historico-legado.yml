@@ -1,0 +1,44 @@
+name: Importar histórico do repositório antigo
+
+on:
+  push:
+    branches:
+      - chore/importar-historico-legado
+    paths:
+      - ".github/workflows/importar-historico-legado.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  import-history:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout da branch de preparação
+        uses: actions/checkout@v4
+        with:
+          ref: chore/importar-historico-legado
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Buscar branches e tags do repositório antigo
+        shell: bash
+        run: |
+          git remote add legado https://github.com/vinicius589/soldados-vs-zumbis-beta-4.git
+          git fetch legado --tags \
+            '+refs/heads/historico/alfas-e-betas:refs/remotes/legado/historico/alfas-e-betas' \
+            '+refs/heads/historico/beta-1:refs/remotes/legado/historico/beta-1' \
+            '+refs/heads/jogo:refs/remotes/legado/jogo' \
+            '+refs/heads/beta5-dev:refs/remotes/legado/beta5-dev'
+
+      - name: Publicar referências históricas sem alterar a main
+        shell: bash
+        run: |
+          git push origin \
+            refs/remotes/legado/historico/alfas-e-betas:refs/heads/historico/alfas-e-betas \
+            refs/remotes/legado/historico/beta-1:refs/heads/historico/beta-1 \
+            refs/remotes/legado/jogo:refs/heads/referencia/jogo-beta4 \
+            refs/remotes/legado/beta5-dev:refs/heads/referencia/beta5-dev
+          git push origin 'refs/tags/*:refs/tags/*'
