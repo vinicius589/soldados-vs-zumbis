@@ -60,7 +60,7 @@ Cada recurso novo deve mostrar seu caminho no código por meio de commits pequen
 
 Uma tag não contém um executável por si só. Quando uma versão Alfa ou Beta tiver um pacote independente e verificável, o pacote será anexado à **Release associada à tag**. Não vamos fabricar uma Beta 1 executável enquanto o arquivo original não for encontrado, nem chamar um pacote de testado sem evidência de execução.
 
-Veja o [catálogo de versões históricas e seus pacotes](docs/HISTORICO-DE-VERSOES.md), o [plano de preservação e evolução histórica](docs/PLANO-EVOLUCAO-HISTORICA.md), o [guia de branches, tags e versões](docs/BRANCHING.md) e o [guia de instalação e desenvolvimento](docs/GUIA-DEV-E-RELEASES.md).
+Veja o [catálogo de versões históricas e seus pacotes](docs/HISTORICO-DE-VERSOES.md), o [plano de preservação e evolução histórica](docs/PLANO-EVOLUCAO-HISTORICA.md), o [guia de branches, tags e versões](docs/BRANCHING.md) e o [guia de instalação e desenvolvimento](docs/GUIA-DEV-E-RELEASES.md) e o [relatório da linha de base da refatoração](docs/RELATORIO-BASE-REFATORACAO.md).
 
 ## Jogar ou desenvolver
 
