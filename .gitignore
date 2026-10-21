@@ -1,0 +1,16 @@
+.venv/
+.venv-*/
+__pycache__/
+.hypothesis/
+.coverage*
+*.py[cod]
+build/
+dist/
+reports/
+build-info.json
+_internal/
+*.exe
+*.zip
+*.log
+.idea/
+.vscode/

@@ -1,0 +1,55 @@
+{
+  "ok": true,
+  "changed": {
+    "desert_runner/move": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "beach_runner/move": [
+      4,
+      5,
+      6,
+      7
+    ],
+    "desert_runner_v2/move": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "desert_runner_v2/skill": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "beach_runner_v2/move": [
+      4,
+      5,
+      6,
+      7
+    ],
+    "beach_runner_v2/skill": [
+      4,
+      5,
+      6,
+      7
+    ]
+  },
+  "all_other_frames_unchanged": true,
+  "actors_compared": 71
+}

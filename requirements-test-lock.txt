@@ -1,0 +1,4 @@
+-r requirements-build-lock.txt
+coverage==7.16.2
+hypothesis==6.170.0
+sortedcontainers==2.4.0

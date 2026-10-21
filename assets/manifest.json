@@ -1,0 +1,438 @@
+{
+  "assets/audio/alarm_scream.wav": {
+    "sha256": "1a4aad5379da662476a630365666d58f327c14497edbbb26fc5d2c3516f8ddf2",
+    "bytes": 87800
+  },
+  "assets/audio/ambience_beach.wav": {
+    "sha256": "06b0dcb806bf8ac8076cf742a14c39f92aa6a67458482e996e389fa9baea1c11",
+    "bytes": 1234844
+  },
+  "assets/audio/ambience_city.wav": {
+    "sha256": "8f85648c92766f481731d29687c06404cf633c40750f091188ba4bef8f735d4a",
+    "bytes": 1234844
+  },
+  "assets/audio/ambience_desert.wav": {
+    "sha256": "c5c82d5e9c290c06d62a006bbcb6050687f7d78447521c3b0169994574bf6dff",
+    "bytes": 1234844
+  },
+  "assets/audio/bite.wav": {
+    "sha256": "c6e4fc93e5edae29d399847ce15397b7ecd86092ef9a1acfca411891f45d67b8",
+    "bytes": 68840
+  },
+  "assets/audio/boss.wav": {
+    "sha256": "c2fe5623f5caa7b121245700254d13942ad84387b07f3087d3c6b607ef9a8af9",
+    "bytes": 251414
+  },
+  "assets/audio/explosion.wav": {
+    "sha256": "c49741aeeac7d1b34baf33ecdbedcd91a61e56d4caf545172a3340be09c91b49",
+    "bytes": 131406
+  },
+  "assets/audio/music_menu.wav": {
+    "sha256": "fe3ee6a3d318b6cad4e5a1c6165c48167b32da306ac03bea7cc8bb6db00236fc",
+    "bytes": 2822444
+  },
+  "assets/audio/place.wav": {
+    "sha256": "01655866c645baca00a4d57b8ab9bb098273f09cded7b0181ca22a53e9320485",
+    "bytes": 40616
+  },
+  "assets/audio/reload.wav": {
+    "sha256": "8c9a6825bef0d9c70b48bdf5ae6048a031f623bafc809504c94710329913345c",
+    "bytes": 132746
+  },
+  "assets/audio/shot_heavy.wav": {
+    "sha256": "172957f8a854e1467138488697190dac931a74941264243826119fdcf1a99643",
+    "bytes": 48664
+  },
+  "assets/audio/shot_pistol.wav": {
+    "sha256": "f1ae51d7a57180a9e585c739f765e7cd754fe007de0b6e1c54255a921cb04555",
+    "bytes": 52788
+  },
+  "assets/audio/shot_rifle.wav": {
+    "sha256": "817e3de4e255a95b37e2c31826b0934e92f81e1123563500df1f3acaec69580c",
+    "bytes": 65136
+  },
+  "assets/audio/soldier_hit.wav": {
+    "sha256": "282270dcdf2a6d56ffbb2ed676301d4e23c1b5092277222dcb4cfa2d1ba0ce27",
+    "bytes": 44296
+  },
+  "assets/audio/supply.wav": {
+    "sha256": "5db234430b5ffe8ac21f3f341064a7c0e22f8c767fce73559c1f922e8e6025db",
+    "bytes": 60020
+  },
+  "assets/audio/thunder.wav": {
+    "sha256": "26dd296a16126b4a8635dfc4e1dd8664b6404671b27ea7f093df44871209ed04",
+    "bytes": 402522
+  },
+  "assets/audio/ui_click.wav": {
+    "sha256": "5f49897bff147526b9364d79838fefba5a812e5618a84b1ee8867f4f68227cfe",
+    "bytes": 17716
+  },
+  "assets/audio/wave.wav": {
+    "sha256": "8d74926ce4635665dda754c3ad053e47e30c8a60d75e3b5ac2503e0f4d52d916",
+    "bytes": 198494
+  },
+  "assets/audio/whistle.wav": {
+    "sha256": "e8bfad0a40a6c6b3392fa08986dff17902ec85ef7921b222dfcb31575b2defa0",
+    "bytes": 72768
+  },
+  "assets/audio/zombie_groan.wav": {
+    "sha256": "add9b66cefad72634dfb6cbe7dbbce95ea8b32570b0e34349d88e5fe7481b429",
+    "bytes": 138092
+  },
+  "assets/audio/zombie_hit.wav": {
+    "sha256": "ad597f85e3af9814aee911c3b8f3bead2eb24ff9472b0d14615c3087503af6a4",
+    "bytes": 44144
+  },
+  "assets/audio/zombie_skill.wav": {
+    "sha256": "b794bdfc9f67f5426309f23a93918e08b54af64516a76f52d62d2ab9670cdec4",
+    "bytes": 126248
+  },
+  "assets/actors/afogado_veu_verde_8x4_v1.png": {
+    "sha256": "72c97a6c73d1c15471b7a41adacb2b42d52306636fa6ab93cf92e87645ae87f7",
+    "bytes": 2073908
+  },
+  "assets/actors/beach_boss_portraits_3x1_v1.png": {
+    "sha256": "45b36e58269705c9e29760fb09227c7ca612482003c11d723dc2177f87d2003b",
+    "bytes": 2427377
+  },
+  "assets/actors/beach_elites_rebuilt_16x6_v1.png": {
+    "sha256": "36f55afee607ed1834f6128d8c807e56ae302e0b5105f2488c262804374afe67",
+    "bytes": 2551495
+  },
+  "assets/actors/beach_grenadier_m32_8x5_v1.png": {
+    "sha256": "423c56e7135c42122ff7be89e05926d9841d8fcb6fe605203c8e1a2224cd6abf",
+    "bytes": 1547943
+  },
+  "assets/actors/beach_m16_8x5_v4.png": {
+    "sha256": "967bfc553d1bd93ee192eeb19a088a8f1d5c9834b0c9ad3936c02bc4600c816c",
+    "bytes": 1633172
+  },
+  "assets/actors/beach_patrol_boat_8x5_v2.png": {
+    "sha256": "5a2e606e6cce331aaec95906461822f114daacc35b41003742f37ba709165a9c",
+    "bytes": 1611040
+  },
+  "assets/actors/beach_sailor_glock_8x5_v7.png": {
+    "sha256": "8ceee55c5082207a92569ba4eedc71acaf0b86ebca790f6d8e9264eec223d6b1",
+    "bytes": 1436261
+  },
+  "assets/actors/beach_sniper_trg42_8x5_v1.png": {
+    "sha256": "098dc075d95da41d24b10a336b3627293d9dde5e04438ff46be86bfccc4f48d7",
+    "bytes": 1727667
+  },
+  "assets/actors/beach_sonar_station_8x5_v2.png": {
+    "sha256": "3bdd7aee87dbd35c3b9f80385147f6a8141b24ccfbeb13e4a2359f029f149ca8",
+    "bytes": 2195053
+  },
+  "assets/actors/beach_tactical_sub_8x5_v3.png": {
+    "sha256": "e45ed6b0acc1bffd60e5226d927bf07ae8365bdb83c27f635a27e9dc71535a75",
+    "bytes": 1089617
+  },
+  "assets/actors/beach_waterjet_8x5_v1.png": {
+    "sha256": "dad4f33c699cda177f67c6007d049b3086ff0f48bb415e445945f67b184a2048",
+    "bytes": 1867827
+  },
+  "assets/actors/beach_zombies_hd_16x6_v3.png": {
+    "sha256": "c0845fa9367ca2bf63e600bd6131d93ea60f9d0b3ba0554898bdf915d426d402",
+    "bytes": 3018843
+  },
+  "assets/actors/city_antiplague_grenade_8x5_v2.png": {
+    "sha256": "d66c8d1013b56d807e7f5102e9773f805c3544ce6ae4f7d92e7b21197fd6e787",
+    "bytes": 1506268
+  },
+  "assets/actors/city_boss_portraits_3x1_v1.png": {
+    "sha256": "c527783cb01142dea4a0b570408fd0e0e62df4541d02cd35298920fbb1780358",
+    "bytes": 1742058
+  },
+  "assets/actors/city_elites_rebuilt_16x6_v1.png": {
+    "sha256": "9c5b1775891b088318b49490c62d14f162c36024c92a22ee02bd6fb463dc8cf4",
+    "bytes": 2627175
+  },
+  "assets/actors/city_entry_spas12_8x5_v1.png": {
+    "sha256": "ffa412afdfb4427cc3487fe2b6d32af1b35c2dd4e7332e997309e9c07d3976bd",
+    "bytes": 1721791
+  },
+  "assets/actors/city_riot_shield_8x5_v3.png": {
+    "sha256": "be0ba67616b805b49ab62d613aa08d927eebe2c1271e84225ff553b08650359f",
+    "bytes": 1630106
+  },
+  "assets/actors/city_rocket_rpg7_8x5_v1.png": {
+    "sha256": "be8c270fa9f3f617422f2910b8dc0cddd6344ce7ae591e0a4008fdc197c2183c",
+    "bytes": 1524389
+  },
+  "assets/actors/city_sniper_awm_8x5_v1.png": {
+    "sha256": "11af180acc774306b871773ab4478b4f90b5f99f1ecbdc10161851475601a36d",
+    "bytes": 1597780
+  },
+  "assets/actors/city_zombies_hd_16x6_v3.png": {
+    "sha256": "ed6e82d0f3cf63ebd3510582f2e60f359f5558e947d93f7652f0d59e42a20462",
+    "bytes": 2794072
+  },
+  "assets/actors/corredor_cachoeira_8x4_v1.png": {
+    "sha256": "88ce18235d7dcef5e2836743aa7c42fcd61d31f0378438060aec10e13d015b70",
+    "bytes": 1852993
+  },
+  "assets/actors/corredor_cachoeira_corrida_8x1_v2.png": {
+    "sha256": "14bcb33cf9e1453b0ada33517b6794aab9a7e597aad6e050f7dfe8ff967a6ce6",
+    "bytes": 399986
+  },
+  "assets/actors/corredor_cidade_8x4_v1.png": {
+    "sha256": "55f530d27d718d044547d64bd63b92c4baf3d3be8214808ac1b7121cbe3f4270",
+    "bytes": 2295965
+  },
+  "assets/actors/corredor_cidade_corrida_8x1_v2.png": {
+    "sha256": "036ccda34b2fdefcb706119dae739cdba863d1cc8d0d7eb0323cc8bd67ac0489",
+    "bytes": 374055
+  },
+  "assets/actors/corredor_deserto_8x4_v1.png": {
+    "sha256": "79a26c12757df7bad3b7fc8b97b781a5d282b9171620c9cae3591fc83d80fb35",
+    "bytes": 2533053
+  },
+  "assets/actors/corredor_deserto_corrida_8x1_v2.png": {
+    "sha256": "b1cf43b14c9e0c6753db74db319f0d86aa9be0494b013b0a543a4af7f5372eba",
+    "bytes": 491434
+  },
+  "assets/actors/desert_blade_guard_8x5_v3.png": {
+    "sha256": "06a0acb3cdd5eaedfc620a06cc5577d7d6787c45f4486523e57a1b50eadd6fc1",
+    "bytes": 1774941
+  },
+  "assets/actors/desert_boss_portraits_3x1_v1.png": {
+    "sha256": "bc64c806a6eaecf6cf0cc8eea24a89defc4a9121474266bc5348d4bfb16a79c2",
+    "bytes": 1476145
+  },
+  "assets/actors/desert_elites_rebuilt_16x6_v1.png": {
+    "sha256": "78b9cbb55f182e2dbf4cb90fe309fe5e2c2e0974cc97dabedcd0e9d700046d30",
+    "bytes": 2329425
+  },
+  "assets/actors/desert_incinerator_8x5_v1.png": {
+    "sha256": "f7f5d145f93a15ac7ff5f32162373ef9186cbfd4b0ed37847c8b5daf17127ba6",
+    "bytes": 1777181
+  },
+  "assets/actors/desert_mg3_8x5_v1.png": {
+    "sha256": "6f63ff6979d753e3c5ac3abaaf87608b287840c7c3f2999697cb382c041c9e42",
+    "bytes": 1892609
+  },
+  "assets/actors/desert_mortar_8x5_v1.png": {
+    "sha256": "55dc95caea7a898f039f80ff9d96940689e290156186608c3e4795d536ea4ddc",
+    "bytes": 2062535
+  },
+  "assets/actors/desert_pistol_magnum_8x5_v4.png": {
+    "sha256": "7efda38742e3dc56085f5a13453eead36d5275c80267dea33c093bc9aba9421c",
+    "bytes": 1853288
+  },
+  "assets/actors/desert_scar_8x5_v3.png": {
+    "sha256": "a4747e88cca28414b84f9fc3e153b54cd138a69f68872798ef7c1fe2b893cda4",
+    "bytes": 1876533
+  },
+  "assets/actors/desert_sniper_svd_8x5_v1.png": {
+    "sha256": "658577f0052e7c14bebaa8f425c20b5de6e4b2a434132d20374a37e86f760d42",
+    "bytes": 1705705
+  },
+  "assets/actors/desert_zombies_hd_16x6_v3.png": {
+    "sha256": "d948c7aee024e0e7ff87e12c49b5e1302c58b8b4a79b00ab626d04c7191ffa2b",
+    "bytes": 2754739
+  },
+  "assets/actors/desperto_khepra_8x4_v1.png": {
+    "sha256": "cc81c966684b744e97f070b6a73b1ee1549191319d8e07497ece80fe0f1fdace",
+    "bytes": 2120395
+  },
+  "assets/actors/estacao_comunicacao_cachoeira_8x5_v1.png": {
+    "sha256": "865bee1cbda543ea833eb8cb71e61da43418fcf09bf1e9c56d4bacaafeac3e7d",
+    "bytes": 2126990
+  },
+  "assets/actors/homem_bomba_8x5_v3.png": {
+    "sha256": "4162128c326158a31c8ff076b32a83e85d3bcc8e876876e604f8d89010fba93e",
+    "bytes": 1976000
+  },
+  "assets/actors/infectado_urbano_8x4_v1.png": {
+    "sha256": "64ff9049a88931c0cf618770278f4cce822a3ced5371e56ee50e0612bcf90648",
+    "bytes": 1653616
+  },
+  "assets/actors/muzzle_cycle_source_v1.png": {
+    "sha256": "9b7faa881363d73c1e6ba805c0996f1b08b4c9e65c6eb2360cf5cd5f3ee93bac",
+    "bytes": 287596
+  },
+  "assets/actors/operador_radio_policial_8x5_v1.png": {
+    "sha256": "5c863126f66cfa801e2ce32fdaaeaaf6365ebbf2bebccbb84a8e49f6191e1732",
+    "bytes": 1256017
+  },
+  "assets/actors/rastejador_cachoeira_8x4_v2.png": {
+    "sha256": "1a044b3b763a338aa26d427357d20c16dea1cfc796287d39cdede39a7aceb58c",
+    "bytes": 1704269
+  },
+  "assets/actors/rastejador_cidade_8x4_v2.png": {
+    "sha256": "27ea7b5d191a48832e7fe9a2668d96b964eefce685f043f11b58c686a856571d",
+    "bytes": 1441260
+  },
+  "assets/actors/rastejador_deserto_8x4_v1.png": {
+    "sha256": "a6a23b5cad805433effc4d1f679e7e66cd3796e3fe2d7e3796a4e3c4868dd1c3",
+    "bytes": 1653758
+  },
+  "assets/actors/sheriff_deagle_8x5_v2.png": {
+    "sha256": "b47c2115ecfe1924bd691c523a80be8439d133663afc22042d49f70316f51154",
+    "bytes": 1656299
+  },
+  "assets/actors/swat_mp5_8x5_v2.png": {
+    "sha256": "a022500baa2af5e106c321dedf2315e1608835b82a39317aabcdbd0a513b287d",
+    "bytes": 1545972
+  },
+  "assets/actors/torre_radio_egito_8x5_v1.png": {
+    "sha256": "e129e8340f28d482b9d655ac4a84ef2c9a1f07cb0d8beba234d650de4255a34e",
+    "bytes": 1710522
+  },
+  "assets/interface/ability_effects_sheet_beta4.png": {
+    "sha256": "84c58e3aa7845a1c5be90384074d182a39727e1ee845722142978f00f8932f7b",
+    "bytes": 2426027
+  },
+  "assets/interface/beach_beta4_integrated_v6.png": {
+    "sha256": "9df19b2983c66acdc99929be9499bb8af549efb4a3546b041ac9b4e3f1118200",
+    "bytes": 2553430
+  },
+  "assets/interface/city_beta4_integrated_v4.png": {
+    "sha256": "5b256f6452b9e0933571931e20ba1d160c613d22c3161a6704c019bfb2f05009",
+    "bytes": 1750731
+  },
+  "assets/interface/combat_effects_sheet_beta4.png": {
+    "sha256": "994fe83dc19d4b1c84f0689c38309131dc4c6770825622a4f2b986f6a7ee08d9",
+    "bytes": 1167204
+  },
+  "assets/interface/desert_beta4_integrated_v4.png": {
+    "sha256": "a45da055cb8fbcb2bc60db3df181644fda8f41949af5b7ddd04f181fcc98462d",
+    "bytes": 1937434
+  },
+  "assets/interface/elemental_effects_sheet_beta4_v2.png": {
+    "sha256": "b5f4837019a62b90b05b5dadfd3886f358f82bfe6c55f733229b205aa1413287",
+    "bytes": 1076105
+  },
+  "assets/interface/loading_beta3_reference.png": {
+    "sha256": "39f4406767231aed591a1738d12c67be1d60b220ba782d58ad9f4edc275f548f",
+    "bytes": 1712517
+  },
+  "assets/interface/menu.png": {
+    "sha256": "d04a5f2927e3590b491976fb5bb6b7442c2e11cc220bdd723c6386ef8112fa27",
+    "bytes": 2272748
+  },
+  "assets/interface/projectile_sprites_sheet_beta4.png": {
+    "sha256": "fe6e33b3971bcab54ae75cc68c7e0ecde0a27126a379b03c3c13ac18c3f42775",
+    "bytes": 1297266
+  },
+  "assets/environment/carga_terrestre_minas_v2_1x8.png": {
+    "sha256": "90a708c07b2a754287a6b6b35f78be241c0b8842f1d9d8dfe21316b399d7dd52",
+    "bytes": 450600
+  },
+  "assets/environment/general_saudacao_3x8_v1.png": {
+    "sha256": "db6d1776ed6a138df5c849897f93dc9174df98455a929768ff25aab4fd18d706",
+    "bytes": 1445389
+  },
+  "assets/environment/mina_aquatica_v2_1x8.png": {
+    "sha256": "1c860c21c20dacb81bebc90145fcc138bb156f5e0ff746e68f0ad5737dc4c5b2",
+    "bytes": 564236
+  },
+  "assets/environment/mulher_banhista_assustada_1x8_v2.png": {
+    "sha256": "6f889687bfc0cd06ed2f7a72dbd63041c068b78aff8ca11b3741d47b3efaf606",
+    "bytes": 1331785
+  },
+  "assets/environment/pira_toxica_verde_1x8_v1.png": {
+    "sha256": "2c08b64abf9e58d2ed43284e3363ca70a4a845930b071e02a1f4ee140f75386b",
+    "bytes": 527701
+  },
+  "assets/environment/tenente_policia_apito_1x8_v1.png": {
+    "sha256": "f9aa7cba356eea112aa928cf98ff9eb7af58c8e5b2411386bb4ae76c98e945b1",
+    "bytes": 1336237
+  },
+  "assets/frames/veiculos/drone_helices/frame_00.png": {
+    "sha256": "00cdc68d9a6432e0238aa5f8fc2d8d4c83bba04948dca5558d1a4c88752d3a2f",
+    "bytes": 22842
+  },
+  "assets/frames/veiculos/drone_helices/frame_01.png": {
+    "sha256": "cb958fe0473ed28ceaf660f62d0078481b5dd657c15edb053e527ebc2f8c82a7",
+    "bytes": 22288
+  },
+  "assets/frames/veiculos/drone_helices/frame_02.png": {
+    "sha256": "36e8a013985d013738d128704c994d870a34b417d7b9eaf16bb5a58c33ccf5ab",
+    "bytes": 23195
+  },
+  "assets/frames/veiculos/drone_helices/frame_03.png": {
+    "sha256": "58f8cccf8cbb40c5dad4225cca3fae419d9d28729fb3c467ce7194e4d69615c2",
+    "bytes": 22588
+  },
+  "assets/frames/veiculos/drone_helices/frame_04.png": {
+    "sha256": "c3b2cf30381f1cd93444502cf40cacb62ba5d55e8cbea15287914d6c2d1ba286",
+    "bytes": 22226
+  },
+  "assets/frames/veiculos/drone_helices/frame_05.png": {
+    "sha256": "04aab322010dc2f338ae86cbcde27a88a26a3d7c020a7d36a5a79f1ea093dbee",
+    "bytes": 21719
+  },
+  "assets/frames/veiculos/drone_helices/frame_06.png": {
+    "sha256": "18734df90146f74af34835981e7be6943905cfe15f04c5046ec9f1ab4032bb7e",
+    "bytes": 22547
+  },
+  "assets/frames/veiculos/drone_helices/frame_07.png": {
+    "sha256": "82d736b655bf5305e7c98ffe5043e95c976f9ec3dfe08a32ed39db3aafcf986b",
+    "bytes": 22596
+  },
+  "assets/frames/veiculos/trator_esteiras/frame_00.png": {
+    "sha256": "74ec11013e8f96053b107b0340c0803e3760f09a35174e1f24eab53a42a96e02",
+    "bytes": 42584
+  },
+  "assets/frames/veiculos/trator_esteiras/frame_01.png": {
+    "sha256": "f3560bdf890f80fd31f858adc4b94681c56f3dab1f5b3e3c60ce7ecd0ce36d7d",
+    "bytes": 43133
+  },
+  "assets/frames/veiculos/trator_esteiras/frame_02.png": {
+    "sha256": "7a80e7dbaf53c5b16b8b11f7fe944a2de7b63824fc96911125abc5052bc87ac4",
+    "bytes": 42814
+  },
+  "assets/frames/veiculos/trator_esteiras/frame_03.png": {
+    "sha256": "a12f6d3a6761a8550eb3f4fc58bc08c8fa0088262a5927280ce5e345048f48ec",
+    "bytes": 42826
+  },
+  "assets/frames/veiculos/trator_esteiras/frame_04.png": {
+    "sha256": "e814b525cc481df4452c33460fce1f905f4e57a4ae4dc5e5b022c4c9d771aaed",
+    "bytes": 43345
+  },
+  "assets/frames/veiculos/trator_esteiras/frame_05.png": {
+    "sha256": "92854257819c630ec48474d8a945f8aa51d3d24c36e834a8c7dcd6b36cc2d5dc",
+    "bytes": 42862
+  },
+  "assets/frames/veiculos/trator_esteiras/frame_06.png": {
+    "sha256": "299e0ac1b0821c88306875f99ad8297db20f3c6ea7d234f99ac9c2971e587827",
+    "bytes": 42805
+  },
+  "assets/frames/veiculos/trator_esteiras/frame_07.png": {
+    "sha256": "6a3c69558e1ad5b6d4fcb111d1e3307dd3fff19a40a049e85c63b5b050fb95b2",
+    "bytes": 42582
+  },
+  "assets/frames/vfx/respingo_agua/frame_00.png": {
+    "sha256": "6ce6a12a73db918420bad0ea15d264ee6bd42045856fe262fcf1dd89c508690f",
+    "bytes": 6578
+  },
+  "assets/frames/vfx/respingo_agua/frame_01.png": {
+    "sha256": "9fe44d5353c54d950c78fb9c39818e9b69893e9fb5884a44248cd5fd7dfbf854",
+    "bytes": 16977
+  },
+  "assets/frames/vfx/respingo_agua/frame_02.png": {
+    "sha256": "8dc02c444d3c8e4ea51c6f5f87ee05cc8d9e370ef0a485c87b362c264349ec83",
+    "bytes": 27469
+  },
+  "assets/frames/vfx/respingo_agua/frame_03.png": {
+    "sha256": "d9b49e1ca258c93480693b68fcb3d1b3a14bfe17fe1e4ac5158000a6705e9e17",
+    "bytes": 28640
+  },
+  "assets/frames/vfx/respingo_agua/frame_04.png": {
+    "sha256": "0558bb3d1f6e156f98634b8fc86422e64e8e4d19dd2186b05202617f3266c6d5",
+    "bytes": 24815
+  },
+  "assets/frames/vfx/respingo_agua/frame_05.png": {
+    "sha256": "d96c521ad8db0ac5ae91eee7c3a9e6d34253dd2ebdb15d066ae2a39c291b0063",
+    "bytes": 18115
+  },
+  "assets/frames/vfx/respingo_agua/frame_06.png": {
+    "sha256": "9620854d3b927893484968679ce093161d0780bca67570d057688863161a7187",
+    "bytes": 12088
+  },
+  "assets/frames/vfx/respingo_agua/frame_07.png": {
+    "sha256": "2769adec6cb78e365fc706bb4fa32c615831caf2099b572344cc61a62fcadd5e",
+    "bytes": 8786
+  }
+}

@@ -1,0 +1,15 @@
+Avisos preservados dos pacotes usados para executar/empacotar o jogo.
+A presença destes avisos não altera a titularidade do código ou das artes do jogo.
+O aviso PyOpenGL/LICENSE.txt veio da distribuição fonte oficial PyOpenGL 3.1.10.
+
+PyInstaller/pyinstaller-6.22.3.dist-info/licenses/COPYING.txt
+PyOpenGL/LICENSE.txt
+PyOpenGL/OpenGL/DLLS/freeglut_COPYING.txt
+PyOpenGL/OpenGL/DLLS/gle_COPYING
+PyOpenGL/OpenGL/DLLS/gle_COPYING.src
+Python-LICENSE.txt
+numpy/numpy-2.3.5.dist-info/LICENSE.txt
+numpy/numpy/_core/include/numpy/random/LICENSE.txt
+numpy/numpy/ma/LICENSE
+numpy/numpy/random/LICENSE.md
+pygame-ce/pygame/docs/generated/LGPL.txt

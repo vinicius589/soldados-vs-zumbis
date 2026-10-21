@@ -1,0 +1,114 @@
+{
+  "version": "1.2.0",
+  "date": "2026-10-10",
+  "suite": {
+    "passed": 141,
+    "seconds": 57.43,
+    "smoke": true
+  },
+  "verified_assets": 109,
+  "zip_verified_files": 289,
+  "native_windows_during_implementation": {
+    "driver": "windows",
+    "desktop_sizes": [
+      [
+        1920,
+        1080
+      ]
+    ],
+    "window_size": [
+      1280,
+      720
+    ],
+    "logical_size": [
+      1280,
+      720
+    ],
+    "settings_button": true,
+    "regions": {
+      "city": {
+        "roundtrip": true,
+        "input_mapping": true,
+        "state_preserved": true
+      },
+      "desert": {
+        "roundtrip": true,
+        "input_mapping": true,
+        "state_preserved": true
+      },
+      "beach": {
+        "roundtrip": true,
+        "input_mapping": true,
+        "state_preserved": true
+      }
+    },
+    "renderer": "SOFTWARE · CPU/RAM",
+    "renderer_error": "",
+    "audio_ready": true,
+    "ok": true
+  },
+  "native_opengl_during_implementation": {
+    "driver": "windows",
+    "desktop_sizes": [
+      [
+        1920,
+        1080
+      ]
+    ],
+    "window_size": [
+      1280,
+      720
+    ],
+    "logical_size": [
+      1280,
+      720
+    ],
+    "settings_button": true,
+    "regions": {
+      "city": {
+        "roundtrip": true,
+        "input_mapping": true,
+        "state_preserved": true
+      },
+      "desert": {
+        "roundtrip": true,
+        "input_mapping": true,
+        "state_preserved": true
+      },
+      "beach": {
+        "roundtrip": true,
+        "input_mapping": true,
+        "state_preserved": true
+      }
+    },
+    "renderer": "Pygame + PyOpenGL · NVIDIA GeForce GTX 1660 Ti/PCIe/SSE2",
+    "renderer_error": "",
+    "audio_ready": true,
+    "gl_error": 0,
+    "ok": true
+  },
+  "restart_remembers_fullscreen_and_resumes": {
+    "version": "1.2.0",
+    "region": "beach",
+    "difficulty": "hard",
+    "restored_exact_state": true,
+    "resumed_paused": true,
+    "continued_steps": 120,
+    "fullscreen": true,
+    "window_size": [
+      1024,
+      768
+    ],
+    "ok": true
+  },
+  "no_external_python_needed": true,
+  "zip_sha256": "acf488a2f33fec65b6ba8337f0c81acb421b4c607e97b40357e1359bace1c6fd",
+  "exe_sha256": "4419f2808316d1004c6181e794157043b797684b2e4ae0627cd338e606bc44bc",
+  "native_executable": {
+    "verified": false,
+    "reason": "pygame.error: No displays available na verificação final; também reproduzido na versão 1.1.1 e no código-fonte. Dispositivos nativos funcionaram nos ensaios iniciais. Executável e ZIP validados com SDL dummy."
+  },
+  "limits": "Código-fonte durante a implementação: driver Windows em monitor 1920x1080, software e OpenGL. Validação final do executável: drivers simulados; ambiente nativo indisponível. Demais proporções cobertas por testes de geometria. Não substitui campanha completa jogada manualmente.",
+  "installed_executable_verified": true,
+  "extracted_distribution_updated": true
+}

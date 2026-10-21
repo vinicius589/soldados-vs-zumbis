@@ -1,0 +1,366 @@
+FFFFFFFFFFFF.FFFFFFFFFFFFFFFFFFFFFFFF
+======================================================================
+FAIL: test_beach_never_turns_around_mid_stride (tests.test_runner_direction.RunnerDirectionTests.test_beach_never_turns_around_mid_stride) (actor='beach_runner', state='move', frame=4)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\phill\.codex\visualizations\2026\10\06\01a11265-fd87-71b1-8872-fd529bed0290\runner-fix-1.3.1\project\tests\test_runner_direction.py", line 49, in check_region
+    self.assert_faces_left(frame, f"{actor}/{state}/{index}")
+  File "C:\Users\phill\.codex\visualizations\2026\10\06\01a11265-fd87-71b1-8872-fd529bed0290\runner-fix-1.3.1\project\tests\test_runner_direction.py", line 29, in assert_faces_left
+    self.assertLess(mask.centroid()[0], bounds.width / 2, label)
+AssertionError: 90 not less than 69.0 : beach_runner/move/4
+
+======================================================================
+FAIL: test_beach_never_turns_around_mid_stride (tests.test_runner_direction.RunnerDirectionTests.test_beach_never_turns_around_mid_stride) (actor='beach_runner', state='move', frame=5)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\phill\.codex\visualizations\2026\10\06\01a11265-fd87-71b1-8872-fd529bed0290\runner-fix-1.3.1\project\tests\test_runner_direction.py", line 49, in check_region
+    self.assert_faces_left(frame, f"{actor}/{state}/{index}")
+  File "C:\Users\phill\.codex\visualizations\2026\10\06\01a11265-fd87-71b1-8872-fd529bed0290\runner-fix-1.3.1\project\tests\test_runner_direction.py", line 29, in assert_faces_left
+    self.assertLess(mask.centroid()[0], bounds.width / 2, label)
+AssertionError: 70 not less than 55.0 : beach_runner/move/5
+
+======================================================================
+FAIL: test_beach_never_turns_around_mid_stride (tests.test_runner_direction.RunnerDirectionTests.test_beach_never_turns_around_mid_stride) (actor='beach_runner', state='move', frame=6)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\phill\.codex\visualizations\2026\10\06\01a11265-fd87-71b1-8872-fd529bed0290\runner-fix-1.3.1\project\tests\test_runner_direction.py", line 49, in check_region
+    self.assert_faces_left(frame, f"{actor}/{state}/{index}")
+  File "C:\Users\phill\.codex\visualizations\2026\10\06\01a11265-fd87-71b1-8872-fd529bed0290\runner-fix-1.3.1\project\tests\test_runner_direction.py", line 29, in assert_faces_left
+    self.assertLess(mask.centroid()[0], bounds.width / 2, label)
+AssertionError: 76 not less than 57.0 : beach_runner/move/6
+
+======================================================================
+FAIL: test_beach_never_turns_around_mid_stride (tests.test_runner_direction.RunnerDirectionTests.test_beach_never_turns_around_mid_stride) (actor='beach_runner', state='move', frame=7)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\phill\.codex\visualizations\2026\10\06\01a11265-fd87-71b1-8872-fd529bed0290\runner-fix-1.3.1\project\tests\test_runner_direction.py", line 49, in check_region
+    self.assert_faces_left(frame, f"{actor}/{state}/{index}")
+  File "C:\Users\phill\.codex\visualizations\2026\10\06\01a11265-fd87-71b1-8872-fd529bed0290\runner-fix-1.3.1\project\tests\test_runner_direction.py", line 29, in assert_faces_left
+    self.assertLess(mask.centroid()[0], bounds.width / 2, label)
+AssertionError: 84 not less than 65.0 : beach_runner/move/7
+
+======================================================================
+FAIL: test_beach_never_turns_around_mid_stride (tests.test_runner_direction.RunnerDirectionTests.test_beach_never_turns_around_mid_stride) (actor='beach_runner_v2', state='move', frame=4)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\phill\.codex\visualizations\2026\10\06\01a11265-fd87-71b1-8872-fd529bed0290\runner-fix-1.3.1\project\tests\test_runner_direction.py", line 49, in check_region
+    self.assert_faces_left(frame, f"{actor}/{state}/{index}")
+  File "C:\Users\phill\.codex\visualizations\2026\10\06\01a11265-fd87-71b1-8872-fd529bed0290\runner-fix-1.3.1\project\tests\test_runner_direction.py", line 29, in assert_faces_left
+    self.assertLess(mask.centroid()[0], bounds.width / 2, label)
+AssertionError: 90 not less than 69.0 : beach_runner_v2/move/4
+
+======================================================================
+FAIL: test_beach_never_turns_around_mid_stride (tests.test_runner_direction.RunnerDirectionTests.test_beach_never_turns_around_mid_stride) (actor='beach_runner_v2', state='move', frame=5)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\phill\.codex\visualizations\2026\10\06\01a11265-fd87-71b1-8872-fd529bed0290\runner-fix-1.3.1\project\tests\test_runner_direction.py", line 49, in check_region
+    self.assert_faces_left(frame, f"{actor}/{state}/{index}")
+  File "C:\Users\phill\.codex\visualizations\2026\10\06\01a11265-fd87-71b1-8872-fd529bed0290\runner-fix-1.3.1\project\tests\test_runner_direction.py", line 29, in assert_faces_left
+    self.assertLess(mask.centroid()[0], bounds.width / 2, label)
+AssertionError: 70 not less than 55.0 : beach_runner_v2/move/5
+
+======================================================================
+FAIL: test_beach_never_turns_around_mid_stride (tests.test_runner_direction.RunnerDirectionTests.test_beach_never_turns_around_mid_stride) (actor='beach_runner_v2', state='move', frame=6)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\phill\.codex\visualizations\2026\10\06\01a11265-fd87-71b1-8872-fd529bed0290\runner-fix-1.3.1\project\tests\test_runner_direction.py", line 49, in check_region
+    self.assert_faces_left(frame, f"{actor}/{state}/{index}")
+  File "C:\Users\phill\.codex\visualizations\2026\10\06\01a11265-fd87-71b1-8872-fd529bed0290\runner-fix-1.3.1\project\tests\test_runner_direction.py", line 29, in assert_faces_left
+    self.assertLess(mask.centroid()[0], bounds.width / 2, label)
+AssertionError: 76 not less than 57.0 : beach_runner_v2/move/6
+
+======================================================================
+FAIL: test_beach_never_turns_around_mid_stride (tests.test_runner_direction.RunnerDirectionTests.test_beach_never_turns_around_mid_stride) (actor='beach_runner_v2', state='move', frame=7)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\phill\.codex\visualizations\2026\10\06\01a11265-fd87-71b1-8872-fd529bed0290\runner-fix-1.3.1\project\tests\test_runner_direction.py", line 49, in check_region
+    self.assert_faces_left(frame, f"{actor}/{state}/{index}")
+  File "C:\Users\phill\.codex\visualizations\2026\10\06\01a11265-fd87-71b1-8872-fd529bed0290\runner-fix-1.3.1\project\tests\test_runner_direction.py", line 29, in assert_faces_left
+    self.assertLess(mask.centroid()[0], bounds.width / 2, label)
+AssertionError: 84 not less than 65.0 : beach_runner_v2/move/7
+
+======================================================================
+FAIL: test_beach_never_turns_around_mid_stride (tests.test_runner_direction.RunnerDirectionTests.test_beach_never_turns_around_mid_stride) (actor='beach_runner_v2', state='skill', frame=4)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\phill\.codex\visualizations\2026\10\06\01a11265-fd87-71b1-8872-fd529bed0290\runner-fix-1.3.1\project\tests\test_runner_direction.py", line 49, in check_region
+    self.assert_faces_left(frame, f"{actor}/{state}/{index}")
+  File "C:\Users\phill\.codex\visualizations\2026\10\06\01a11265-fd87-71b1-8872-fd529bed0290\runner-fix-1.3.1\project\tests\test_runner_direction.py", line 29, in assert_faces_left
+    self.assertLess(mask.centroid()[0], bounds.width / 2, label)
+AssertionError: 90 not less than 69.0 : beach_runner_v2/skill/4
+
+======================================================================
+FAIL: test_beach_never_turns_around_mid_stride (tests.test_runner_direction.RunnerDirectionTests.test_beach_never_turns_around_mid_stride) (actor='beach_runner_v2', state='skill', frame=5)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\phill\.codex\visualizations\2026\10\06\01a11265-fd87-71b1-8872-fd529bed0290\runner-fix-1.3.1\project\tests\test_runner_direction.py", line 49, in check_region
+    self.assert_faces_left(frame, f"{actor}/{state}/{index}")
+  File "C:\Users\phill\.codex\visualizations\2026\10\06\01a11265-fd87-71b1-8872-fd529bed0290\runner-fix-1.3.1\project\tests\test_runner_direction.py", line 29, in assert_faces_left
+    self.assertLess(mask.centroid()[0], bounds.width / 2, label)
+AssertionError: 70 not less than 55.0 : beach_runner_v2/skill/5
+
+======================================================================
+FAIL: test_beach_never_turns_around_mid_stride (tests.test_runner_direction.RunnerDirectionTests.test_beach_never_turns_around_mid_stride) (actor='beach_runner_v2', state='skill', frame=6)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\phill\.codex\visualizations\2026\10\06\01a11265-fd87-71b1-8872-fd529bed0290\runner-fix-1.3.1\project\tests\test_runner_direction.py", line 49, in check_region
+    self.assert_faces_left(frame, f"{actor}/{state}/{index}")
+  File "C:\Users\phill\.codex\visualizations\2026\10\06\01a11265-fd87-71b1-8872-fd529bed0290\runner-fix-1.3.1\project\tests\test_runner_direction.py", line 29, in assert_faces_left
+    self.assertLess(mask.centroid()[0], bounds.width / 2, label)
+AssertionError: 76 not less than 57.0 : beach_runner_v2/skill/6
+
+======================================================================
+FAIL: test_beach_never_turns_around_mid_stride (tests.test_runner_direction.RunnerDirectionTests.test_beach_never_turns_around_mid_stride) (actor='beach_runner_v2', state='skill', frame=7)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\phill\.codex\visualizations\2026\10\06\01a11265-fd87-71b1-8872-fd529bed0290\runner-fix-1.3.1\project\tests\test_runner_direction.py", line 49, in check_region
+    self.assert_faces_left(frame, f"{actor}/{state}/{index}")
+  File "C:\Users\phill\.codex\visualizations\2026\10\06\01a11265-fd87-71b1-8872-fd529bed0290\runner-fix-1.3.1\project\tests\test_runner_direction.py", line 29, in assert_faces_left
+    self.assertLess(mask.centroid()[0], bounds.width / 2, label)
+AssertionError: 84 not less than 65.0 : beach_runner_v2/skill/7
+
+======================================================================
+FAIL: test_desert_runs_facing_the_base_in_every_frame (tests.test_runner_direction.RunnerDirectionTests.test_desert_runs_facing_the_base_in_every_frame) (actor='desert_runner', state='move', frame=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\phill\.codex\visualizations\2026\10\06\01a11265-fd87-71b1-8872-fd529bed0290\runner-fix-1.3.1\project\tests\test_runner_direction.py", line 49, in check_region
+    self.assert_faces_left(frame, f"{actor}/{state}/{index}")
+  File "C:\Users\phill\.codex\visualizations\2026\10\06\01a11265-fd87-71b1-8872-fd529bed0290\runner-fix-1.3.1\project\tests\test_runner_direction.py", line 29, in assert_faces_left
+    self.assertLess(mask.centroid()[0], bounds.width / 2, label)
+AssertionError: 82 not less than 65.5 : desert_runner/move/0
+
+======================================================================
+FAIL: test_desert_runs_facing_the_base_in_every_frame (tests.test_runner_direction.RunnerDirectionTests.test_desert_runs_facing_the_base_in_every_frame) (actor='desert_runner', state='move', frame=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\phill\.codex\visualizations\2026\10\06\01a11265-fd87-71b1-8872-fd529bed0290\runner-fix-1.3.1\project\tests\test_runner_direction.py", line 49, in check_region
+    self.assert_faces_left(frame, f"{actor}/{state}/{index}")
+  File "C:\Users\phill\.codex\visualizations\2026\10\06\01a11265-fd87-71b1-8872-fd529bed0290\runner-fix-1.3.1\project\tests\test_runner_direction.py", line 29, in assert_faces_left
+    self.assertLess(mask.centroid()[0], bounds.width / 2, label)
+AssertionError: 67 not less than 61.0 : desert_runner/move/1
+
+======================================================================
+FAIL: test_desert_runs_facing_the_base_in_every_frame (tests.test_runner_direction.RunnerDirectionTests.test_desert_runs_facing_the_base_in_every_frame) (actor='desert_runner', state='move', frame=2)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\phill\.codex\visualizations\2026\10\06\01a11265-fd87-71b1-8872-fd529bed0290\runner-fix-1.3.1\project\tests\test_runner_direction.py", line 49, in check_region
+    self.assert_faces_left(frame, f"{actor}/{state}/{index}")
+  File "C:\Users\phill\.codex\visualizations\2026\10\06\01a11265-fd87-71b1-8872-fd529bed0290\runner-fix-1.3.1\project\tests\test_runner_direction.py", line 29, in assert_faces_left
+    self.assertLess(mask.centroid()[0], bounds.width / 2, label)
+AssertionError: 64 not less than 52.0 : desert_runner/move/2
+
+======================================================================
+FAIL: test_desert_runs_facing_the_base_in_every_frame (tests.test_runner_direction.RunnerDirectionTests.test_desert_runs_facing_the_base_in_every_frame) (actor='desert_runner', state='move', frame=3)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\phill\.codex\visualizations\2026\10\06\01a11265-fd87-71b1-8872-fd529bed0290\runner-fix-1.3.1\project\tests\test_runner_direction.py", line 49, in check_region
+    self.assert_faces_left(frame, f"{actor}/{state}/{index}")
+  File "C:\Users\phill\.codex\visualizations\2026\10\06\01a11265-fd87-71b1-8872-fd529bed0290\runner-fix-1.3.1\project\tests\test_runner_direction.py", line 29, in assert_faces_left
+    self.assertLess(mask.centroid()[0], bounds.width / 2, label)
+AssertionError: 75 not less than 65.0 : desert_runner/move/3
+
+======================================================================
+FAIL: test_desert_runs_facing_the_base_in_every_frame (tests.test_runner_direction.RunnerDirectionTests.test_desert_runs_facing_the_base_in_every_frame) (actor='desert_runner', state='move', frame=4)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\phill\.codex\visualizations\2026\10\06\01a11265-fd87-71b1-8872-fd529bed0290\runner-fix-1.3.1\project\tests\test_runner_direction.py", line 49, in check_region
+    self.assert_faces_left(frame, f"{actor}/{state}/{index}")
+  File "C:\Users\phill\.codex\visualizations\2026\10\06\01a11265-fd87-71b1-8872-fd529bed0290\runner-fix-1.3.1\project\tests\test_runner_direction.py", line 29, in assert_faces_left
+    self.assertLess(mask.centroid()[0], bounds.width / 2, label)
+AssertionError: 83 not less than 67.0 : desert_runner/move/4
+
+======================================================================
+FAIL: test_desert_runs_facing_the_base_in_every_frame (tests.test_runner_direction.RunnerDirectionTests.test_desert_runs_facing_the_base_in_every_frame) (actor='desert_runner', state='move', frame=5)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\phill\.codex\visualizations\2026\10\06\01a11265-fd87-71b1-8872-fd529bed0290\runner-fix-1.3.1\project\tests\test_runner_direction.py", line 49, in check_region
+    self.assert_faces_left(frame, f"{actor}/{state}/{index}")
+  File "C:\Users\phill\.codex\visualizations\2026\10\06\01a11265-fd87-71b1-8872-fd529bed0290\runner-fix-1.3.1\project\tests\test_runner_direction.py", line 29, in assert_faces_left
+    self.assertLess(mask.centroid()[0], bounds.width / 2, label)
+AssertionError: 73 not less than 61.5 : desert_runner/move/5
+
+======================================================================
+FAIL: test_desert_runs_facing_the_base_in_every_frame (tests.test_runner_direction.RunnerDirectionTests.test_desert_runs_facing_the_base_in_every_frame) (actor='desert_runner', state='move', frame=6)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\phill\.codex\visualizations\2026\10\06\01a11265-fd87-71b1-8872-fd529bed0290\runner-fix-1.3.1\project\tests\test_runner_direction.py", line 49, in check_region
+    self.assert_faces_left(frame, f"{actor}/{state}/{index}")
+  File "C:\Users\phill\.codex\visualizations\2026\10\06\01a11265-fd87-71b1-8872-fd529bed0290\runner-fix-1.3.1\project\tests\test_runner_direction.py", line 29, in assert_faces_left
+    self.assertLess(mask.centroid()[0], bounds.width / 2, label)
+AssertionError: 70 not less than 62.5 : desert_runner/move/6
+
+======================================================================
+FAIL: test_desert_runs_facing_the_base_in_every_frame (tests.test_runner_direction.RunnerDirectionTests.test_desert_runs_facing_the_base_in_every_frame) (actor='desert_runner', state='move', frame=7)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\phill\.codex\visualizations\2026\10\06\01a11265-fd87-71b1-8872-fd529bed0290\runner-fix-1.3.1\project\tests\test_runner_direction.py", line 49, in check_region
+    self.assert_faces_left(frame, f"{actor}/{state}/{index}")
+  File "C:\Users\phill\.codex\visualizations\2026\10\06\01a11265-fd87-71b1-8872-fd529bed0290\runner-fix-1.3.1\project\tests\test_runner_direction.py", line 29, in assert_faces_left
+    self.assertLess(mask.centroid()[0], bounds.width / 2, label)
+AssertionError: 69 not less than 59.5 : desert_runner/move/7
+
+======================================================================
+FAIL: test_desert_runs_facing_the_base_in_every_frame (tests.test_runner_direction.RunnerDirectionTests.test_desert_runs_facing_the_base_in_every_frame) (actor='desert_runner_v2', state='move', frame=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\phill\.codex\visualizations\2026\10\06\01a11265-fd87-71b1-8872-fd529bed0290\runner-fix-1.3.1\project\tests\test_runner_direction.py", line 49, in check_region
+    self.assert_faces_left(frame, f"{actor}/{state}/{index}")
+  File "C:\Users\phill\.codex\visualizations\2026\10\06\01a11265-fd87-71b1-8872-fd529bed0290\runner-fix-1.3.1\project\tests\test_runner_direction.py", line 29, in assert_faces_left
+    self.assertLess(mask.centroid()[0], bounds.width / 2, label)
+AssertionError: 82 not less than 65.5 : desert_runner_v2/move/0
+
+======================================================================
+FAIL: test_desert_runs_facing_the_base_in_every_frame (tests.test_runner_direction.RunnerDirectionTests.test_desert_runs_facing_the_base_in_every_frame) (actor='desert_runner_v2', state='move', frame=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\phill\.codex\visualizations\2026\10\06\01a11265-fd87-71b1-8872-fd529bed0290\runner-fix-1.3.1\project\tests\test_runner_direction.py", line 49, in check_region
+    self.assert_faces_left(frame, f"{actor}/{state}/{index}")
+  File "C:\Users\phill\.codex\visualizations\2026\10\06\01a11265-fd87-71b1-8872-fd529bed0290\runner-fix-1.3.1\project\tests\test_runner_direction.py", line 29, in assert_faces_left
+    self.assertLess(mask.centroid()[0], bounds.width / 2, label)
+AssertionError: 67 not less than 61.0 : desert_runner_v2/move/1
+
+======================================================================
+FAIL: test_desert_runs_facing_the_base_in_every_frame (tests.test_runner_direction.RunnerDirectionTests.test_desert_runs_facing_the_base_in_every_frame) (actor='desert_runner_v2', state='move', frame=2)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\phill\.codex\visualizations\2026\10\06\01a11265-fd87-71b1-8872-fd529bed0290\runner-fix-1.3.1\project\tests\test_runner_direction.py", line 49, in check_region
+    self.assert_faces_left(frame, f"{actor}/{state}/{index}")
+  File "C:\Users\phill\.codex\visualizations\2026\10\06\01a11265-fd87-71b1-8872-fd529bed0290\runner-fix-1.3.1\project\tests\test_runner_direction.py", line 29, in assert_faces_left
+    self.assertLess(mask.centroid()[0], bounds.width / 2, label)
+AssertionError: 64 not less than 52.0 : desert_runner_v2/move/2
+
+======================================================================
+FAIL: test_desert_runs_facing_the_base_in_every_frame (tests.test_runner_direction.RunnerDirectionTests.test_desert_runs_facing_the_base_in_every_frame) (actor='desert_runner_v2', state='move', frame=3)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\phill\.codex\visualizations\2026\10\06\01a11265-fd87-71b1-8872-fd529bed0290\runner-fix-1.3.1\project\tests\test_runner_direction.py", line 49, in check_region
+    self.assert_faces_left(frame, f"{actor}/{state}/{index}")
+  File "C:\Users\phill\.codex\visualizations\2026\10\06\01a11265-fd87-71b1-8872-fd529bed0290\runner-fix-1.3.1\project\tests\test_runner_direction.py", line 29, in assert_faces_left
+    self.assertLess(mask.centroid()[0], bounds.width / 2, label)
+AssertionError: 75 not less than 65.0 : desert_runner_v2/move/3
+
+======================================================================
+FAIL: test_desert_runs_facing_the_base_in_every_frame (tests.test_runner_direction.RunnerDirectionTests.test_desert_runs_facing_the_base_in_every_frame) (actor='desert_runner_v2', state='move', frame=4)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\phill\.codex\visualizations\2026\10\06\01a11265-fd87-71b1-8872-fd529bed0290\runner-fix-1.3.1\project\tests\test_runner_direction.py", line 49, in check_region
+    self.assert_faces_left(frame, f"{actor}/{state}/{index}")
+  File "C:\Users\phill\.codex\visualizations\2026\10\06\01a11265-fd87-71b1-8872-fd529bed0290\runner-fix-1.3.1\project\tests\test_runner_direction.py", line 29, in assert_faces_left
+    self.assertLess(mask.centroid()[0], bounds.width / 2, label)
+AssertionError: 83 not less than 67.0 : desert_runner_v2/move/4
+
+======================================================================
+FAIL: test_desert_runs_facing_the_base_in_every_frame (tests.test_runner_direction.RunnerDirectionTests.test_desert_runs_facing_the_base_in_every_frame) (actor='desert_runner_v2', state='move', frame=5)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\phill\.codex\visualizations\2026\10\06\01a11265-fd87-71b1-8872-fd529bed0290\runner-fix-1.3.1\project\tests\test_runner_direction.py", line 49, in check_region
+    self.assert_faces_left(frame, f"{actor}/{state}/{index}")
+  File "C:\Users\phill\.codex\visualizations\2026\10\06\01a11265-fd87-71b1-8872-fd529bed0290\runner-fix-1.3.1\project\tests\test_runner_direction.py", line 29, in assert_faces_left
+    self.assertLess(mask.centroid()[0], bounds.width / 2, label)
+AssertionError: 73 not less than 61.5 : desert_runner_v2/move/5
+
+======================================================================
+FAIL: test_desert_runs_facing_the_base_in_every_frame (tests.test_runner_direction.RunnerDirectionTests.test_desert_runs_facing_the_base_in_every_frame) (actor='desert_runner_v2', state='move', frame=6)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\phill\.codex\visualizations\2026\10\06\01a11265-fd87-71b1-8872-fd529bed0290\runner-fix-1.3.1\project\tests\test_runner_direction.py", line 49, in check_region
+    self.assert_faces_left(frame, f"{actor}/{state}/{index}")
+  File "C:\Users\phill\.codex\visualizations\2026\10\06\01a11265-fd87-71b1-8872-fd529bed0290\runner-fix-1.3.1\project\tests\test_runner_direction.py", line 29, in assert_faces_left
+    self.assertLess(mask.centroid()[0], bounds.width / 2, label)
+AssertionError: 70 not less than 62.5 : desert_runner_v2/move/6
+
+======================================================================
+FAIL: test_desert_runs_facing_the_base_in_every_frame (tests.test_runner_direction.RunnerDirectionTests.test_desert_runs_facing_the_base_in_every_frame) (actor='desert_runner_v2', state='move', frame=7)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\phill\.codex\visualizations\2026\10\06\01a11265-fd87-71b1-8872-fd529bed0290\runner-fix-1.3.1\project\tests\test_runner_direction.py", line 49, in check_region
+    self.assert_faces_left(frame, f"{actor}/{state}/{index}")
+  File "C:\Users\phill\.codex\visualizations\2026\10\06\01a11265-fd87-71b1-8872-fd529bed0290\runner-fix-1.3.1\project\tests\test_runner_direction.py", line 29, in assert_faces_left
+    self.assertLess(mask.centroid()[0], bounds.width / 2, label)
+AssertionError: 69 not less than 59.5 : desert_runner_v2/move/7
+
+======================================================================
+FAIL: test_desert_runs_facing_the_base_in_every_frame (tests.test_runner_direction.RunnerDirectionTests.test_desert_runs_facing_the_base_in_every_frame) (actor='desert_runner_v2', state='skill', frame=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\phill\.codex\visualizations\2026\10\06\01a11265-fd87-71b1-8872-fd529bed0290\runner-fix-1.3.1\project\tests\test_runner_direction.py", line 49, in check_region
+    self.assert_faces_left(frame, f"{actor}/{state}/{index}")
+  File "C:\Users\phill\.codex\visualizations\2026\10\06\01a11265-fd87-71b1-8872-fd529bed0290\runner-fix-1.3.1\project\tests\test_runner_direction.py", line 29, in assert_faces_left
+    self.assertLess(mask.centroid()[0], bounds.width / 2, label)
+AssertionError: 82 not less than 65.5 : desert_runner_v2/skill/0
+
+======================================================================
+FAIL: test_desert_runs_facing_the_base_in_every_frame (tests.test_runner_direction.RunnerDirectionTests.test_desert_runs_facing_the_base_in_every_frame) (actor='desert_runner_v2', state='skill', frame=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\phill\.codex\visualizations\2026\10\06\01a11265-fd87-71b1-8872-fd529bed0290\runner-fix-1.3.1\project\tests\test_runner_direction.py", line 49, in check_region
+    self.assert_faces_left(frame, f"{actor}/{state}/{index}")
+  File "C:\Users\phill\.codex\visualizations\2026\10\06\01a11265-fd87-71b1-8872-fd529bed0290\runner-fix-1.3.1\project\tests\test_runner_direction.py", line 29, in assert_faces_left
+    self.assertLess(mask.centroid()[0], bounds.width / 2, label)
+AssertionError: 67 not less than 61.0 : desert_runner_v2/skill/1
+
+======================================================================
+FAIL: test_desert_runs_facing_the_base_in_every_frame (tests.test_runner_direction.RunnerDirectionTests.test_desert_runs_facing_the_base_in_every_frame) (actor='desert_runner_v2', state='skill', frame=2)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\phill\.codex\visualizations\2026\10\06\01a11265-fd87-71b1-8872-fd529bed0290\runner-fix-1.3.1\project\tests\test_runner_direction.py", line 49, in check_region
+    self.assert_faces_left(frame, f"{actor}/{state}/{index}")
+  File "C:\Users\phill\.codex\visualizations\2026\10\06\01a11265-fd87-71b1-8872-fd529bed0290\runner-fix-1.3.1\project\tests\test_runner_direction.py", line 29, in assert_faces_left
+    self.assertLess(mask.centroid()[0], bounds.width / 2, label)
+AssertionError: 64 not less than 52.0 : desert_runner_v2/skill/2
+
+======================================================================
+FAIL: test_desert_runs_facing_the_base_in_every_frame (tests.test_runner_direction.RunnerDirectionTests.test_desert_runs_facing_the_base_in_every_frame) (actor='desert_runner_v2', state='skill', frame=3)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\phill\.codex\visualizations\2026\10\06\01a11265-fd87-71b1-8872-fd529bed0290\runner-fix-1.3.1\project\tests\test_runner_direction.py", line 49, in check_region
+    self.assert_faces_left(frame, f"{actor}/{state}/{index}")
+  File "C:\Users\phill\.codex\visualizations\2026\10\06\01a11265-fd87-71b1-8872-fd529bed0290\runner-fix-1.3.1\project\tests\test_runner_direction.py", line 29, in assert_faces_left
+    self.assertLess(mask.centroid()[0], bounds.width / 2, label)
+AssertionError: 75 not less than 65.0 : desert_runner_v2/skill/3
+
+======================================================================
+FAIL: test_desert_runs_facing_the_base_in_every_frame (tests.test_runner_direction.RunnerDirectionTests.test_desert_runs_facing_the_base_in_every_frame) (actor='desert_runner_v2', state='skill', frame=4)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\phill\.codex\visualizations\2026\10\06\01a11265-fd87-71b1-8872-fd529bed0290\runner-fix-1.3.1\project\tests\test_runner_direction.py", line 49, in check_region
+    self.assert_faces_left(frame, f"{actor}/{state}/{index}")
+  File "C:\Users\phill\.codex\visualizations\2026\10\06\01a11265-fd87-71b1-8872-fd529bed0290\runner-fix-1.3.1\project\tests\test_runner_direction.py", line 29, in assert_faces_left
+    self.assertLess(mask.centroid()[0], bounds.width / 2, label)
+AssertionError: 83 not less than 67.0 : desert_runner_v2/skill/4
+
+======================================================================
+FAIL: test_desert_runs_facing_the_base_in_every_frame (tests.test_runner_direction.RunnerDirectionTests.test_desert_runs_facing_the_base_in_every_frame) (actor='desert_runner_v2', state='skill', frame=5)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\phill\.codex\visualizations\2026\10\06\01a11265-fd87-71b1-8872-fd529bed0290\runner-fix-1.3.1\project\tests\test_runner_direction.py", line 49, in check_region
+    self.assert_faces_left(frame, f"{actor}/{state}/{index}")
+  File "C:\Users\phill\.codex\visualizations\2026\10\06\01a11265-fd87-71b1-8872-fd529bed0290\runner-fix-1.3.1\project\tests\test_runner_direction.py", line 29, in assert_faces_left
+    self.assertLess(mask.centroid()[0], bounds.width / 2, label)
+AssertionError: 73 not less than 61.5 : desert_runner_v2/skill/5
+
+======================================================================
+FAIL: test_desert_runs_facing_the_base_in_every_frame (tests.test_runner_direction.RunnerDirectionTests.test_desert_runs_facing_the_base_in_every_frame) (actor='desert_runner_v2', state='skill', frame=6)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\phill\.codex\visualizations\2026\10\06\01a11265-fd87-71b1-8872-fd529bed0290\runner-fix-1.3.1\project\tests\test_runner_direction.py", line 49, in check_region
+    self.assert_faces_left(frame, f"{actor}/{state}/{index}")
+  File "C:\Users\phill\.codex\visualizations\2026\10\06\01a11265-fd87-71b1-8872-fd529bed0290\runner-fix-1.3.1\project\tests\test_runner_direction.py", line 29, in assert_faces_left
+    self.assertLess(mask.centroid()[0], bounds.width / 2, label)
+AssertionError: 70 not less than 62.5 : desert_runner_v2/skill/6
+
+======================================================================
+FAIL: test_desert_runs_facing_the_base_in_every_frame (tests.test_runner_direction.RunnerDirectionTests.test_desert_runs_facing_the_base_in_every_frame) (actor='desert_runner_v2', state='skill', frame=7)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\phill\.codex\visualizations\2026\10\06\01a11265-fd87-71b1-8872-fd529bed0290\runner-fix-1.3.1\project\tests\test_runner_direction.py", line 49, in check_region
+    self.assert_faces_left(frame, f"{actor}/{state}/{index}")
+  File "C:\Users\phill\.codex\visualizations\2026\10\06\01a11265-fd87-71b1-8872-fd529bed0290\runner-fix-1.3.1\project\tests\test_runner_direction.py", line 29, in assert_faces_left
+    self.assertLess(mask.centroid()[0], bounds.width / 2, label)
+AssertionError: 69 not less than 59.5 : desert_runner_v2/skill/7
+
+----------------------------------------------------------------------
+Ran 3 tests in 4.867s
+
+FAILED (failures=36)
+pygame-ce 2.5.8 (SDL 2.32.10, Python 3.12.14)

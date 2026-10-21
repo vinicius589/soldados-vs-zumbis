@@ -1,0 +1,94 @@
+{
+  "hud_metric_overflow": [
+    {
+      "region": "city",
+      "key": "agente_swat",
+      "text": "MUN 30 • REC 3.4s",
+      "width": 85,
+      "available": 80
+    },
+    {
+      "region": "city",
+      "key": "especialista_antipraga",
+      "text": "GÁS EM ÁREA • ALC 3",
+      "width": 98,
+      "available": 80
+    },
+    {
+      "region": "city",
+      "key": "escudeiro_tropa_choque",
+      "text": "SEM MUNIÇÃO • ALC 1",
+      "width": 102,
+      "available": 80
+    },
+    {
+      "region": "desert",
+      "key": "fuzileiro_deserto",
+      "text": "MUN 24 • REC 3.7s",
+      "width": 85,
+      "available": 80
+    },
+    {
+      "region": "desert",
+      "key": "tenente_artilheiro",
+      "text": "MUN 50 • REC 6.1s",
+      "width": 85,
+      "available": 80
+    },
+    {
+      "region": "desert",
+      "key": "incinerador_deserto",
+      "text": "MUN 28 • REC 5.3s",
+      "width": 85,
+      "available": 80
+    },
+    {
+      "region": "desert",
+      "key": "guardiao_laminas",
+      "text": "SEM MUNIÇÃO • ALC 1",
+      "width": 102,
+      "available": 80
+    },
+    {
+      "region": "beach",
+      "key": "marinheiro",
+      "text": "MUN 15 • REC 1.8s",
+      "width": 85,
+      "available": 80
+    },
+    {
+      "region": "beach",
+      "key": "fuzileiro_marinha",
+      "text": "MUN 30 • REC 3.6s",
+      "width": 85,
+      "available": 80
+    },
+    {
+      "region": "beach",
+      "key": "bombeiro_hidraulico",
+      "text": "LENTO 32% • ALC 3",
+      "width": 86,
+      "available": 80
+    },
+    {
+      "region": "beach",
+      "key": "barco_patrulha",
+      "text": "MUN 36 • REC 4.8s",
+      "width": 85,
+      "available": 80
+    }
+  ],
+  "real_defeat": {
+    "finished": true,
+    "lost": true,
+    "wave": 7,
+    "best_wave_after": {}
+  },
+  "corrupt_campaign_10001_bytes": "RecursionError",
+  "time_clamp_example": {
+    "wall_seconds": 10,
+    "fps_10_simulated_seconds": 5.0,
+    "fps_60_simulated_seconds": 10.0,
+    "kind": "calculation_of_run_loop_not_hardware_benchmark"
+  }
+}

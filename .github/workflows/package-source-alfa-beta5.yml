@@ -1,0 +1,60 @@
+name: Empacotar codigo-fonte da Alfa Beta 5
+
+on:
+  push:
+    branches:
+      - feat/hud-voltar-base-paleta
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  package-source:
+    runs-on: windows-latest
+    steps:
+      - name: Obter codigo e recursos
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+      - name: Preparar ZIP do codigo-fonte
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          @'
+          import os
+          import zipfile
+          from pathlib import Path
+
+          root = Path(".").resolve()
+          output = Path(os.environ["RUNNER_TEMP"]) / "SoldadosVsZumbis-Alfa-Beta-5-codigo-fonte.zip"
+          excluded_dirs = {".git", ".venv", "venv", "__pycache__", ".pytest_cache", ".hypothesis", ".ruff_cache", "dist", "build", "reports", ".coverage"}
+          excluded_suffixes = {".exe", ".pyc", ".pyo"}
+          base = "SoldadosVsZumbis-Alfa-Beta-5"
+
+          with zipfile.ZipFile(output, "w", compression=zipfile.ZIP_DEFLATED, compresslevel=6) as archive:
+              for path in sorted(root.rglob("*")):
+                  if not path.is_file():
+                      continue
+                  relative = path.relative_to(root)
+                  if any(part in excluded_dirs for part in relative.parts):
+                      continue
+                  if path.suffix.lower() in excluded_suffixes:
+                      continue
+                  archive.write(path, Path(base) / relative)
+
+          with zipfile.ZipFile(output) as archive:
+              names = archive.namelist()
+              required = [f"{base}/main.py", f"{base}/requirements.txt", f"{base}/src/svz/app.py", f"{base}/ALFA_BETA_5.md"]
+              missing = [name for name in required if name not in names]
+              if missing:
+                  raise SystemExit("Arquivos essenciais ausentes: " + ", ".join(missing))
+              print(f"ZIP criado: {output}; arquivos: {len(names)}; tamanho: {output.stat().st_size} bytes")
+          '@ | python -
+      - name: Disponibilizar ZIP
+        uses: actions/upload-artifact@v4
+        with:
+          name: SoldadosVsZumbis-Alfa-Beta-5-codigo-fonte
+          path: ${{ runner.temp }}/SoldadosVsZumbis-Alfa-Beta-5-codigo-fonte.zip
+          if-no-files-found: error
+          retention-days: 90

@@ -1,0 +1,11 @@
+{
+  "status": "passed",
+  "layout": "final",
+  "screenshots": 28,
+  "campaigns": 9,
+  "waves_spawned": 108,
+  "combat_scenarios": 9,
+  "images_loaded": 87,
+  "actors": 71,
+  "report_sha256": "1a793bbc34a86308366294731850397101cd7cad7c13f21d41bdaa5fcb578dc9"
+}

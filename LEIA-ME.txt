@@ -1,0 +1,17 @@
+SOLDADOS VS ZUMBIS — ALFA DA BETA 5
+
+Este é um pacote de código-fonte para Windows com Python 3.12 x64 instalado.
+
+COMO PREPARAR E JOGAR
+1. Extraia a pasta inteira para um local de sua escolha.
+2. Execute PREPARAR_AMBIENTE.bat uma vez. Ele cria .venv e instala as dependências.
+3. Execute JOGAR.bat para iniciar o jogo.
+4. Para construir um executável com estas alterações, execute CRIAR_EXE.bat depois de preparar o ambiente.
+
+IMPORTANTE
+- Este ZIP não inclui um executável autônomo recompilado a partir desta revisão.
+- Não mova nem apague a pasta assets; os sprites, cenários e sons são necessários.
+- Os dados de campanha e pontuação ficam em %LOCALAPPDATA%\SoldadosVsZumbis e não são apagados ao trocar os arquivos do programa.
+- Se o jogo não abrir, consulte %LOCALAPPDATA%\SoldadosVsZumbis\jogo.log e envie o conteúdo do arquivo junto com a mensagem de erro.
+
+A Alfa Beta 5 preserva a identidade do tower defense original: três regiões, defesa por faixas, campanha de 12 ondas, animações regionais, retomada de partida, ranking local e loja de consumíveis.

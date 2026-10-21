@@ -1,0 +1,210 @@
+{
+  "version": "1.3.0",
+  "images": {
+    "title": "713c2725ba61abdbfaf0f11a06fc427402e8131a01823c042f4bab476bc7555e",
+    "campaign": "f6f9058dd60624e9b35322006462c920d0efbb83f244915618e0704ffb583338",
+    "characters": "d6e6f9c57de3adad8155fd3d03c84828c8248ff3701fb04bd1f4ba3d2cd6389f",
+    "story": "2fa929053cf16d84696ce9ace54013f9f88b101dafd97c059c82d87e34d6e458",
+    "settings": "cf35905362600ad139962750aae16d32819949384fbfd01e2146f92b6c8eee2d",
+    "bindings": "3226d5b5ee966ba2e6a8c75b9aaa65d62874b76b744c87666284224f5efa66d1",
+    "howto": "40379b6e62d51e6ec06130e2ac8cc53e97abe95698ad74a5333c5743dfbdf0e1"
+  },
+  "regions": {
+    "city": {
+      "wave": 1,
+      "bosses": [
+        "bruto_demolidor",
+        "comandante_mortos",
+        "cuspidor_alfa"
+      ],
+      "defenders": 1
+    },
+    "desert": {
+      "wave": 1,
+      "bosses": [
+        "mutante_ruinas",
+        "necromante",
+        "colosso_mutante"
+      ],
+      "defenders": 1
+    },
+    "beach": {
+      "wave": 1,
+      "bosses": [
+        "tide_brute",
+        "cacador_abissal",
+        "leviata"
+      ],
+      "defenders": 1
+    }
+  },
+  "renderer": "SOFTWARE · CPU/RAM",
+  "audio_ready": true,
+  "verified_assets": 109,
+  "removal": {
+    "city/easy": {
+      "button": true,
+      "shortcut": true,
+      "resumed_removal": true,
+      "refund_once": true
+    },
+    "city/medium": {
+      "button": true,
+      "shortcut": true,
+      "resumed_removal": true,
+      "refund_once": true
+    },
+    "city/hard": {
+      "button": true,
+      "shortcut": true,
+      "resumed_removal": true,
+      "refund_once": true
+    },
+    "desert/easy": {
+      "button": true,
+      "shortcut": true,
+      "resumed_removal": true,
+      "refund_once": true
+    },
+    "desert/medium": {
+      "button": true,
+      "shortcut": true,
+      "resumed_removal": true,
+      "refund_once": true
+    },
+    "desert/hard": {
+      "button": true,
+      "shortcut": true,
+      "resumed_removal": true,
+      "refund_once": true
+    },
+    "beach/easy": {
+      "button": true,
+      "shortcut": true,
+      "resumed_removal": true,
+      "refund_once": true
+    },
+    "beach/medium": {
+      "button": true,
+      "shortcut": true,
+      "resumed_removal": true,
+      "refund_once": true
+    },
+    "beach/hard": {
+      "button": true,
+      "shortcut": true,
+      "resumed_removal": true,
+      "refund_once": true
+    }
+  },
+  "video": {
+    "driver": "windows",
+    "desktop_sizes": [
+      [
+        1920,
+        1080
+      ]
+    ],
+    "window_size": [
+      1280,
+      720
+    ],
+    "logical_size": [
+      1280,
+      720
+    ],
+    "settings_button": true,
+    "regions": {
+      "city": {
+        "roundtrip": true,
+        "input_mapping": true,
+        "state_preserved": true
+      },
+      "desert": {
+        "roundtrip": true,
+        "input_mapping": true,
+        "state_preserved": true
+      },
+      "beach": {
+        "roundtrip": true,
+        "input_mapping": true,
+        "state_preserved": true
+      }
+    }
+  },
+  "review": {
+    "cases": {
+      "city/easy/mouse": true,
+      "city/easy/keyboard": true,
+      "city/medium/mouse": true,
+      "city/medium/keyboard": true,
+      "city/hard/mouse": true,
+      "city/hard/keyboard": true,
+      "desert/easy/mouse": true,
+      "desert/easy/keyboard": true,
+      "desert/medium/mouse": true,
+      "desert/medium/keyboard": true,
+      "desert/hard/mouse": true,
+      "desert/hard/keyboard": true,
+      "beach/easy/mouse": true,
+      "beach/easy/keyboard": true,
+      "beach/medium/mouse": true,
+      "beach/medium/keyboard": true,
+      "beach/hard/mouse": true,
+      "beach/hard/keyboard": true
+    },
+    "preferences": true
+  },
+  "build": {
+    "version": "1.3.0",
+    "source_sha256": "2eca5c170643a0c7ccd7af82aecc5b09b0dc76a5dc2c3ff1ef80fb40e4e92671",
+    "files": {
+      "assets/manifest.json": "cbcde5e23eb08e472549b2fbfa6565ca73f5f78cc8a5edd906f96a5420dbae4b",
+      "main.py": "f3d9e21ab9fa93ef9c0285836a56a2834cfb79dc322471fa71b569eb0f9232ba",
+      "project.toml": "8b3e64fb1769ee9bc4831ac2c84aaadf94aa6f7790f9eca8fa417722fda27d93",
+      "requirements-build-lock.txt": "1f508ee0e7afadd357787b6189d51020bfe2cb78f0bf7b8e38b98650ef529ddb",
+      "src/svz/__init__.py": "45b6f42910d93a4babc96897e211b0efd7695f78a8cd8bd82d3ce38b42c36578",
+      "src/svz/actor_visuals.py": "9baab1e0285c8a69e2fb6141c8f337b7e2c3fcd01725252e4a42ac6746fba025",
+      "src/svz/animation.py": "78d157ce4a4294ac1830b8575e3b4361a9298878bb6c23b71e6d0d79ef618917",
+      "src/svz/api.py": "c210e23324d6bdb7391ef2bffe01363e4d422449bd3513d794b90a4b6c277461",
+      "src/svz/app.py": "ac3b20cbb9d938135fc4a13c14e3ecbff2272a253d3ccd15035d8746dcca77cc",
+      "src/svz/assets.py": "b5ecc86f61a7f6e2535bbc4241b54478a3705eec0dd6d72db3568c55d225439f",
+      "src/svz/audio.py": "16d425d76121e9333150ed075eb14568c4e38a2fead7e9255127c53f985eb1f3",
+      "src/svz/balance.py": "cdc94d973253209f20dece62e7cfc1ec8af8851680da4e98deda66128746dfc0",
+      "src/svz/battle.py": "b0444821e4c9c3ebfcbc065c388f3b933cdf5e1d7d1e4136a2bf7739eeb29b23",
+      "src/svz/board.py": "f060579de2108bd49be91c9add09fc81061587a865dd19372e55231657adf95d",
+      "src/svz/cache.py": "48d7120f7821886e2bcef01b0e25af6e9f03cbaec58697647f7cc5d7d210e364",
+      "src/svz/cli.py": "9cec3b877685d13d2c2a66a38f54a165e85492372b997d650f8fd85c84aebe69",
+      "src/svz/config.py": "52e66a385aea9c02ef014767f6b9d4f292f1a6663f5e2d4e01ec43298fcccc4f",
+      "src/svz/content.py": "041abdb489ca2491459f6b173725c1d2ca83e5c865d3a3653469bfe01d05425b",
+      "src/svz/diagnostics.py": "0cf62f7aef0100ce54d532892ca065a18a42356b4c11259d765f328fdad6ef89",
+      "src/svz/entities.py": "cef94f5deb597d6e80e2ef96284abc0fd998b4d9722da4a99c4085a29e48d867",
+      "src/svz/math_utils.py": "25082d542d596d71685e3cd1cff23c7f6ae6e1bef2b2f5fd46d637a05447cae7",
+      "src/svz/motion.py": "02ec6efabb2a2b33db73f788d7d64197264f81afbe969fc6e7f93a520ab57852",
+      "src/svz/navigation.py": "13ca0b2eb068786b6ff93595066663500646fe9a9cc0b0a27006e0e176c47198",
+      "src/svz/paths.py": "45cd9fe4a4fb75c84e1f7adbf298bf1a44b7e5248b114fe84aacad4e912ccb94",
+      "src/svz/persistence.py": "90e22c355b4b18bad7fc491eceeb25c813e81cffae17f243d8de765c03f08d6e",
+      "src/svz/presenter.py": "ae813d77d9364aacf1981ac4eb1865c82a9e8e3658494f616abd3042e761f105",
+      "src/svz/production_animations.py": "ba3dcf47cee9142d577a047cb856783dd30e459dfeecbce9b62661b853049e66",
+      "src/svz/rendering.py": "91467c161cf7ec403959d2cd8edf9f5b835a9ee45a864ad3fb4a9c956175b504",
+      "src/svz/roster.py": "d8536820b47669ae734c462cae4f78f003ca8af11f563289f1014ce61be5f9b6",
+      "src/svz/scenarios.py": "fea3b746494b3f06a56194e3eb7a62e8186acbc02e760d4847893ddb68046640",
+      "src/svz/session_store.py": "9c2750fe13b334d841f2e62b58f5c220d239ae2ef927a5bad6478970fc03dc6d",
+      "src/svz/settings.py": "b11ca902e7a1fd3ff9c1bf4335d32d40791865d696f35de181360b054b5b6010",
+      "src/svz/snapshot.py": "1182144eea56a1a321085fec690bc5bc6a5f708ffc9b185c0fc96c201258b212",
+      "src/svz/timing.py": "f90c88f416386b8fc99ab36e77ed4dc2e7dd84aeeca745f35bd30a1f1351a3a1",
+      "src/svz/ui_panels.py": "436646c9d4a11792c838111de8526b1441a6e390eea6fc7b5a2ebbad5ff6e78c",
+      "src/svz/version.py": "c941ee378ff828c6b3a177e866638956a20109a7e17fdd8f3772820f6f20a740",
+      "src/svz/video.py": "f3e56d0d96187153d5b3133417db71b4bc20ac996a73c8fdcef89c3da355671d",
+      "src/svz/visual_layout.py": "cc9676ee36fd6726cc8e23e632d1d1c67856280816503386d4c17177104973c1",
+      "src/svz/waves.py": "2e1de3e1614542a02e1ba45199a80eface39af2363c5aa7c08aec4b9bd3447f4",
+      "tools/benchmark.py": "8626a0f0e1eb8e0c93b6feb75201332a2587ab9e92ee1718e7422a1e6cf22d85",
+      "tools/collect_licenses.py": "32657a732fab9e8260b00a37aa10db89086d7be768a77e77ff29e1b9b73df7f4",
+      "tools/manage.py": "61466bb59877c19c27c2b8f5ea2ee19df42044e54216af143e8f0296fcdb9098",
+      "tools/regression.py": "0e6b2aa5d490841b01f075d96af4876b4825bb4b684a68782037cbdb3df5e19f",
+      "tools/release_metadata.py": "7fdf6ed2136cda9a137bbbd54d8a5fee73bdbd404326d6cbbbd99df941b0fe41",
+      "tools/SoldadosVsZumbis.spec": "c265bd25a28a175455af9474dcbce874d2aef74284b4553ccaad164fd5d474a4"
+    }
+  },
+  "ok": true
+}

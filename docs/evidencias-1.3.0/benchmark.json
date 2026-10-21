@@ -1,0 +1,110 @@
+{
+  "version": "1.3.0",
+  "mode": "headless software; sem espera do monitor",
+  "system": "Windows-11-10.0.26200-SP0",
+  "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD",
+  "logical_cpus": 16,
+  "resolution": [
+    1280,
+    720
+  ],
+  "cases": {
+    "city/1": {
+      "samples": 60,
+      "enemies_at_start": 2,
+      "p50_ms": 4.339,
+      "p95_ms": 4.859,
+      "p99_ms": 4.932,
+      "working_set_mb": 366.95
+    },
+    "city/4": {
+      "samples": 60,
+      "enemies_at_start": 4,
+      "p50_ms": 5.233,
+      "p95_ms": 5.809,
+      "p99_ms": 6.097,
+      "working_set_mb": 367.45
+    },
+    "city/8": {
+      "samples": 60,
+      "enemies_at_start": 7,
+      "p50_ms": 5.278,
+      "p95_ms": 5.976,
+      "p99_ms": 6.3,
+      "working_set_mb": 367.1
+    },
+    "city/12": {
+      "samples": 60,
+      "enemies_at_start": 12,
+      "p50_ms": 5.548,
+      "p95_ms": 7.038,
+      "p99_ms": 7.801,
+      "working_set_mb": 367.12
+    },
+    "desert/1": {
+      "samples": 60,
+      "enemies_at_start": 2,
+      "p50_ms": 4.427,
+      "p95_ms": 5.089,
+      "p99_ms": 5.254,
+      "working_set_mb": 367.39
+    },
+    "desert/4": {
+      "samples": 60,
+      "enemies_at_start": 4,
+      "p50_ms": 4.813,
+      "p95_ms": 5.175,
+      "p99_ms": 5.289,
+      "working_set_mb": 367.91
+    },
+    "desert/8": {
+      "samples": 60,
+      "enemies_at_start": 8,
+      "p50_ms": 4.938,
+      "p95_ms": 5.272,
+      "p99_ms": 5.389,
+      "working_set_mb": 367.91
+    },
+    "desert/12": {
+      "samples": 60,
+      "enemies_at_start": 12,
+      "p50_ms": 5.098,
+      "p95_ms": 5.616,
+      "p99_ms": 5.813,
+      "working_set_mb": 367.91
+    },
+    "beach/1": {
+      "samples": 60,
+      "enemies_at_start": 2,
+      "p50_ms": 4.059,
+      "p95_ms": 4.385,
+      "p99_ms": 4.794,
+      "working_set_mb": 367.87
+    },
+    "beach/4": {
+      "samples": 60,
+      "enemies_at_start": 4,
+      "p50_ms": 4.979,
+      "p95_ms": 5.425,
+      "p99_ms": 5.502,
+      "working_set_mb": 367.62
+    },
+    "beach/8": {
+      "samples": 60,
+      "enemies_at_start": 7,
+      "p50_ms": 5.132,
+      "p95_ms": 5.549,
+      "p99_ms": 5.71,
+      "working_set_mb": 368.31
+    },
+    "beach/12": {
+      "samples": 60,
+      "enemies_at_start": 12,
+      "p50_ms": 5.359,
+      "p95_ms": 6.416,
+      "p99_ms": 6.519,
+      "working_set_mb": 368.39
+    }
+  },
+  "load_seconds": 4.443
+}

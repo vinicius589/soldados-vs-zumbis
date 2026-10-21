@@ -1,0 +1,135 @@
+{
+  "version": "1.2.0",
+  "images": {
+    "title": "d7783f1f0d513c024ea845f933b7a75135d505a22c8adc2fc09807fd51786bca",
+    "campaign": "72794f3adc646d3f04882da491d7ef8e801c8599cf754aa43f815c711221dcfd",
+    "characters": "e94944cdc1c595224885fe8b8e523eca7555caf3dafaf2e9840d421f069fe8eb",
+    "story": "a6c147aa99323a9acb02b819321022342702637f4e03597be303bad0018fd5d5",
+    "settings": "760dd7cb4465d55b9884067c505247986626064e4dbcee81eddacf772abdae53",
+    "howto": "a13974e488e10c21894d4bfd6d3fe8646b909c459fbde16ccc6d536dd7703524"
+  },
+  "regions": {
+    "city": {
+      "wave": 1,
+      "bosses": [
+        "bruto_demolidor",
+        "comandante_mortos",
+        "cuspidor_alfa"
+      ],
+      "defenders": 1
+    },
+    "desert": {
+      "wave": 1,
+      "bosses": [
+        "mutante_ruinas",
+        "necromante",
+        "colosso_mutante"
+      ],
+      "defenders": 1
+    },
+    "beach": {
+      "wave": 1,
+      "bosses": [
+        "tide_brute",
+        "cacador_abissal",
+        "leviata"
+      ],
+      "defenders": 1
+    }
+  },
+  "renderer": "SOFTWARE · CPU/RAM",
+  "audio_ready": true,
+  "verified_assets": 109,
+  "removal": {
+    "city/easy": {
+      "button": true,
+      "shortcut": true,
+      "resumed_removal": true,
+      "refund_once": true
+    },
+    "city/medium": {
+      "button": true,
+      "shortcut": true,
+      "resumed_removal": true,
+      "refund_once": true
+    },
+    "city/hard": {
+      "button": true,
+      "shortcut": true,
+      "resumed_removal": true,
+      "refund_once": true
+    },
+    "desert/easy": {
+      "button": true,
+      "shortcut": true,
+      "resumed_removal": true,
+      "refund_once": true
+    },
+    "desert/medium": {
+      "button": true,
+      "shortcut": true,
+      "resumed_removal": true,
+      "refund_once": true
+    },
+    "desert/hard": {
+      "button": true,
+      "shortcut": true,
+      "resumed_removal": true,
+      "refund_once": true
+    },
+    "beach/easy": {
+      "button": true,
+      "shortcut": true,
+      "resumed_removal": true,
+      "refund_once": true
+    },
+    "beach/medium": {
+      "button": true,
+      "shortcut": true,
+      "resumed_removal": true,
+      "refund_once": true
+    },
+    "beach/hard": {
+      "button": true,
+      "shortcut": true,
+      "resumed_removal": true,
+      "refund_once": true
+    }
+  },
+  "video": {
+    "driver": "dummy",
+    "desktop_sizes": [
+      [
+        1024,
+        768
+      ]
+    ],
+    "window_size": [
+      984,
+      553
+    ],
+    "logical_size": [
+      1280,
+      720
+    ],
+    "settings_button": true,
+    "regions": {
+      "city": {
+        "roundtrip": true,
+        "input_mapping": true,
+        "state_preserved": true
+      },
+      "desert": {
+        "roundtrip": true,
+        "input_mapping": true,
+        "state_preserved": true
+      },
+      "beach": {
+        "roundtrip": true,
+        "input_mapping": true,
+        "state_preserved": true
+      }
+    }
+  },
+  "ok": true
+}

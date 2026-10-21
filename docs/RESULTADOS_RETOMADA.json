@@ -1,0 +1,182 @@
+{
+  "data": "2026-10-09",
+  "versao": "1.1.0",
+  "objetivo": "Retomar a partida após MENU/Esc e após reabrir o jogo.",
+  "suite": {
+    "testes": 121,
+    "novos_testes": 20,
+    "segundos": 49.15,
+    "resultado": "aprovado",
+    "smoke": "aprovado"
+  },
+  "regressao_campanha": {
+    "ondas": 108,
+    "combates": 9,
+    "capturas": 28,
+    "recursos": 109,
+    "hash_igual_a_versao_1_0_0": true,
+    "sha256": "1b5734c3edb3be3bb5b586d1247439be7ac43b0169c7b1753f79de2c198fbb69"
+  },
+  "executavel_retomada": {
+    "cases": [
+      {
+        "version": "1.1.0",
+        "region": "city",
+        "difficulty": "easy",
+        "restored_exact_state": true,
+        "resumed_paused": true,
+        "continued_steps": 120,
+        "ok": true
+      },
+      {
+        "version": "1.1.0",
+        "region": "city",
+        "difficulty": "medium",
+        "restored_exact_state": true,
+        "resumed_paused": true,
+        "continued_steps": 120,
+        "ok": true
+      },
+      {
+        "version": "1.1.0",
+        "region": "city",
+        "difficulty": "hard",
+        "restored_exact_state": true,
+        "resumed_paused": true,
+        "continued_steps": 120,
+        "ok": true
+      },
+      {
+        "version": "1.1.0",
+        "region": "desert",
+        "difficulty": "easy",
+        "restored_exact_state": true,
+        "resumed_paused": true,
+        "continued_steps": 120,
+        "ok": true
+      },
+      {
+        "version": "1.1.0",
+        "region": "desert",
+        "difficulty": "medium",
+        "restored_exact_state": true,
+        "resumed_paused": true,
+        "continued_steps": 120,
+        "ok": true
+      },
+      {
+        "version": "1.1.0",
+        "region": "desert",
+        "difficulty": "hard",
+        "restored_exact_state": true,
+        "resumed_paused": true,
+        "continued_steps": 120,
+        "ok": true
+      },
+      {
+        "version": "1.1.0",
+        "region": "beach",
+        "difficulty": "easy",
+        "restored_exact_state": true,
+        "resumed_paused": true,
+        "continued_steps": 120,
+        "ok": true
+      },
+      {
+        "version": "1.1.0",
+        "region": "beach",
+        "difficulty": "medium",
+        "restored_exact_state": true,
+        "resumed_paused": true,
+        "continued_steps": 120,
+        "ok": true
+      },
+      {
+        "version": "1.1.0",
+        "region": "beach",
+        "difficulty": "hard",
+        "restored_exact_state": true,
+        "resumed_paused": true,
+        "continued_steps": 120,
+        "ok": true
+      }
+    ],
+    "separate_processes": 9,
+    "external_python_in_path": false,
+    "save_files_unchanged_by_diagnostics": true,
+    "ok": true
+  },
+  "pacote_extraido": {
+    "zip_sha256": "7506d9f6cf096ce9c5af58b0708b0c7bdf50533417a366fbc420358e4b76b326",
+    "zip_bytes": 143538574,
+    "files_verified": 289,
+    "extracted_diagnostic_ok": true,
+    "extracted_resume_maps": [
+      "city",
+      "desert",
+      "beach"
+    ],
+    "python_removed_from_path": true,
+    "native_exit_code": 0,
+    "native_detail": "",
+    "ok": true
+  },
+  "telas_inspecionadas": [
+    "CONTINUAR",
+    "Confirmação de nova partida",
+    "Partida retomada pausada"
+  ],
+  "dispositivos_reais": {
+    "version": "1.1.0",
+    "images": {
+      "title": "34d92cab6bce93d2d67389e429fd67c9118d00622bb1ebe712de243f7cd7c2e4",
+      "campaign": "72794f3adc646d3f04882da491d7ef8e801c8599cf754aa43f815c711221dcfd",
+      "characters": "e94944cdc1c595224885fe8b8e523eca7555caf3dafaf2e9840d421f069fe8eb",
+      "story": "a6c147aa99323a9acb02b819321022342702637f4e03597be303bad0018fd5d5",
+      "settings": "e1918deef5ed92fd08eea9dbfbf426fb8a0a604cc9d9cf5f256c34137ceb2d8f",
+      "howto": "a13974e488e10c21894d4bfd6d3fe8646b909c459fbde16ccc6d536dd7703524"
+    },
+    "regions": {
+      "city": {
+        "wave": 1,
+        "bosses": [
+          "bruto_demolidor",
+          "comandante_mortos",
+          "cuspidor_alfa"
+        ],
+        "defenders": 1
+      },
+      "desert": {
+        "wave": 1,
+        "bosses": [
+          "mutante_ruinas",
+          "necromante",
+          "colosso_mutante"
+        ],
+        "defenders": 1
+      },
+      "beach": {
+        "wave": 1,
+        "bosses": [
+          "tide_brute",
+          "cacador_abissal",
+          "leviata"
+        ],
+        "defenders": 1
+      }
+    },
+    "renderer": "SOFTWARE · CPU/RAM",
+    "audio_ready": true,
+    "verified_assets": 109,
+    "ok": true
+  },
+  "limites": [
+    "Campanha humana completa não realizada.",
+    "Não há garantia de ausência absoluta de bugs.",
+    "Queda de energia ou encerramento forçado pode perder o trecho desde a última gravação.",
+    "Um ponto de retomada por perfil; nova partida substitui a anterior após confirmação.",
+    "Silhuetas transitórias de mortos são recriadas apenas em memória."
+  ],
+  "aplicacao_na_pasta_definitiva": "Aplicada; hashes dos arquivos conferidos; executável retomou Cidade, Deserto e Praia/Cachoeira em novos processos.",
+  "copia_de_recuperacao": "C:\\Users\\phill\\.codex\\visualizations\\2026\\10\\06\\01a11265-fd87-71b1-8872-fd529bed0290\\resume-work\\backup-before-1.1.0"
+}
