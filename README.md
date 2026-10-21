@@ -53,42 +53,6 @@ Desenvolvido como projeto do curso de Ciencia da Computacao na UNIPAC por Vinici
 
 --------------------------------------------------
 
-📁 Estrutura de Pastas
--------------------
-
-soldados-vs-zumbis/
-├── assets/                          # Recursos visuais (sprites, tilesets) e sonoros (SFX, BGM)
-│   ├── actors/                      # Spritesheet de tropas, infectados e chefes
-│   ├── audio/                       # Efeitos sonoros de tiro, explosoes e trilhas
-│   ├── environment/                 # Elementos de cenario, planos de fundo e iluminacao
-│   └── interface/                   # HUD, botoes, cards e menus
-│
-├── docs/                            # Documentacao de arquitetura e relatorios
-├── licenses/                        # Licencas das bibliotecas e recursos de terceiros
-│
-├── src/
-│   └── svz/                         # Modulo principal do motor do jogo
-│       ├── app.py                   # Game loop principal e gerenciador de estados
-│       ├── battle.py                # Sistema de colisoes e fisica de combate
-│       ├── board.py                 # Estrutura matricial do grid (4xN)
-│       ├── content.py               # Banco de dados de atributos de unidades e itens
-│       ├── entities.py              # Classes base de tropas, projeteis e inimigos
-│       ├── rendering.py             # Renderizador PyOpenGL e integracao de iluminacao
-│       └── waves.py                 # Gerenciador de ondas e controle de spawn
-│
-├── tests/                           # Testes automatizados da logica de jogo
-├── tools/                           # Scripts de profiling, benchmark e automacao
-├── JOGAR.bat                        # Inicializador do jogo no Windows
-├── PREPARAR_AMBIENTE.bat            # Instalacao automatica do .venv e dependencias
-├── main.py                          # Ponto de entrada da aplicacao
-├── project.toml                     # Configuracao do projeto
-├── requirements.txt                 # Lista de dependencias
-├── LICENSE                          # Licenca MIT
-├── CONTRIBUTING.md                  # Guia de contribuicao
-└── README.md                        # Documentacao do repositorio
-
---------------------------------------------------
-
 ⚙️ Como Executar o Jogo
 ----------------------
 
