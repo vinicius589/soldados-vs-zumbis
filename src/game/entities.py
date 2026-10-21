@@ -7,19 +7,21 @@ import pygame
 
 from src.engine.animation2d import AnimationManager
 from src.game.runtime import (
-    ActorMotion,
+    BOARD,
     BOSSES,
     LANE_BOMB_HOME_X,
     PROJECTILE_LAUNCH_GAPS,
+    ActorMotion,
     boss_wave_scale,
     cell_center,
-    difficulty_profile,
     defender_render_scale,
+    difficulty_profile,
     enemy_render_scale,
     enemy_wave_scale,
     lane_depth,
     terrain_y,
 )
+
 
 @dataclass
 class Defender:
