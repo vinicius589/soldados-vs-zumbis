@@ -1,0 +1,53 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - "refactor/**"
+      - "migracao/base-jogavel"
+      - "chore/**"
+  pull_request:
+    branches:
+      - migracao/base-jogavel
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  quality:
+    name: Sintaxe, estilo e testes
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      SDL_VIDEODRIVER: dummy
+      SDL_AUDIODRIVER: dummy
+      SVZ_RENDERER: software
+    steps:
+      - name: Baixar o código e os assets LFS
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements.txt
+
+      - name: Instalar dependências e ferramentas de verificação
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
+          python -m pip install "pytest>=8.0" "ruff>=0.6"
+
+      - name: Conferir sintaxe
+        run: python -m compileall -q src run.py
+
+      - name: Conferir estilo
+        run: python -m ruff check src tests
+
+      - name: Executar testes automatizados
+        run: python -m pytest -q
