@@ -1,0 +1,59 @@
+SOLDADOS VS ZUMBIS — BETA 4 / CAMPANHA DE 12 ONDAS
+
+COMO ABRIR
+1. Dê dois cliques em executar.bat.
+2. Na primeira abertura, aguarde a instalação automática das dependências.
+3. O jogo sempre começa no menu principal.
+
+ESTA É A PASTA DO JOGO
+Ela concentra a versão executável da Beta 4. Os testes, protótipos e provas
+visuais permanecem na pasta de desenvolvimento separada.
+
+CONTROLES PRINCIPAIS
+- O Mouse continua sendo o padrão para menus, cartas e posicionamento.
+- Em CONFIGURAÇÕES, o controle pode ser alternado para Teclado.
+- Teclado: WASD/setas movem o cursor; Q/E trocam a carta; 1–8 selecionam
+  diretamente; Enter, F ou Espaço posicionam; R ativa remoção; N ou Tab inicia
+  a próxima onda.
+- P: pausa durante a partida.
+- ESC: voltar/sair da tela atual.
+
+ÁUDIO
+- Efeitos de interface, disparo, impacto, mordida, explosão, suprimento, onda,
+  chefe e habilidade são produzidos pelo próprio jogo.
+- CONFIGURAÇÕES permite ligar/desligar o áudio e ajustar o volume.
+
+CORREÇÕES DESTA ENTREGA
+- todos os zumbis regionais receberam folhas novas de 16 poses por inimigo;
+- separações de quadro seguem os vazios reais da arte, sem cortar mão, cabeça
+  ou perna de corredores e rastejantes;
+- locomoção, mordida, dano e habilidade usam tempos próprios em segundos;
+- Médio agora é a referência equilibrada; Difícil aumenta HP, dano, chefes,
+  densidade e pressão econômica, mas permanece vencível;
+- Configurações recebeu controle Mouse/Teclado e áudio funcional;
+- disparo, recarga e dano refeitos para todos os soldados armados dos três mapas;
+- cápsulas, cartuchos e projéteis presos à origem correta da arma;
+- nenhum soldado desloca o corpo inteiro para cima durante a animação;
+- pivô dos pés fixo em todos os estados;
+- invasões de quadros vizinhos removidas de soldados e zumbis;
+- elenco completo: oito cartas na Cidade, oito no Egito e dez na Cachoeira;
+- novas folhas próprias para Escudeiro, Guardião de Lâminas, Sonar, Barco e Submarino;
+- Preparador de Mina substituído pelo Homem-Bomba: imóvel e explosivo no contato;
+- os personagens de suprimento aprovados foram preservados sem alteração;
+- somente três cartas são escolhidas por missão;
+- cada mapa possui seis zumbis comuns, três subchefes e três chefes próprios;
+- as duas ondas comuns misturam tipos diferentes, em vez de repetir um único zumbi;
+- novos inimigos preservam a lore regional e usam mutações ou equipamentos físicos,
+  sem transformar a direção visual em fantasia;
+- animações e lógica continuam governadas por delta time;
+- campanha em três atos: duas ondas comuns, uma de sub-boss e uma de boss;
+- HP, dano, densidade, renda e teto de suprimentos escalonados em Fácil, Médio e Difícil;
+- cartas pesadas ocupam duas casas e não podem sobrepor outra unidade;
+- o Xerife neutraliza a interferência Félix que bloqueia o rádio da cidade.
+- aba Personagens em carrossel; seleção pré-partida restaurada como grade compacta;
+- cada ficha mostra arte, lore, atributos, função tática e por que ela é necessária;
+- seleção vazia ou inválida é reparada antes da gameplay, sem derrubar o jogo;
+- inimigos especiais possuem imunidades, resistências e fraquezas por tipo de dano;
+- explosivos não vencem sozinhos: elites e chefes resistem a RPG, morteiro e granada;
+- Tropa de Choque rompe Brutos urbanos; Guardião neutraliza o Zumbi de Lâmina;
+- Sonar revela Mergulhadores e abre uma janela de dano para a força naval.
