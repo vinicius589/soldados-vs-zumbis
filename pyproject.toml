@@ -64,6 +64,6 @@ ignore = ["E501"]
 
 [tool.ruff.lint.per-file-ignores]
 # src/main.py é monolítico legado: a padronização é incremental.
-"src/game/runtime.py" = [
-    "src/game/presentation.py" = ["E", "F", "W", "B"],"E", "F", "W", "B"]
+"src/game/runtime.py" = ["E", "F", "W", "B"]
+"src/game/presentation.py" = ["E", "F", "W", "B"]
 
