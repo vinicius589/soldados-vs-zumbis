@@ -3,10 +3,12 @@ setlocal
 cd /d "%~dp0"
 title Soldados vs Zumbis
 
+if not exist "main.py" if exist "SoldadosVsZumbis.exe" goto executavel
+
 if not exist ".ambiente-pronto" goto preparar_primeiro
 if not exist ".venv\Scripts\python.exe" goto preparar_primeiro
 
-".venv\Scripts\python.exe" -c "import pygame, OpenGL" >nul 2>nul
+".venv\Scripts\python.exe" -c "import sys; assert sys.version_info[:2] == (3, 12); import pygame, OpenGL, numpy" >nul 2>nul
 if errorlevel 1 goto preparar_primeiro
 
 echo Abrindo Soldados vs Zumbis...
@@ -15,11 +17,15 @@ set "RC=%ERRORLEVEL%"
 if not "%RC%"=="0" (
   echo.
   echo O jogo fechou com um erro. Consulte o registro em:
-  echo %LOCALAPPDATA%\SoldadosVsZumbis\jogo.log
+  echo %LOCALAPPDATA%\SoldadosVsZumbis-Beta5\jogo.log
   echo.
   pause
 )
 exit /b %RC%
+
+:executavel
+"%~dp0SoldadosVsZumbis.exe" %*
+exit /b %ERRORLEVEL%
 
 :preparar_primeiro
 echo.

@@ -253,14 +253,14 @@ class EnemyAbilityMixin:
             if targets:
                 victim = max(targets, key=lambda defender: defender.x)
                 for vertical in (-11, 9):
-                    damage = self.scaled_enemy_damage(enemy, 10 + self.wave)
+                    damage = self.scaled_enemy_damage(enemy, 10)
                     origin_x, origin_y = self.enemy_projectile_origin(enemy, "enemy_bullet")
                     self.projectiles.append(Projectile(origin_x, origin_y + vertical, victim, victim.x, victim.y - 24, damage, "enemy_bullet", enemy, 0, False, 0.32))
             self.announce("Comandante: escolta próxima acelerada e rajada dupla disparada.", 1.9, RED)
         elif boss_type == "alfa":
             targets = [d for d in self.defenders if d.row == enemy.row and d.x < enemy.x and enemy.x - d.x < CELL_W * 4.0]
             for victim in sorted(targets, key=lambda defender: defender.x, reverse=True)[:1]:
-                damage = self.scaled_enemy_damage(enemy, 10 + self.wave)
+                damage = self.scaled_enemy_damage(enemy, 10)
                 origin_x, origin_y = self.enemy_projectile_origin(enemy, "acid")
                 self.projectiles.append(Projectile(origin_x, origin_y, victim, victim.x, victim.y - 18, damage, "acid", enemy, 0, False, 0.45, effect="acid_brief"))
             self.announce(f"Cuspidor Alfa: saliva corrosiva na faixa {enemy.row + 1}.", 1.8, (150, 232, 112))
@@ -334,28 +334,6 @@ class EnemyAbilityMixin:
         # No Difícil os poderes inimigos retornam um pouco antes. No Fácil o
         # multiplicador é 1, portanto o equilíbrio aprovado não se altera.
         enemy.skill_timer = random.uniform(3.4, 5.8) * float(self.difficulty_data["skill_cooldown"])
-        if "runner" in enemy.tags:
-            # O Corredor não teleporta nem dá dash: a folha mostra a passada
-            # sustentada, enquanto a regra mantém velocidade constante e o
-            # primeiro ataque dobrado definidos na própria ficha.
-            enemy.rage = 0.0
-        if "signal_jammer" in enemy.tags:
-            effect_x, effect_y = self.enemy_effect_origin(enemy, "signal_pulse")
-            self.effects.append(
-                VisualEffect(
-                    "signal_pulse",
-                    effect_x,
-                    effect_y,
-                    TEAL,
-                    skill_duration,
-                    scale=0.72,
-                    owner=enemy,
-                    anchor_kind="signal_pulse",
-                )
-            )
-            for defender in self.defenders:
-                if defender.row == enemy.row and 0 < enemy.x - defender.x < CELL_W * 2.7:
-                    defender.attack_timer = max(defender.attack_timer, 0.72)
         if "dash" in enemy.tags:
             # O Surfista acelera por uma janela visível; a posição continua
             # avançando quadro a quadro e passa pela colisão varrida normal.
@@ -370,14 +348,14 @@ class EnemyAbilityMixin:
             targets = [d for d in self.defenders if d.row == enemy.row and d.x < enemy.x and enemy.x - d.x < CELL_W * 4]
             if targets:
                 victim = max(targets, key=lambda d: d.x)
-                damage = self.scaled_enemy_damage(enemy, 20 + self.wave * 1.3)
+                damage = self.scaled_enemy_damage(enemy, 20)
                 origin_x, origin_y = self.enemy_projectile_origin(enemy, "enemy_bullet")
                 self.projectiles.append(Projectile(origin_x, origin_y, victim, victim.x, victim.y - 20, damage, "enemy_bullet", enemy, 0, False, 0.30))
         if "acid" in enemy.tags:
             targets = [d for d in self.defenders if d.row == enemy.row and d.x < enemy.x and enemy.x - d.x < CELL_W * 3.2]
             if targets:
                 victim = max(targets, key=lambda d: d.x)
-                damage = self.scaled_enemy_damage(enemy, 16 + self.wave)
+                damage = self.scaled_enemy_damage(enemy, 16)
                 origin_x, origin_y = self.enemy_projectile_origin(enemy, "acid")
                 self.projectiles.append(Projectile(origin_x, origin_y, victim, victim.x, victim.y - 18, damage, "acid", enemy, CELL_W * 0.34, False, 0.48, effect="acid"))
         if "shock" in enemy.tags:

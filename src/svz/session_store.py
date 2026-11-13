@@ -4,7 +4,7 @@ import json
 import logging
 from .config import SAVE_PATH
 from .persistence import write_json
-from .snapshot import SCHEMA
+from .snapshot import SCHEMA, SUPPORTED_SCHEMAS
 
 logger = logging.getLogger(__name__)
 MAX_BYTES = 4 * 1024 * 1024
@@ -25,10 +25,11 @@ class SessionStore:
             raise ValueError("Arquivo de partida muito grande.")
         document = json.loads(content)
         if (type(document) is not dict or set(document) != {"schema", "snapshot"}
-                or type(document.get("schema")) is not int or document["schema"] != SCHEMA):
+                or type(document.get("schema")) is not int or document["schema"] not in SUPPORTED_SCHEMAS):
             raise ValueError("Formato de partida incompatível.")
         snapshot = document["snapshot"]
-        if snapshot is not None and (type(snapshot) is not dict or snapshot.get("schema") != SCHEMA):
+        if snapshot is not None and (type(snapshot) is not dict
+                or type(snapshot.get("schema")) is not int or snapshot["schema"] != document["schema"]):
             raise ValueError("Dados da partida inválidos.")
         return document
 

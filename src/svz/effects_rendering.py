@@ -192,6 +192,15 @@ class EffectsRenderingMixin:
         for effect in battle.effects:
             progress = clamp(effect.elapsed / max(0.01, effect.duration), 0.0, 1.0)
             effect_x, effect_y = effect.x, effect.y
+            if effect.kind == "spent_case" and isinstance(effect.owner, Defender):
+                depth = lane_depth(battle.region, effect.owner.row)
+                x = effect_x - (13 + 20 * progress) * depth
+                y = effect_y + (3 - 52 * progress + 78 * progress ** 2) * depth
+                angle = progress * math.tau * 1.4
+                dx, dy = 2.5 * depth * math.cos(angle), 2.5 * depth * math.sin(angle)
+                pygame.draw.line(self.owner.screen, (219, 171, 76),
+                                 (x - dx, y - dy), (x + dx, y + dy), 2)
+                continue
             if isinstance(effect.owner, Enemy):
                 effect_x, effect_y = battle.enemy_effect_origin(
                     effect.owner,

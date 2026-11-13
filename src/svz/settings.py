@@ -17,7 +17,8 @@ ACTION_LABELS = {"up": "Mover acima", "down": "Mover abaixo", "left": "Mover à 
                  "wave": "Próxima onda", "pause": "Pausar / retomar"}
 ALIASES = {"up": (pygame.K_UP,), "down": (pygame.K_DOWN,), "left": (pygame.K_LEFT,),
            "right": (pygame.K_RIGHT,), "place": (pygame.K_f, pygame.K_SPACE), "wave": (pygame.K_TAB,)}
-RESERVED = {pygame.K_ESCAPE, pygame.K_F11, pygame.K_F5, pygame.K_F1, *range(pygame.K_1, pygame.K_8 + 1)}
+RESERVED = {pygame.K_ESCAPE, pygame.K_F11, pygame.K_F5, pygame.K_F1,
+            pygame.K_h, pygame.K_t, *range(pygame.K_1, pygame.K_8 + 1)}
 
 class Settings:
     def __init__(self, campaign_path=None):
@@ -44,8 +45,11 @@ class Settings:
             if data.get("control_mode") in ("mouse", "keyboard"):
                 self.control_mode = data["control_mode"]
             player_name = data.get("player_name", "")
-            if type(player_name) is str and len(player_name.strip()) <= 20 and player_name.strip().isprintable():
-                self.player_name = player_name.strip()
+            from .scoring import normalize_player_name
+            try:
+                self.player_name = normalize_player_name(player_name)
+            except ValueError:
+                self.player_name = ""
             for name in ("sound", "large_text", "auto_pause", "reduced_motion"):
                 if type(data.get(name)) is bool:
                     setattr(self, name, data[name])

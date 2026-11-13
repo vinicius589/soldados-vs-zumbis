@@ -193,6 +193,24 @@ def defender_weapon_origin(defender: Defender) -> tuple[float, float]:
     muzzle_forward = layout.muzzle_forward
     muzzle_height = layout.muzzle_height
     animation = defender.visual_animation
+    # Pontas dos canos medidas nas poses de mira normalizadas. A busca por
+    # borda opaca nestas armas selecionava a mão ou a borda do clarão.
+    barrel_contacts = {
+        "city_guard": (110, 35),
+        "desert_guard": (120, 35),
+        "beach_guard": (115, 35),
+        "city_auto": (112, 31),
+        "desert_heavy": (120, 41),
+    }
+    actor = DEFENDER_ACTOR_BY_KEY.get(defender.key)
+    if animation is not None and animation.state == "shoot" and actor in barrel_contacts:
+        source_x, source_y = barrel_contacts[actor]
+        sprite = animation.frame
+        ratio = layout.body_height / layout.source_height
+        return (
+            defender.render_x + (source_x - sprite.get_width() / 2) * ratio * depth,
+            defender.y - (sprite.get_height() - source_y) * ratio * depth,
+        )
     if (
         layout.muzzle_cycle
         and animation is not None
@@ -340,6 +358,7 @@ def actor_pose(
         angle = cycle * 1.4
     elif state == "dead":
         p = clamp(motion.state_elapsed / 0.48, 0.0, 1.0)
+        p = p * p * (3.0 - 2.0 * p)
         dx = direction * p * 10.0
         angle = -direction * p * 28.0
         scale_x = 1.0 + p * 0.08

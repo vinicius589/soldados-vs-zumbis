@@ -1,0 +1,109 @@
+CHECK_OK: 109 recursos íntegros; 58 arquivos Python.
+...........................................................................................................................Falha ao gravar partida.
+Traceback (most recent call last):
+  File "C:\Users\phill\.codex\visualizations\2026\10\06\01a11265-fd87-71b1-8872-fd529bed0290\review-fixes-1.3.0\project\src\svz\session_store.py", line 71, in save
+    raise OSError("Não foi possível proteger a cópia anterior.")
+OSError: Não foi possível proteger a cópia anterior.
+.............................................
+----------------------------------------------------------------------
+Ran 168 tests in 69.120s
+
+OK
+pygame-ce 2.5.8 (SDL 2.32.10, Python 3.12.14)
+pygame-ce 2.5.8 (SDL 2.32.10, Python 3.12.14)
+SMOKE_OK: versão 1.3.0, regiões, grade, inspeção e counters validados.
+165 INFO: PyInstaller: 6.22.3, contrib hooks: 2026.8
+166 INFO: Python: 3.12.14
+190 INFO: Platform: Windows-11-10.0.26200-SP0
+190 INFO: Python environment: C:\Users\phill\.codex\visualizations\2026\10\06\01a11265-fd87-71b1-8872-fd529bed0290\review-fixes-1.3.0\venv
+193 INFO: Removing temporary files and cleaning cache in C:\Users\phill\.codex\visualizations\2026\10\06\01a11265-fd87-71b1-8872-fd529bed0290\review-fixes-1.3.0\project\build\pyinstaller-cache\pyinstaller
+201 INFO: Module search paths (PYTHONPATH):
+['C:\\Users\\phill\\.codex\\visualizations\\2026\\10\\06\\01a11265-fd87-71b1-8872-fd529bed0290\\review-fixes-1.3.0\\project',
+ 'C:\\Users\\phill\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python312.zip',
+ 'C:\\Users\\phill\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\DLLs',
+ 'C:\\Users\\phill\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\Lib',
+ 'C:\\Users\\phill\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python',
+ 'C:\\Users\\phill\\.codex\\visualizations\\2026\\10\\06\\01a11265-fd87-71b1-8872-fd529bed0290\\review-fixes-1.3.0\\venv',
+ 'C:\\Users\\phill\\.codex\\visualizations\\2026\\10\\06\\01a11265-fd87-71b1-8872-fd529bed0290\\review-fixes-1.3.0\\venv\\Lib\\site-packages',
+ 'C:\\Users\\phill\\.codex\\visualizations\\2026\\10\\06\\01a11265-fd87-71b1-8872-fd529bed0290\\review-fixes-1.3.0\\project',
+ 'C:\\Users\\phill\\.codex\\visualizations\\2026\\10\\06\\01a11265-fd87-71b1-8872-fd529bed0290\\review-fixes-1.3.0\\project\\src']
+pygame-ce 2.5.8 (SDL 2.32.10, Python 3.12.14)
+626 INFO: Appending 'datas' from .spec
+627 INFO: checking Analysis
+627 INFO: Building Analysis because Analysis-00.toc is non existent
+627 INFO: Looking for Python shared library...
+627 INFO: Using Python shared library: C:\Users\phill\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python312.dll
+627 INFO: Running Analysis Analysis-00.toc
+627 INFO: Target bytecode optimization level: 0
+627 INFO: Initializing module dependency graph...
+629 INFO: Initializing module graph hook caches...
+644 INFO: Analyzing modules for base_library.zip ...
+1868 INFO: Processing standard module hook 'hook-encodings.py' from 'C:\\Users\\phill\\.codex\\visualizations\\2026\\10\\06\\01a11265-fd87-71b1-8872-fd529bed0290\\review-fixes-1.3.0\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+2264 INFO: Processing standard module hook 'hook-math.py' from 'C:\\Users\\phill\\.codex\\visualizations\\2026\\10\\06\\01a11265-fd87-71b1-8872-fd529bed0290\\review-fixes-1.3.0\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+3117 INFO: Processing standard module hook 'hook-pickle.py' from 'C:\\Users\\phill\\.codex\\visualizations\\2026\\10\\06\\01a11265-fd87-71b1-8872-fd529bed0290\\review-fixes-1.3.0\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+3929 INFO: Processing standard module hook 'hook-heapq.py' from 'C:\\Users\\phill\\.codex\\visualizations\\2026\\10\\06\\01a11265-fd87-71b1-8872-fd529bed0290\\review-fixes-1.3.0\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+4218 INFO: Caching module dependency graph...
+4274 INFO: Analyzing C:\Users\phill\.codex\visualizations\2026\10\06\01a11265-fd87-71b1-8872-fd529bed0290\review-fixes-1.3.0\project\main.py
+4479 INFO: Processing standard module hook 'hook-pygame.py' from 'C:\\Users\\phill\\.codex\\visualizations\\2026\\10\\06\\01a11265-fd87-71b1-8872-fd529bed0290\\review-fixes-1.3.0\\venv\\Lib\\site-packages\\pygame\\__pyinstaller'
+4557 INFO: Processing standard module hook 'hook-platform.py' from 'C:\\Users\\phill\\.codex\\visualizations\\2026\\10\\06\\01a11265-fd87-71b1-8872-fd529bed0290\\review-fixes-1.3.0\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+4590 INFO: Processing pre-safe-import-module hook 'hook-typing_extensions.py' from 'C:\\Users\\phill\\.codex\\visualizations\\2026\\10\\06\\01a11265-fd87-71b1-8872-fd529bed0290\\review-fixes-1.3.0\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\pre_safe_import_module'
+4592 INFO: SetuptoolsInfo: initializing cached setuptools info...
+5351 INFO: Processing standard module hook 'hook-numpy.py' from 'C:\\Users\\phill\\.codex\\visualizations\\2026\\10\\06\\01a11265-fd87-71b1-8872-fd529bed0290\\review-fixes-1.3.0\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+5997 INFO: Processing standard module hook 'hook-sysconfig.py' from 'C:\\Users\\phill\\.codex\\visualizations\\2026\\10\\06\\01a11265-fd87-71b1-8872-fd529bed0290\\review-fixes-1.3.0\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+6128 INFO: Processing standard module hook 'hook-multiprocessing.util.py' from 'C:\\Users\\phill\\.codex\\visualizations\\2026\\10\\06\\01a11265-fd87-71b1-8872-fd529bed0290\\review-fixes-1.3.0\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+6186 INFO: Processing standard module hook 'hook-xml.py' from 'C:\\Users\\phill\\.codex\\visualizations\\2026\\10\\06\\01a11265-fd87-71b1-8872-fd529bed0290\\review-fixes-1.3.0\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+6359 INFO: Processing standard module hook 'hook-_ctypes.py' from 'C:\\Users\\phill\\.codex\\visualizations\\2026\\10\\06\\01a11265-fd87-71b1-8872-fd529bed0290\\review-fixes-1.3.0\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+6410 INFO: Processing standard module hook 'hook-difflib.py' from 'C:\\Users\\phill\\.codex\\visualizations\\2026\\10\\06\\01a11265-fd87-71b1-8872-fd529bed0290\\review-fixes-1.3.0\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+6719 INFO: Processing standard module hook 'hook-webbrowser.py' from 'C:\\Users\\phill\\.codex\\visualizations\\2026\\10\\06\\01a11265-fd87-71b1-8872-fd529bed0290\\review-fixes-1.3.0\\venv\\Lib\\site-packages\\PyInstaller\\hooks'
+7859 INFO: Processing standard module hook 'hook-OpenGL.py' from 'C:\\Users\\phill\\.codex\\visualizations\\2026\\10\\06\\01a11265-fd87-71b1-8872-fd529bed0290\\review-fixes-1.3.0\\venv\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\stdhooks'
+116 INFO: No OpenGL_accelerate module loaded: No module named 'OpenGL_accelerate'
+12691 INFO: Processing module hooks (post-graph stage)...
+12836 INFO: Performing binary vs. data reclassification (41 entries)
+12868 INFO: Looking for ctypes DLLs
+13024 INFO: Analyzing run-time hooks ...
+13027 INFO: Including run-time hook 'pyi_rth_inspect.py' from 'C:\\Users\\phill\\.codex\\visualizations\\2026\\10\\06\\01a11265-fd87-71b1-8872-fd529bed0290\\review-fixes-1.3.0\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks'
+13030 INFO: Including run-time hook 'pyi_rth_pkgutil.py' from 'C:\\Users\\phill\\.codex\\visualizations\\2026\\10\\06\\01a11265-fd87-71b1-8872-fd529bed0290\\review-fixes-1.3.0\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks'
+13034 INFO: Including run-time hook 'pyi_rth_multiprocessing.py' from 'C:\\Users\\phill\\.codex\\visualizations\\2026\\10\\06\\01a11265-fd87-71b1-8872-fd529bed0290\\review-fixes-1.3.0\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks'
+13051 INFO: Creating base_library.zip...
+13071 INFO: Looking for dynamic libraries
+pygame-ce 2.5.8 (SDL 2.32.10, Python 3.12.14)
+13828 INFO: Extra DLL search directories (AddDllDirectory): ['C:\\Users\\phill\\.codex\\visualizations\\2026\\10\\06\\01a11265-fd87-71b1-8872-fd529bed0290\\review-fixes-1.3.0\\venv\\Lib\\site-packages\\pygame', 'C:\\Users\\phill\\.codex\\visualizations\\2026\\10\\06\\01a11265-fd87-71b1-8872-fd529bed0290\\review-fixes-1.3.0\\venv\\Lib\\site-packages\\numpy.libs']
+13828 INFO: Extra DLL search directories (PATH): []
+14743 WARNING: Library not found: could not resolve 'MSVCR90.dll', dependency of 'C:\\Users\\phill\\.codex\\visualizations\\2026\\10\\06\\01a11265-fd87-71b1-8872-fd529bed0290\\review-fixes-1.3.0\\venv\\Lib\\site-packages\\OpenGL\\DLLS\\gle32.vc9.dll'.
+14743 WARNING: Library not found: could not resolve 'MSVCR90.dll', dependency of 'C:\\Users\\phill\\.codex\\visualizations\\2026\\10\\06\\01a11265-fd87-71b1-8872-fd529bed0290\\review-fixes-1.3.0\\venv\\Lib\\site-packages\\OpenGL\\DLLS\\freeglut64.vc9.dll'.
+14744 WARNING: Library not found: could not resolve 'MSVCR100.dll', dependency of 'C:\\Users\\phill\\.codex\\visualizations\\2026\\10\\06\\01a11265-fd87-71b1-8872-fd529bed0290\\review-fixes-1.3.0\\venv\\Lib\\site-packages\\OpenGL\\DLLS\\gle64.vc10.dll'.
+14744 WARNING: Library not found: could not resolve 'MSVCR100.dll', dependency of 'C:\\Users\\phill\\.codex\\visualizations\\2026\\10\\06\\01a11265-fd87-71b1-8872-fd529bed0290\\review-fixes-1.3.0\\venv\\Lib\\site-packages\\OpenGL\\DLLS\\freeglut64.vc10.dll'.
+14744 WARNING: Library not found: could not resolve 'MSVCR90.dll', dependency of 'C:\\Users\\phill\\.codex\\visualizations\\2026\\10\\06\\01a11265-fd87-71b1-8872-fd529bed0290\\review-fixes-1.3.0\\venv\\Lib\\site-packages\\OpenGL\\DLLS\\gle64.vc9.dll'.
+14745 WARNING: Library not found: could not resolve 'MSVCR100.dll', dependency of 'C:\\Users\\phill\\.codex\\visualizations\\2026\\10\\06\\01a11265-fd87-71b1-8872-fd529bed0290\\review-fixes-1.3.0\\venv\\Lib\\site-packages\\OpenGL\\DLLS\\freeglut32.vc10.dll'.
+14745 WARNING: Library not found: could not resolve 'MSVCR100.dll', dependency of 'C:\\Users\\phill\\.codex\\visualizations\\2026\\10\\06\\01a11265-fd87-71b1-8872-fd529bed0290\\review-fixes-1.3.0\\venv\\Lib\\site-packages\\OpenGL\\DLLS\\gle32.vc10.dll'.
+14745 WARNING: Library not found: could not resolve 'MSVCR90.dll', dependency of 'C:\\Users\\phill\\.codex\\visualizations\\2026\\10\\06\\01a11265-fd87-71b1-8872-fd529bed0290\\review-fixes-1.3.0\\venv\\Lib\\site-packages\\OpenGL\\DLLS\\freeglut32.vc9.dll'.
+14763 INFO: Warnings written to C:\Users\phill\.codex\visualizations\2026\10\06\01a11265-fd87-71b1-8872-fd529bed0290\review-fixes-1.3.0\project\build\work\SoldadosVsZumbis\warn-SoldadosVsZumbis.txt
+14811 INFO: Graph cross-reference written to C:\Users\phill\.codex\visualizations\2026\10\06\01a11265-fd87-71b1-8872-fd529bed0290\review-fixes-1.3.0\project\build\work\SoldadosVsZumbis\xref-SoldadosVsZumbis.html
+14838 INFO: checking PYZ
+14838 INFO: Building PYZ because PYZ-00.toc is non existent
+14838 INFO: Building PYZ (ZlibArchive) C:\Users\phill\.codex\visualizations\2026\10\06\01a11265-fd87-71b1-8872-fd529bed0290\review-fixes-1.3.0\project\build\work\SoldadosVsZumbis\PYZ-00.pyz
+15258 INFO: Building PYZ (ZlibArchive) C:\Users\phill\.codex\visualizations\2026\10\06\01a11265-fd87-71b1-8872-fd529bed0290\review-fixes-1.3.0\project\build\work\SoldadosVsZumbis\PYZ-00.pyz completed successfully.
+15272 INFO: checking PKG
+15272 INFO: Building PKG because PKG-00.toc is non existent
+15272 INFO: Building PKG (CArchive) SoldadosVsZumbis.pkg
+15291 INFO: Building PKG (CArchive) SoldadosVsZumbis.pkg completed successfully.
+15292 INFO: Bootloader C:\Users\phill\.codex\visualizations\2026\10\06\01a11265-fd87-71b1-8872-fd529bed0290\review-fixes-1.3.0\venv\Lib\site-packages\PyInstaller\bootloader\Windows-64bit-intel\runw.exe
+15293 INFO: checking EXE
+15293 INFO: Building EXE because EXE-00.toc is non existent
+15293 INFO: Building EXE from EXE-00.toc
+15293 INFO: Copying bootloader EXE to C:\Users\phill\.codex\visualizations\2026\10\06\01a11265-fd87-71b1-8872-fd529bed0290\review-fixes-1.3.0\project\build\work\SoldadosVsZumbis\SoldadosVsZumbis.exe
+15330 INFO: Copying icon to EXE
+15362 INFO: Copying version information to EXE
+15394 INFO: Copying 0 resources to EXE
+15394 INFO: Embedding manifest in EXE
+15424 INFO: Appending PKG archive to EXE
+15473 INFO: Fixing EXE headers
+15661 INFO: Building EXE from EXE-00.toc completed successfully.
+15665 INFO: checking COLLECT
+15665 INFO: Building COLLECT because COLLECT-00.toc is non existent
+15665 INFO: Removing dir C:\Users\phill\.codex\visualizations\2026\10\06\01a11265-fd87-71b1-8872-fd529bed0290\review-fixes-1.3.0\project\build\bundle\SoldadosVsZumbis
+15725 INFO: Building COLLECT COLLECT-00.toc
+16025 INFO: Building COLLECT COLLECT-00.toc completed successfully.
+16029 INFO: Build complete! The results are available in: C:\Users\phill\.codex\visualizations\2026\10\06\01a11265-fd87-71b1-8872-fd529bed0290\review-fixes-1.3.0\project\build\bundle
+pygame-ce 2.5.8 (SDL 2.32.10, Python 3.12.14)
+BUILD_OK: executável em C:\Users\phill\.codex\visualizations\2026\10\06\01a11265-fd87-71b1-8872-fd529bed0290\review-fixes-1.3.0\project\SoldadosVsZumbis.exe

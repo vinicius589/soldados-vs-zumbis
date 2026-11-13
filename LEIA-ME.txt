@@ -1,17 +1,23 @@
-SOLDADOS VS ZUMBIS — ALFA DA BETA 5
+SOLDADOS VS ZUMBIS — 1.6.0 / ALFA BETA 5 INTEGRADA
 
-Este é um pacote de código-fonte para Windows com Python 3.12 x64 instalado.
+PACOTE WINDOWS
+Extraia a pasta inteira e execute JOGAR.bat ou SoldadosVsZumbis.exe.
+Mantenha assets, _internal e licenses junto do executável.
 
-COMO PREPARAR E JOGAR
-1. Extraia a pasta inteira para um local de sua escolha.
-2. Execute PREPARAR_AMBIENTE.bat uma vez. Ele cria .venv e instala as dependências.
-3. Execute JOGAR.bat para iniciar o jogo.
-4. Para construir um executável com estas alterações, execute CRIAR_EXE.bat depois de preparar o ambiente.
+DESENVOLVIMENTO COM FONTES
+Instale Python 3.12 x64, execute PREPARAR_AMBIENTE.bat e depois JOGAR.bat.
+Para recompilar, execute CRIAR_EXE.bat. O jogo também pode ser aberto pelo
+SoldadosVsZumbis.exe já construído; ele só reflete alterações após recompilar.
 
-IMPORTANTE
-- Este ZIP não inclui um executável autônomo recompilado a partir desta revisão.
-- Não mova nem apague a pasta assets; os sprites, cenários e sons são necessários.
-- Os dados de campanha e pontuação ficam em %LOCALAPPDATA%\SoldadosVsZumbis e não são apagados ao trocar os arquivos do programa.
-- Se o jogo não abrir, consulte %LOCALAPPDATA%\SoldadosVsZumbis\jogo.log e envie o conteúdo do arquivo junto com a mensagem de erro.
+DADOS E COMPATIBILIDADE
+Os dados ficam em %LOCALAPPDATA%\SoldadosVsZumbis-Beta5.
+No primeiro uso, se a pasta nova não existir, o jogo copia os dados de
+%LOCALAPPDATA%\SoldadosVsZumbis. Os originais são preservados.
+Partidas dos formatos 1 e 2 são convertidas ao retomar e gravadas no formato 3.
+Não copie dados da versão nova sobre a instalação antiga.
+Para diagnosticar falhas, consulte jogo.log na pasta de dados nova.
 
-A Alfa Beta 5 preserva a identidade do tower defense original: três regiões, defesa por faixas, campanha de 12 ondas, animações regionais, retomada de partida, ranking local e loja de consumíveis.
+NOVIDADES
+Cinco segundos antes do primeiro zumbi, suprimentos sem teto e atributos fixos
+por tipo de inimigo, mantendo os ajustes por dificuldade. Perfil, ranking e
+loja preservados. H usa kit médico; T usa munição tática; clique na tropa.

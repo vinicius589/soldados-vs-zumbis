@@ -11,8 +11,9 @@ def data_dir() -> Path:
     override = os.environ.get('SVZ_DATA_DIR')
     if override:
         return Path(override).expanduser().resolve()
-    base = Path(os.environ.get('LOCALAPPDATA', Path.home() / 'AppData' / 'Local'))
-    return base / 'SoldadosVsZumbis'
+    local = os.environ.get('LOCALAPPDATA')
+    base = Path(local) if local else Path.home() / 'AppData' / 'Local'
+    return base / 'SoldadosVsZumbis-Beta5'
 
 
 def save_path() -> Path:

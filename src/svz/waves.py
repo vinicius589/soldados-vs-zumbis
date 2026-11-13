@@ -43,6 +43,7 @@ class WaveDirector:
         self.owner.wave_banner = 3.0
         self.owner.orders = self.build_wave(self.owner.wave)
         self.owner.spawn_timer = 0.35
+        self.owner.first_wave_countdown = 5.0 if self.owner.wave == 1 else 0.0
         self.owner.intermission = 0.0
         slot = (self.owner.wave - 1) % 4 + 1
         chapter = (self.owner.wave - 1) // 4
@@ -153,6 +154,12 @@ class WaveDirector:
             if self.owner.intermission <= 0:
                 self.start_next_wave()
             return
+        if self.owner.first_wave_countdown > 0:
+            self.owner.first_wave_countdown = max(0.0, self.owner.first_wave_countdown - dt)
+            if self.owner.first_wave_countdown > 1e-9:
+                return
+            self.owner.first_wave_countdown = 0.0
+            self.owner.spawn_timer = 0.0
         if self.owner.orders:
             self.owner.spawn_timer -= dt
             if self.owner.spawn_timer <= 0:
@@ -190,5 +197,5 @@ class WaveDirector:
             reward = int(round(reward_base * float(self.owner.difficulty_data["supply_gain"])))
             if self.owner.wave % 4 == 0:
                 reward += int(round(14 * float(self.owner.difficulty_data["supply_gain"])))
-            self.owner.supplies = min(int(self.owner.difficulty_data["supply_cap"]), self.owner.supplies + reward)
+            self.owner.supplies += reward
             self.owner.announce(f"Onda {self.owner.wave} concluída: +{reward} suprimentos.", 2.4, GOLD)

@@ -1,0 +1,16 @@
+{
+  "version": "1.3.0",
+  "mode": "compatibility",
+  "old_snapshots": {
+    "legacy-beach-easy.partida": true,
+    "legacy-beach-hard.partida": true,
+    "legacy-beach-medium.partida": true,
+    "legacy-city-easy.partida": true,
+    "legacy-city-hard.partida": true,
+    "legacy-city-medium.partida": true,
+    "legacy-desert-easy.partida": true,
+    "legacy-desert-hard.partida": true,
+    "legacy-desert-medium.partida": true
+  },
+  "ok": true
+}

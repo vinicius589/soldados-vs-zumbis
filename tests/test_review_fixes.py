@@ -39,6 +39,9 @@ class ReviewTests(unittest.TestCase):
         g.save_path=self.path
         g.session_store=SessionStore(self.path)
         g.settings=Settings(self.path)
+        g.player_name="Jogador de teste"
+        from svz.scoring import ScoreStore
+        g.score_store=ScoreStore(self.path)
         g.navigation.scene=None
         g.navigation.visible=False
         g.binding_action=None
@@ -146,8 +149,8 @@ class ReviewTests(unittest.TestCase):
         self.assertFalse(self.game.can_continue())
 
     def test_title_settings_and_story_are_keyboard_accessible(self):
-        # INICIAR, PERSONAGENS, HISTÓRIA, CONFIGURAÇÕES.
-        for _ in range(3):self.key(pygame.K_DOWN)
+        labels = [label for label, _ in self.game.title_buttons()]
+        for _ in range(labels.index("CONFIGURAÇÕES")):self.key(pygame.K_DOWN)
         self.key(pygame.K_RETURN)
         self.assertEqual("settings",self.game.scene)
         self.key(pygame.K_RETURN)
@@ -259,7 +262,7 @@ class ReviewTests(unittest.TestCase):
         labels=[call.args[0] for call in draw.call_args_list]
         for data in DIFFICULTIES.values():
             self.assertIn(f"{data['initial_supplies']} suprimentos iniciais",labels)
-            self.assertIn(f"Limite de reserva: {data['supply_cap']}",labels)
+            self.assertIn("Reserva de suprimentos sem limite",labels)
 
     def test_first_save_after_recovery_keeps_valid_backup(self):
         b=self.battle();b.place(0,2)

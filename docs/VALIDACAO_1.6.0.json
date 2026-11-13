@@ -1,0 +1,125 @@
+{
+  "date": "2026-10-31",
+  "manual_audio_opengl_verified": false,
+  "package": {
+    "ok": true,
+    "version": "1.6.0",
+    "files": 296,
+    "zip_crc_ok": true,
+    "all_file_hashes_ok": true,
+    "sha256": "057639fcee789a991e8d729cc84b6a37bdb0546b73375b19726f0d1771daa9ba",
+    "extracted_diagnostic_ok": true,
+    "legacy_resume": {
+      "alfa_schema1": {
+        "version": "1.6.0",
+        "region": "city",
+        "source_schema": 1,
+        "schema": 3,
+        "migration_applied": true,
+        "difficulty": "medium",
+        "restored_exact_state": true,
+        "resumed_paused": true,
+        "continued_steps": 120,
+        "fullscreen": false,
+        "window_size": [
+          984,
+          553
+        ],
+        "ok": true
+      },
+      "v153_schema2": {
+        "version": "1.6.0",
+        "region": "city",
+        "source_schema": 2,
+        "schema": 3,
+        "migration_applied": true,
+        "difficulty": "medium",
+        "restored_exact_state": true,
+        "resumed_paused": true,
+        "continued_steps": 120,
+        "fullscreen": false,
+        "window_size": [
+          984,
+          553
+        ],
+        "ok": true
+      }
+    }
+  },
+  "quality": {
+    "ok": true,
+    "directory": "C:\\Users\\phill\\Documents\\ChatGPT\\Criaçao de Jogo\\Desenvolvimento_do_Jogo\\reports\\quality\\run-kx_shtsp",
+    "stages": [
+      {
+        "name": "check",
+        "returncode": 0,
+        "seconds": 0.578
+      },
+      {
+        "name": "unittest",
+        "returncode": 0,
+        "seconds": 160.734
+      },
+      {
+        "name": "coverage_json",
+        "returncode": 0,
+        "seconds": 1.313
+      },
+      {
+        "name": "coverage_xml",
+        "returncode": 0,
+        "seconds": 1.109
+      },
+      {
+        "name": "coverage_html",
+        "returncode": 0,
+        "seconds": 2.094
+      },
+      {
+        "name": "smoke",
+        "returncode": 0,
+        "seconds": 5.64
+      },
+      {
+        "name": "regression",
+        "returncode": 0,
+        "seconds": 12.625
+      },
+      {
+        "name": "benchmark",
+        "returncode": 0,
+        "seconds": 42.344
+      }
+    ],
+    "coverage": {
+      "projectile_combat.py": {
+        "combined_percent": 100.0,
+        "minimum": 95,
+        "missing_lines": 0,
+        "missing_branches": 0
+      },
+      "timing.py": {
+        "combined_percent": 100.0,
+        "minimum": 95,
+        "missing_lines": 0,
+        "missing_branches": 0
+      },
+      "snapshot.py": {
+        "combined_percent": 98.74608150470219,
+        "minimum": 85,
+        "missing_lines": 2,
+        "missing_branches": 2
+      }
+    }
+  },
+  "tests": {
+    "ok": true,
+    "tests": 301,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 143.734,
+    "failed_tests": []
+  },
+  "donor_build_verified": "1.5.3"
+}

@@ -64,17 +64,18 @@ class Campanha12OndasTests(unittest.TestCase):
             self.assertGreaterEqual(len({order.key for order in first}), 2, region)
             self.assertGreaterEqual(len({order.key for order in second}), 3, region)
 
-    def test_cartas_pesadas_ocupam_duas_casas(self) -> None:
-        battle = Battle(self.game, "city", [("lancador_foguetes", "Lançador")])
-        battle.supplies = 999
-        battle.place(1, 2)
-        self.assertFalse(battle.can_place("xerife_rua", 1, 3)[0])
-        self.assertTrue(battle.can_place("xerife_rua", 1, 4)[0])
+    def test_lancador_e_antipraga_ocupam_uma_casa_cada(self) -> None:
+        for key in ("lancador_foguetes", "especialista_antipraga"):
+            with self.subTest(key=key):
+                battle = Battle(self.game, "city", [(key, key)])
+                battle.supplies = 999
+                battle.place(1, 2)
+                self.assertFalse(battle.can_place("xerife_rua", 1, 2)[0])
+                self.assertTrue(battle.can_place("xerife_rua", 1, 3)[0])
 
     def test_xerife_nao_e_pre_requisito_para_o_radio(self) -> None:
         self.assertEqual("Patrulha Básica", CITY_TACTICAL_UNITS["xerife_rua"][0])
         self.assertEqual(1, DEFENSES["xerife_rua"]["footprint"])
-        self.assertEqual(2, DEFENSES["especialista_antipraga"]["footprint"])
         self.assertNotIn("rádio", DEFENSES["xerife_rua"]["situational_advantage"].lower())
         battle = Battle(self.game, "city", [("operador_radio_policial", "Rádio")])
         battle.supplies = 999

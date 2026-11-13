@@ -60,6 +60,7 @@ class Defender:
     deployment_x: float | None = None
     deployment_target_x: float | None = None
     deployment_speed: float = 260.0
+    idle_reload_delay: float = 0.0
 
     def __post_init__(self) -> None:
         self.hp = float(self.stats["hp"])
@@ -165,6 +166,20 @@ class Enemy:
         scale = boss_wave_scale(self.wave) if self.is_boss else enemy_wave_scale(self.wave)
         scale *= float(profile["boss_hp" if self.is_boss else "enemy_hp"])
         return float(self.data["hp"]) * scale
+
+    @property
+    def bite_duration(self) -> float:
+        if self.visual_animation is None:
+            return 0.44 if self.is_boss else 0.34
+        return self.visual_animation.animations["bite"].duration
+
+    @property
+    def bite_contact_time(self) -> float:
+        return min(0.46 if self.is_boss else 0.38, self.bite_duration * 0.42)
+
+    @property
+    def bite_cycle(self) -> float:
+        return min(self.bite_duration, float(self.data["attack"]))
 
     @property
     def is_boss(self) -> bool:

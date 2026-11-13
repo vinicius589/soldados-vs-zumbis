@@ -1,0 +1,260 @@
+{
+  "version": "1.2.0",
+  "date": "2026-10-11",
+  "matrix": [
+    {
+      "region": "city",
+      "difficulty": "easy",
+      "mouse_cooldown_bypass": {
+        "before": 1,
+        "after": 2,
+        "cooldown": 10.0,
+        "spent": 42
+      },
+      "keyboard_count": 1,
+      "placed_while_paused": 1,
+      "removed_while_paused": true,
+      "wave_started_while_paused": 1,
+      "mouse_space_wave_while_paused": 1,
+      "enter_after_victory": {
+        "scene": "battle",
+        "defenders_added": 1,
+        "completed": []
+      }
+    },
+    {
+      "region": "city",
+      "difficulty": "medium",
+      "mouse_cooldown_bypass": {
+        "before": 1,
+        "after": 2,
+        "cooldown": 10.0,
+        "spent": 42
+      },
+      "keyboard_count": 1,
+      "placed_while_paused": 1,
+      "removed_while_paused": true,
+      "wave_started_while_paused": 1,
+      "mouse_space_wave_while_paused": 1,
+      "enter_after_victory": {
+        "scene": "battle",
+        "defenders_added": 1,
+        "completed": []
+      }
+    },
+    {
+      "region": "city",
+      "difficulty": "hard",
+      "mouse_cooldown_bypass": {
+        "before": 1,
+        "after": 2,
+        "cooldown": 10.0,
+        "spent": 42
+      },
+      "keyboard_count": 1,
+      "placed_while_paused": 1,
+      "removed_while_paused": true,
+      "wave_started_while_paused": 1,
+      "mouse_space_wave_while_paused": 1,
+      "enter_after_victory": {
+        "scene": "battle",
+        "defenders_added": 1,
+        "completed": []
+      }
+    },
+    {
+      "region": "desert",
+      "difficulty": "easy",
+      "mouse_cooldown_bypass": {
+        "before": 1,
+        "after": 2,
+        "cooldown": 10.0,
+        "spent": 44
+      },
+      "keyboard_count": 1,
+      "placed_while_paused": 1,
+      "removed_while_paused": true,
+      "wave_started_while_paused": 1,
+      "mouse_space_wave_while_paused": 1,
+      "enter_after_victory": {
+        "scene": "battle",
+        "defenders_added": 1,
+        "completed": []
+      }
+    },
+    {
+      "region": "desert",
+      "difficulty": "medium",
+      "mouse_cooldown_bypass": {
+        "before": 1,
+        "after": 2,
+        "cooldown": 10.0,
+        "spent": 44
+      },
+      "keyboard_count": 1,
+      "placed_while_paused": 1,
+      "removed_while_paused": true,
+      "wave_started_while_paused": 1,
+      "mouse_space_wave_while_paused": 1,
+      "enter_after_victory": {
+        "scene": "battle",
+        "defenders_added": 1,
+        "completed": []
+      }
+    },
+    {
+      "region": "desert",
+      "difficulty": "hard",
+      "mouse_cooldown_bypass": {
+        "before": 1,
+        "after": 2,
+        "cooldown": 10.0,
+        "spent": 44
+      },
+      "keyboard_count": 1,
+      "placed_while_paused": 1,
+      "removed_while_paused": true,
+      "wave_started_while_paused": 1,
+      "mouse_space_wave_while_paused": 1,
+      "enter_after_victory": {
+        "scene": "battle",
+        "defenders_added": 1,
+        "completed": []
+      }
+    },
+    {
+      "region": "beach",
+      "difficulty": "easy",
+      "mouse_cooldown_bypass": {
+        "before": 1,
+        "after": 2,
+        "cooldown": 10.0,
+        "spent": 42
+      },
+      "keyboard_count": 1,
+      "placed_while_paused": 1,
+      "removed_while_paused": true,
+      "wave_started_while_paused": 1,
+      "mouse_space_wave_while_paused": 1,
+      "enter_after_victory": {
+        "scene": "battle",
+        "defenders_added": 1,
+        "completed": []
+      }
+    },
+    {
+      "region": "beach",
+      "difficulty": "medium",
+      "mouse_cooldown_bypass": {
+        "before": 1,
+        "after": 2,
+        "cooldown": 10.0,
+        "spent": 42
+      },
+      "keyboard_count": 1,
+      "placed_while_paused": 1,
+      "removed_while_paused": true,
+      "wave_started_while_paused": 1,
+      "mouse_space_wave_while_paused": 1,
+      "enter_after_victory": {
+        "scene": "battle",
+        "defenders_added": 1,
+        "completed": []
+      }
+    },
+    {
+      "region": "beach",
+      "difficulty": "hard",
+      "mouse_cooldown_bypass": {
+        "before": 1,
+        "after": 2,
+        "cooldown": 10.0,
+        "spent": 42
+      },
+      "keyboard_count": 1,
+      "placed_while_paused": 1,
+      "removed_while_paused": true,
+      "wave_started_while_paused": 1,
+      "mouse_space_wave_while_paused": 1,
+      "enter_after_victory": {
+        "scene": "battle",
+        "defenders_added": 1,
+        "completed": []
+      }
+    }
+  ],
+  "defeat_progress": {
+    "scene": "campaign",
+    "best_wave": {},
+    "disk": {
+      "unlocked": [
+        "city",
+        "desert",
+        "beach"
+      ],
+      "completed": [],
+      "best_wave": {}
+    }
+  },
+  "new_game_keyboard_confirmation": {
+    "scene_after_enter": "confirm_new"
+  },
+  "focus_loss": {
+    "paused": false,
+    "intermission_before": 2.5,
+    "after": 1.5
+  },
+  "settings_restart": {
+    "control_mode": "mouse",
+    "sound_enabled": true,
+    "volume": 0.65
+  },
+  "deep_corrupt_campaign": "recovered",
+  "largest_modules": [
+    {
+      "module": "rendering.py",
+      "lines": 2346
+    },
+    {
+      "module": "battle.py",
+      "lines": 1934
+    },
+    {
+      "module": "content.py",
+      "lines": 1790
+    },
+    {
+      "module": "production_animations.py",
+      "lines": 1144
+    },
+    {
+      "module": "app.py",
+      "lines": 926
+    },
+    {
+      "module": "animation.py",
+      "lines": 861
+    }
+  ],
+  "unreachable_after_return": [
+    {
+      "module": "rendering.py",
+      "function": "draw_reload_action",
+      "line": 1342,
+      "dead_statements": 14
+    },
+    {
+      "module": "rendering.py",
+      "function": "draw_weapon_action",
+      "line": 1415,
+      "dead_statements": 15
+    }
+  ],
+  "distribution": {
+    "files": 289,
+    "zip_sha256": "acf488a2f33fec65b6ba8337f0c81acb421b4c607e97b40357e1359bace1c6fd",
+    "bad_zip": [],
+    "root_differs": [],
+    "extracted_differs": []
+  }
+}

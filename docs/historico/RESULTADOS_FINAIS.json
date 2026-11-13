@@ -1,0 +1,66 @@
+{
+  "data": "2026-10-07",
+  "versao": "1.0.0",
+  "pasta_final": "C:\\Users\\phill\\Documents\\ChatGPT\\Criaçao de Jogo\\Sodados_vs_Zumbis",
+  "ambiente": "Windows 11 x64; Python 3.12.14 incluído pelo PyInstaller 6.22.3",
+  "pasta_original": {
+    "arquivos": 5142,
+    "bytes": 2668823887.0
+  },
+  "pasta_final_sem_este_relatorio": {
+    "arquivos": 347,
+    "bytes": 333786574,
+    "bytes_sem_zip_e_checksum": 190259366
+  },
+  "recuperacao": {
+    "pasta": "C:\\Users\\phill\\Documents\\ChatGPT\\Criaçao de Jogo\\soldados-vs-zumbis\\release_work\\recuperacao-original-20261007",
+    "descricao": "Árvore original preservada fora da pasta ativa; não é redução líquida equivalente no disco."
+  },
+  "limpeza": {
+    "pastas_antigas_ausentes": true,
+    "copia_verificada_por_sha256": true
+  },
+  "testes": {
+    "aprovados": 101,
+    "segundos": 45.484,
+    "smoke": "aprovado",
+    "executados_na_pasta_final": true
+  },
+  "regressao": {
+    "relatorios_identicos": true,
+    "sha256": "1b5734c3edb3be3bb5b586d1247439be7ac43b0169c7b1753f79de2c198fbb69",
+    "capturas": 28,
+    "combates": 9,
+    "ondas": 108,
+    "entradas_de_chefes": 27,
+    "recursos_ativos": 109,
+    "bytes_dos_recursos": 115933639,
+    "limite": "Ondas aceleradas por remoção de inimigos depois do spawn; combate exercitado separadamente."
+  },
+  "executavel_instalado": {
+    "exit_code": 0,
+    "ok": true,
+    "modo": "SDL dummy; software",
+    "recursos_verificados": 109,
+    "diretorio_de_abertura_diferente": true,
+    "sem_python_externo_no_path": true
+  },
+  "pacote_zip": {
+    "zip_sha256": "66bf8bb5c10bd74a51d7b9f1fdca3873b9cf99797f7cf2b33c833f9fecedded1",
+    "zip_bytes": 143527102,
+    "verified_files": 289,
+    "exe_sha256": "6f2d82e21e318ee5c8b1a118c72dbf1f2a0ae8554b4b6b1543a47c58e079a556",
+    "source_tests_environments_absent": true,
+    "external_python_removed_from_path": true,
+    "launched_from_another_directory": true,
+    "executable_exit_code": 0,
+    "report_matches_staged_executable": true,
+    "ok": true
+  },
+  "validacao_com_dispositivos_reais": {
+    "status": "não concluída",
+    "erro": "pygame.error: No displays available",
+    "audio_gpu_e_campanha_humana_validados": false
+  },
+  "resultado": "Organização aplicada; testes automatizados do código e executável aprovados. Validação audiovisual humana pendente."
+}

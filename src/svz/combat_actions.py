@@ -14,6 +14,7 @@ from .entities import Defender, Enemy, FloatingText, Projectile
 from .math_utils import clamp
 from .motion import DefeatAnimation, VisualEffect
 from .scoring import points_for
+from .projectile_combat import friendly_aim_y
 from .visual_layout import DEFENDER_WEAPON_PROFILES
 
 
@@ -82,20 +83,12 @@ class CombatActionsMixin:
         enemy.hp -= applied
         if effect not in {"status_tick", "acid"}:
             self.app.audio.play("zombie_hit", min_interval_ms=70)
-        if effect not in {"status_tick", "acid"}:
+        if applied > 0:
             enemy.motion.flash()
-            # Todo infectado acusa o impacto e interrompe brevemente o avanço.
-            # Corredores são a exceção declarada: ainda piscam/animam o golpe,
-            # mas sua corrida lógica nunca é paralisada pelo stagger.
+        if effect not in {"status_tick", "acid"}:
+            # A pausa no avanço é independente da animação em andamento.
             if "unstaggerable" not in enemy.tags:
                 enemy.stun = max(enemy.stun, float(enemy.data.get("damage_stagger", 0.14)))
-            if not enemy.jump_state and not enemy.dig_state:
-                hit_duration = (
-                    enemy.visual_animation.animations["hit"].duration
-                    if enemy.visual_animation is not None
-                    else 0.12
-                )
-                enemy.motion.trigger("hit", hit_duration)
         if effect == "flame":
             was_burning = enemy.burn > 0
             enemy.burn = max(enemy.burn, 3.3)
@@ -188,20 +181,20 @@ class CombatActionsMixin:
         if "explode_death" in enemy.tags:
             for defender in self.defenders[:]:
                 if defender.row == enemy.row and abs(defender.x - enemy.x) < CELL_W * 1.15:
-                    self.damage_defender(defender, self.scaled_enemy_damage(enemy, 52 + self.wave * 2), "acid")
+                    self.damage_defender(defender, self.scaled_enemy_damage(enemy, 52), "acid")
             self.explosion(enemy.x, enemy.y, (114, 212, 99), 25)
         if enemy.is_boss:
             bonus = int(round((46 + self.wave * 2) * float(self.difficulty_data["supply_gain"])))
-            self.supplies = min(int(self.difficulty_data["supply_cap"]), self.supplies + bonus)
+            self.supplies += bonus
             self.boss_seen.add(self.wave)
             self.announce(f"Chefe neutralizado: +{bonus} suprimentos.", 3.4, GOLD)
             self.pulse(WIDTH / 2, HEIGHT / 2, GOLD, 75)
         elif enemy.data.get("subboss"):
             bonus = int(round(18 * float(self.difficulty_data["supply_gain"])))
-            self.supplies = min(int(self.difficulty_data["supply_cap"]), self.supplies + bonus)
+            self.supplies += bonus
             self.announce(f"Sub-boss neutralizado: +{bonus} suprimentos.", 2.4, GOLD)
         else:
-            self.supplies = min(int(self.difficulty_data["supply_cap"]), self.supplies + 1)
+            self.supplies += 1
 
     def pulse(self, x: float, y: float, color: tuple[int, int, int], amount: int) -> None:
         # Mantido como gancho de compatibilidade. A versão antiga espalhava
@@ -231,6 +224,7 @@ class CombatActionsMixin:
             return
         if defender.max_ammo > 0 and defender.tactical_ammo_timer <= 0:
             defender.ammo -= 1
+            defender.idle_reload_delay = 3.0
         defender.attack_timer = float(defender.stats["cooldown"]) * (0.68 if ascending else 1.0)
         approved_shot_duration = (
             defender.visual_animation.animations["shoot"].duration
@@ -254,6 +248,13 @@ class CombatActionsMixin:
             else ("shot_rifle" if role in rifle_roles else "shot_pistol")
         )
         self.app.audio.play(shot_sound, min_interval_ms=55)
+        weapon_profile = DEFENDER_WEAPON_PROFILES.get(defender.key)
+        if weapon_profile and weapon_profile.reload_motion in {
+            "pistol_magazine", "smg_magazine", "rifle_magazine", "bolt_action",
+            "shotgun_shells", "belt_box", "box_magazine",
+        }:
+            muzzle_x, muzzle_y = defender_weapon_origin(defender)
+            self.effects.append(VisualEffect("spent_case", muzzle_x, muzzle_y, GOLD, 0.38, owner=defender))
         if role == "sniper" and level == 1 and not ascending and random.random() < 0.28:
             self.texts.append(FloatingText("ERROU", target.x, target.y - 42, GRAY, 0.7))
             miss_x, miss_y = defender_weapon_origin(defender)
@@ -263,7 +264,6 @@ class CombatActionsMixin:
         kind = "bullet"
         radius = 0.0
         effect = ""
-        weapon_profile = DEFENDER_WEAPON_PROFILES.get(defender.key)
         profiled_kind = weapon_profile.projectile_kind if weapon_profile else ""
         if role in {"rifle", "heavy"}:
             kind = profiled_kind or "rifle"
@@ -377,7 +377,7 @@ class CombatActionsMixin:
             muzzle_y,
             target,
             target.x,
-            target.y - 16,
+            friendly_aim_y(target, muzzle_y, kind),
             damage,
             kind,
             defender,
@@ -400,8 +400,6 @@ class CombatActionsMixin:
             # ainda regula custos, inimigos e recompensas, mas nunca altera o
             # relógio do gerador, que precisa ser previsível desde o começo.
             gain = 12
-            room = int(self.difficulty_data["supply_cap"]) - self.supplies
-            gain = max(0, min(gain, room))
             self.supplies += gain
             defender.utility_timer = 12.0
             self.app.audio.play("supply", min_interval_ms=240)
@@ -425,12 +423,14 @@ class CombatActionsMixin:
 
     def update_self_reload(self, defender: Defender, dt: float) -> bool:
         """Executa a recarga da própria arma e bloqueia o tiro nesse estado."""
-        if defender.max_ammo <= 0 or defender.ammo > 0:
+        if defender.max_ammo <= 0 or defender.ammo >= defender.max_ammo:
             defender.reload_timer = 0.0
             defender.reload_total = 0.0
             return False
+        if defender.ammo > 0 and defender.reload_timer <= 0 and defender.idle_reload_delay > 0:
+            return False
         # A última rajada continua visualmente completa antes de a arma baixar.
-        if defender.reload_timer <= 0 and defender.motion.state == "attack" and defender.motion.event_left > 0:
+        if defender.ammo == 0 and defender.reload_timer <= 0 and defender.motion.state == "attack" and defender.motion.event_left > 0:
             return True
         if defender.reload_timer <= 0:
             defender.reload_total = weapon_reload_seconds(defender.stats, defender.ascended > 0)

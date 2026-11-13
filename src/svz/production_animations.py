@@ -12,10 +12,14 @@ from pathlib import Path
 
 import pygame
 
+from svz.actor_animation import ActorAnimation, ActorClip
 from svz.animation import AnimationClip, AnimationManager, SpriteSheet
 
 
 from .paths import ASSET_ROOT
+from .actor_visuals import sprite_emitter_contact
+from .visual_layout import defender_layout, DEFENDER_WEAPON_PROFILES
+from .content import DEFENDER_ACTOR_BY_KEY
 
 ASSETS = ASSET_ROOT / "actors"
 
@@ -89,9 +93,9 @@ ENEMY_ROSTER_ROWS: dict[str, tuple[str, int, str]] = {
     "city_zombie_v2": ("city_zombies_hd_16x6_v3.png", 0, "common"),
     "city_runner_v2": ("city_zombies_hd_16x6_v3.png", 1, "runner"),
     "city_crawler_v2": ("city_zombies_hd_16x6_v3.png", 2, "crawler"),
-    "city_police_infected": ("city_zombies_hd_16x6_v3.png", 3, "common"),
-    "city_scientist": ("city_zombies_hd_16x6_v3.png", 4, "common"),
-    "city_technician": ("city_zombies_hd_16x6_v3.png", 5, "common"),
+    "city_police_infected": ("city_police_infected_4x4_v1.png", 0, "common"),
+    "city_scientist": ("city_scientist_4x4_v1.png", 0, "common"),
+    "city_technician": ("city_technician_4x4_v1.png", 0, "common"),
     "city_demolisher": ("city_elites_rebuilt_16x6_v1.png", 0, "subboss"),
     "city_quarantine_brute": ("city_elites_rebuilt_16x6_v1.png", 1, "subboss"),
     "city_mutant_commander": ("city_elites_rebuilt_16x6_v1.png", 2, "subboss"),
@@ -582,7 +586,19 @@ def _sheet_rows(
     sanitize: bool = False,
     remove_green_residue: bool = False,
 ) -> list[list[pygame.Surface]]:
-    cells = SpriteSheet.from_file(path).slice_equal(8, rows)
+    sheet = SpriteSheet.from_file(path)
+    if path.name == ACTOR_SHEETS["desert_radio"][0]:
+        # A folha da torre tem cinco faixas de alturas diferentes. A grade
+        # uniforme cortava o pedestal e o levava para cima da pose seguinte.
+        bounds = (0, 216, 427, 641, 835, 992)
+        width = sheet.surface.get_width()
+        cells = sheet.slice_rects([
+            (col * width // 8, top, (col + 1) * width // 8 - col * width // 8, bottom - top)
+            for top, bottom in zip(bounds, bounds[1:])
+            for col in range(8)
+        ])
+    else:
+        cells = sheet.slice_equal(8, rows)
     if remove_green_residue:
         cells = [_remove_bright_green_residue(cell) for cell in cells]
     if isolate_main:
@@ -643,6 +659,19 @@ def _soldier_clips(
         idle = [_isolate_main_component(frame) for frame in idle]
         reload = [_isolate_main_component(frame) for frame in reload]
         hit = [_isolate_main_component(frame) for frame in hit]
+    # A mesma tropa pode ter sido desenhada maior nas linhas de ação.
+    # A espera define a altura máxima: preservar poses agachadas e o recuo.
+    # Normalizar antes de alinhar os pés evita deslocar a unidade no terreno.
+    standing_height = sorted(_main_figure(frame).height for frame in idle)[len(idle) // 2]
+    for poses in (shoot, reload):
+        for index, frame in enumerate(poses):
+            height = _main_figure(frame).height
+            if height > standing_height:
+                ratio = standing_height / height
+                poses[index] = pygame.transform.smoothscale(
+                    frame, (max(1, round(frame.get_width() * ratio)),
+                            max(1, round(frame.get_height() * ratio)))
+                )
     groups = _pad_groups(
         {"move": move, "idle": idle, "shoot": shoot, "reload": reload, "hit": hit}
     )
@@ -650,13 +679,32 @@ def _soldier_clips(
         # A água é desenhada pelo projétil contínuo no renderizador. Nunca
         # conservar uma segunda explosão de espuma dentro da pose corporal.
         groups["shoot"] = [_remove_baked_waterjet(frame) for frame in groups["shoot"]]
-    if actor == "city_entry":
-        # A SPAS-12 empurra ombro, braços e arma para trás antes da recuperação.
-        # O deslocamento ocorre dentro da caixa já estabilizada, portanto não
-        # aumenta o personagem nem corta pé, coronha ou cano.
-        groups["shoot"] = _shift_on_canvas(
-            groups["shoot"], (0, -1, -3, -5, -4, -2, -1, 0)
-        )
+    weapon = next((profile for key, profile in DEFENDER_WEAPON_PROFILES.items()
+                   if DEFENDER_ACTOR_BY_KEY.get(key) == actor), None)
+    if weapon and actor not in {"beach_boat", "beach_sub"}:
+        # Uma pose de mira por arma. Apenas o trecho livre do cano recua;
+        # rosto, mãos, tronco, pernas e pivô continuam nos mesmos pixels.
+        base = groups["shoot"][0]
+        layout = defender_layout(actor)
+        forward, elevation = sprite_emitter_contact(
+            base, layout.muzzle_forward, layout.muzzle_height,
+            body_height=layout.body_height, source_body_height=layout.source_height, facing=1)
+        ratio = layout.source_height / layout.body_height
+        tip_x = round(base.get_width() / 2 + forward * ratio)
+        tip_y = round(base.get_height() - elevation * ratio)
+        barrel = pygame.Rect(tip_x - 10, tip_y - 3, 12, 7).clip(base.get_rect())
+        frames = []
+        for kick in (0, 1, 0.66, 0.33, 0, 0, 0, 0):
+            shift = min(barrel.width - 1, round(kick * weapon.recoil * ratio))
+            if shift > 0 and barrel.height:
+                pose = base.copy()
+                pose.fill((0, 0, 0, 0), barrel)
+                pose.blit(pygame.transform.scale(base.subsurface(barrel),
+                          (barrel.width - shift, barrel.height)), barrel.topleft)
+                frames.append(pose)
+            else:
+                frames.append(base)
+        groups["shoot"] = frames
     return {
         "move": AnimationClip.timed(
             groups["move"],
@@ -715,6 +763,22 @@ def _support_clips(path: Path) -> dict[str, AnimationClip]:
     }
 
 
+def _runner_bite(frame: pygame.Surface) -> AnimationClip:
+    """Articula o tronco da pose de corrida, mantendo os pés no mesmo lugar."""
+    body = _main_figure(frame)
+    poses = []
+    for reach, dip in ((0, 0), (-2, 1), (4, 2), (12, 5), (10, 6), (7, 4), (3, 2), (0, 0)):
+        pose = pygame.Surface(frame.get_size(), pygame.SRCALPHA)
+        for y in range(frame.get_height()):
+            weight = max(0.0, min(1.0, (body.bottom - y) / body.height))
+            # A cabeça avança e baixa para o contato. A perna de apoio fica fixa.
+            dx = round(reach * weight ** 2)
+            dy = round(dip * weight ** 2)
+            pose.blit(frame, (-dx, y + dy), (0, y, frame.get_width(), 1))
+        poses.append(pose)
+    return AnimationClip.timed(poses, (0.112,) * 3 + (0.10,) * 5, loop=False, name="mordida")
+
+
 def _zombie_clips(
     path: Path,
     *,
@@ -755,7 +819,8 @@ def _zombie_clips(
     idle = _normalize_each_actor_height(idle, target_height)
     bite = _normalize_each_actor_height(bite, target_height)
     hit = _normalize_each_actor_height(hit, target_height)
-    groups = _pad_groups({"move": move, "idle": idle, "bite": bite, "hit": hit})
+    groups = _pad_groups({"move": move, "idle": idle, "bite": bite, "hit": hit},
+                         horizontal_padding=16 if move_path is not None else 8)
     return {
         "move": AnimationClip.uniform(groups["move"], fps=move_fps, name="caminhada"),
         "idle": AnimationClip.uniform(groups["idle"], fps=4.5, name="ameaça"),
@@ -789,7 +854,21 @@ def _roster_enemy_clips(
     sheet = SpriteSheet.from_file(path)
     columns = ROSTER_GRID_COLUMNS.get(path.name, 8)
     custom_bounds = ROSTER_VERTICAL_BOUNDS.get(path.name)
-    if custom_bounds is None:
+    if actor in {"city_scientist", "city_technician"}:
+        width, height = sheet.surface.get_size()
+        ys = (0, 325, 625, 945, 1280)
+        cells = []
+        for strip in range(4):
+            xs = (0, 320, 590, 960, 1280) if strip == 1 else (0, 320, 640, 960, 1280)
+            for col in range(4):
+                left, right = round(xs[col] * width / 1280), round(xs[col+1] * width / 1280)
+                top, bottom = round(ys[strip] * height / 1280), round(ys[strip+1] * height / 1280)
+                cells.append(sheet.surface.subsurface((left, top, right-left, bottom-top)).copy())
+        columns = 16
+    elif actor == "city_police_infected":
+        cells = sheet.slice_equal(4, 4)
+        columns = 16  # Dezesseis poses na folha exclusiva, em ordem de leitura.
+    elif custom_bounds is None:
         grid_rows = ROSTER_GRID_ROWS.get(path.name, 12)
         cells = sheet.slice_equal(columns, grid_rows)[
             row * columns : (row + 1) * columns
@@ -877,7 +956,11 @@ def _roster_enemy_clips(
     target_height = 88 if kind == "crawler" else (140 if kind == "boss" else (132 if kind == "subboss" else 124))
     # Cada quadro recebe a mesma altura corporal. O gesto muda, mas a criatura
     # não troca de escala entre caminhada, ataque, dano e habilidade.
-    frames = _normalize_each_actor_height(cells, target_height)
+    if actor in {"city_police_infected", "city_scientist", "city_technician"}:
+        # Escala única conserva o agachamento sem ampliar o corpo no ataque.
+        frames = _normalize_actor_height(cells, 248, reference_height)
+    else:
+        frames = _normalize_each_actor_height(cells, target_height)
     if columns >= 16:
         # Todas as folhas HD seguem o mesmo contrato visual: quatro passos,
         # quatro quadros de contato, quatro de reação e quatro da habilidade.
@@ -897,6 +980,8 @@ def _roster_enemy_clips(
         skill_frames = [frames[0], frames[4], frames[7], frames[1]]
         if actor == "desert_plague_priest":
             skill_frames = [frames[0], frames[7], frames[1], frames[0]]
+        if actor in {"city_scientist", "city_technician"}:
+            skill_frames = frames[12:16]
         hit_frames = frames[8:12]
         if actor == "desert_plague_priest":
             # Os quadros 9 e 10 da folha-fonte contêm só um pedaço do corpo.
@@ -1094,6 +1179,9 @@ def build_production_clips() -> dict[str, dict[str, AnimationClip]]:
                 move_path=ASSETS / RUNNER_MOVE_SHEETS[actor],
                 move_flip_frames=RUNNER_MOVE_FLIP_FRAMES[actor],
             )
+            planted = clips[actor]["move"].frames[0]
+            clips[actor]["bite"] = _runner_bite(planted)
+            clips[actor]["idle"] = AnimationClip.uniform([planted], fps=4.5, name="ameaça")
         elif kind == "crawler":
             clips[actor] = _zombie_clips(
                 path,
@@ -1143,6 +1231,14 @@ def build_production_clips() -> dict[str, dict[str, AnimationClip]]:
             **crawler,
             "skill": crawler["bite"],
         }
+    # Os aliases regionais compartilham o mesmo clipe e os mesmos intermediários.
+    shared: dict[int, ActorClip] = {}
+    for states in clips.values():
+        for state, clip in states.items():
+            key = id(clip)
+            if key not in shared:
+                shared[key] = ActorClip(clip.frames, clip.frame_durations, clip.loop, clip.name)
+            states[state] = shared[key]
     return clips
 
 
@@ -1150,4 +1246,4 @@ def new_production_animation(
     clips: dict[str, dict[str, AnimationClip]], actor: str
 ) -> AnimationManager:
     initial = "move" if "bite" in clips[actor] else "idle"
-    return AnimationManager(clips[actor], initial_state=initial)
+    return ActorAnimation(clips[actor], initial_state=initial)

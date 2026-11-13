@@ -24,6 +24,7 @@ from .config import (
     FPS,
     GOLD,
     GRAY,
+    RED,
     HEIGHT,
     LAST_PLACEABLE_COLUMN,
     ROWS,
@@ -45,6 +46,7 @@ from .content import (
 from .entities import (
     Defender,
     Enemy,
+    FloatingText,
     Projectile,
 )
 from .motion import (
@@ -278,6 +280,8 @@ class Game:
                 # navegação escolhida pelo jogador nem abre o mapa sozinho.
                 self.scene = "title"
                 self.scene_elapsed = 0
+        elif self.scene == "developer":
+            self.developer_lab.update(dt)
         elif self.scene == "battle" and self.battle:
             was_finished = self.battle.finished
             previous_wave = self.battle.wave
@@ -332,6 +336,9 @@ class Game:
             self.toggle_fullscreen()
             return
         if key == pygame.K_ESCAPE:
+            if self.scene == "developer":
+                self.developer_lab.key(key)
+                return
             if self.scene == "profile":
                 self.cancel_profile()
             elif self.scene == "battle" and self.pending_powerup:
@@ -344,6 +351,14 @@ class Game:
                 self.leave_battle_to_title()
             else:
                 self.scene = "settings" if self.scene == "bindings" else "title"
+            return
+        if key == pygame.K_F12 and self.scene == "title":
+            from .developer_lab import DeveloperLab
+            self.developer_lab = DeveloperLab(self)
+            self.scene = "developer"
+            return
+        if self.scene == "developer":
+            self.developer_lab.key(key)
             return
         if self.scene == "profile":
             if key == pygame.K_BACKSPACE:
@@ -420,6 +435,9 @@ class Game:
                     b.start_next_wave()
 
     def handle_click(self, pos: tuple[int, int]) -> None:
+        if self.scene == "developer":
+            self.developer_lab.click(pos)
+            return
         if self.scene == "loading":
             return
         if self.scene != "battle":
@@ -676,6 +694,7 @@ class Game:
             self.scene = "title"
 
     def enter_selection(self, region: str) -> None:
+        self.pending_powerup = None
         self.region = region
         # Não há mais uma etapa de seleção pré-partida. Cada mapa entrega sua
         # equipe regional completa de oito cartas e inicia imediatamente.
@@ -749,10 +768,13 @@ class Game:
         return self.battle is not None or self.pending_snapshot is not None
 
     def checkpoint(self) -> bool:
+        if self.scene == "developer":
+            return True
         if self.battle is None:
             return True
+        score_ok = True
         if self.battle.finished:
-            self.score_store.record(self.battle)
+            score_ok = self.score_store.record(self.battle)
         try:
             self.pending_snapshot = capture(self.battle)
             ok = self.session_store.save(self.pending_snapshot)
@@ -762,10 +784,13 @@ class Game:
             self.session_notice = "Não foi possível salvar. A partida continua disponível nesta janela."
             ok = False
         self.autosave_elapsed = 0.0
-        return ok
+        if ok and not score_ok:
+            self.session_notice = self.score_store.error
+        return ok and score_ok
 
     def leave_battle_to_title(self) -> None:
         """Suspende a partida sem registrar vitória ou apagar o estado em memória."""
+        self.pending_powerup = None
         if self.battle is not None and self.battle.finished:
             self.finish_battle()
             return
@@ -794,11 +819,11 @@ class Game:
                     return False
         elif self.suspended_random is not None:
             random.setstate(self.suspended_random)
-        # Se uma partida antiga for retomada depois de cadastrar um perfil,
-        # os novos pontos pertencem ao jogador atualmente ativo, não ao nome
-        # genérico que possa ter sido gravado por uma versão anterior.
+        # A retomada usa o perfil ativo para os próximos pontos e consumíveis,
+        # conforme o contrato existente. Resultados já registrados não duplicam.
         if self.player_name:
             self.battle.player_name = self.player_name
+        self.pending_powerup = None
         self.region, self.difficulty = self.battle.region, self.battle.difficulty
         self.selection = self.battle.selected[:]
         self.battle.paused = not self.battle.finished
@@ -892,7 +917,7 @@ class Game:
         destination = self.profile_return_scene
         self.scene = "title"
         if destination == "difficulty":
-            self.scene = "difficulty"
+            self.request_new_game()
         elif destination == "resume":
             resumed = self.resume_battle()
             if not resumed:
@@ -944,6 +969,8 @@ class Game:
         if battle is None or item not in SHOP_ITEMS:
             self.pending_powerup = None
             return False
+        if not battle.accepts_actions:
+            return False
         target = next(
             (defender for defender in reversed(battle.defenders)
              if defender.hp > 0 and defender.hitbox().inflate(18, 18).collidepoint(pos)),
@@ -963,7 +990,7 @@ class Game:
                 return False
             target.hp = min(target.max_hp, target.hp + healed)
             target.motion.trigger("support", 0.9)
-            battle.texts.append(__import__("svz.entities", fromlist=["FloatingText"]).FloatingText(
+            battle.texts.append(FloatingText(
                 f"+{int(round(healed))} VIDA", target.x, target.y - 50, TEAL, 1.2
             ))
             message = f"Kit médico usado em {target.display_name}: +{int(round(healed))} de vida."

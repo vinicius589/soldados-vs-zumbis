@@ -1,0 +1,14 @@
+{
+  "package": "Soldados vs Zumbis — Alfa da Beta 5 revisada",
+  "root": "SoldadosVsZumbis-Alfa-Beta-5",
+  "files": 305,
+  "asset_manifest_entries": 109,
+  "standalone_exe_included": false,
+  "why_no_exe": "O executável anterior foi construído a partir do código 1.5.0 antes das alterações atuais. Incluí CRIAR_EXE.bat para gerar um executável a partir deste código no Windows, evitando entregar um .exe divergente.",
+  "checks": {
+    "compileall": true,
+    "asset_manifest_sha256": true,
+    "docs_and_release_tests": "5 passed",
+    "full_game_tests": "not run: pygame and hypothesis unavailable in this environment"
+  }
+}

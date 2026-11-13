@@ -145,6 +145,12 @@ def main() -> None:
                 random.seed(seed)
                 game.scene = 'title'
                 game.handle_key(pygame.K_RETURN)
+                if game.scene == 'profile':
+                    # A Alfa exige cadastro antes da primeira partida.
+                    # Exercita o fluxo real em vez de dispensar a validação.
+                    snapshot('profile')
+                    game.profile_name_draft = 'Regressao'
+                    game.handle_key(pygame.K_RETURN)
                 assert game.scene == 'difficulty'
                 game.handle_key(pygame.K_1 + difficulty_index)
                 assert game.scene == 'campaign' and game.difficulty == difficulty

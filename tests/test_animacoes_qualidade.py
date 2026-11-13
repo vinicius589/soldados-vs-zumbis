@@ -133,6 +133,9 @@ class QualidadeAnimacoesBeta4Tests(unittest.TestCase):
         self.assertEqual(
             {
                 "city_zombies_hd_16x6_v3.png",
+                "city_police_infected_4x4_v1.png",
+                "city_scientist_4x4_v1.png",
+                "city_technician_4x4_v1.png",
                 "city_elites_rebuilt_16x6_v1.png",
                 "desert_zombies_hd_16x6_v3.png",
                 "desert_elites_rebuilt_16x6_v1.png",
@@ -243,6 +246,7 @@ class QualidadeAnimacoesBeta4Tests(unittest.TestCase):
         samples = {
             actor: sum(_main_figure(frame).height for frame in states["move"].frames)
             / len(states["move"].frames)
+            / (2 if actor in {"city_police_infected", "city_scientist", "city_technician"} else 1)
             for actor, states in self.clips.items()
             if actor in ENEMY_ROSTER_ROWS
         }

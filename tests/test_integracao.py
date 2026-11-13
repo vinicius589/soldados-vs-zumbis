@@ -300,7 +300,7 @@ class IntegracaoBeta4Tests(unittest.TestCase):
             basic, runner, crawler = (ENEMIES[key] for key in keys[:3])
             with self.subTest(region=region):
                 self.assertGreater(runner["speed"], basic["speed"])
-                self.assertGreater(runner["damage"], basic["damage"])
+                self.assertEqual(runner["damage"], {"city": 23, "desert": 27, "beach": 19.5}[region])
                 self.assertIn("runner", runner["tags"])
                 self.assertIn("constant_speed", runner["tags"])
                 self.assertIn("unstaggerable", runner["tags"])

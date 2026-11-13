@@ -1,5 +1,26 @@
 # Histórico de versões
 
+## 1.6.0 — Alfa Beta 5 integrada, 2026-10-30
+
+- Integradas as melhorias da 1.5.3: contagem inicial de 5 segundos, suprimentos sem teto e atributos fixos por tipo.
+- Preservados código modular, perfil, ranking, loja e consumíveis da Alfa.
+- Novo schema 3 lê snapshots das linhas 1 e 2, sem duplicar a conversão da vida.
+- Dados próprios em SoldadosVsZumbis-Beta5; cópia inicial do legado preserva originais, SQLite e transações WAL.
+- Histórico Git local recuperado da base existente; automação Windows incorporada.
+- Novos testes de migração com arquivos sintéticos produzidos pelas versões originais.
+
+
+## Alfa Beta 5 — revisão local de 30/10/2026
+
+- Corrigidos erro ao usar consumível sem estoque e conflitos das teclas H/T.
+- Preservada a confirmação de substituição após cadastrar um perfil.
+- Corrigido retorno de falha ao salvar pontuação e limpeza de seleção de item.
+- Adicionada navegação por teclado no ranking e instruções dos consumíveis.
+- Atualizados testes de navegação e adicionadas regressões dos novos fluxos.
+- Criado CRIAR_EXE.bat; corrigido JOGAR.bat para pacotes sem fontes.
+- Organizada documentação atual e histórica. Versão técnica mantida em 1.5.0.
+
+
 ## Alfa Beta 5 — revisão local em andamento
 
 - Recuperação da base modular com retomada de partida, pontuação por combate, perfil local, ranking e loja de consumíveis.

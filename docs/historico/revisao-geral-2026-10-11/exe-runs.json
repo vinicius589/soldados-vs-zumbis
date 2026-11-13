@@ -1,0 +1,10 @@
+{
+  "headless": {
+    "exit_code": 0,
+    "output": ""
+  },
+  "native": {
+    "exit_code": 1,
+    "output": ""
+  }
+}

@@ -88,6 +88,7 @@ class MenuRenderingMixin:
             self.draw_text("PARTIDA SALVA",self.owner.fonts.h2,GOLD,(452,540))
             self.draw_text(info,self.owner.fonts.small,WHITE,(452,576))
         self.draw_text(f"{VERSION} • Cidade • Deserto • Cachoeira", self.owner.fonts.small, WHITE, (40, HEIGHT - 28))
+        self.draw_text("F12 — Laboratório de unidades", self.owner.fonts.small, WHITE, (800, HEIGHT - 28))
         self.draw_text("Artes originais • campanha de 12 ondas", self.owner.fonts.small, WHITE, (WIDTH - 36, HEIGHT - 28), "topright")
 
     def draw_difficulty(self) -> None:
@@ -100,7 +101,7 @@ class MenuRenderingMixin:
         descriptions = {}
         for key, subtitle in (("easy","COMEÇAR TRANQUILO"),("medium","CAMPANHA EQUILIBRADA"),("hard","SOBREVIVÊNCIA VETERANA")):
             p = difficulty_profile(key)
-            descriptions[key] = (subtitle, (f"{p['initial_supplies']} suprimentos iniciais", f"Limite de reserva: {p['supply_cap']}", "12 ondas; chefes nas ondas 4, 8 e 12"))
+            descriptions[key] = (subtitle, (f"{p['initial_supplies']} suprimentos iniciais", "Reserva de suprimentos sem limite", "12 ondas; chefes nas ondas 4, 8 e 12"))
         for index, (key, button_rect) in enumerate(self.owner.difficulty_buttons()):
             profile = difficulty_profile(key)
             card = pygame.Rect(button_rect.x - 25, 150, button_rect.width + 50, 370)
@@ -469,7 +470,7 @@ class MenuRenderingMixin:
         )
 
         cards = (
-            (owner.profile_medkit_rect(), "medkit", "KIT MÉDICO", "Recupera até 45% da vida perdida de uma tropa viva.", "medkits"),
+            (owner.profile_medkit_rect(), "medkit", "KIT MÉDICO", "Cura 45% da vida máxima (mínimo 25), sem ultrapassar o limite.", "medkits"),
             (owner.profile_ammo_rect(), "tactical_ammo", "MUNIÇÃO TÁTICA", "Por 30 segundos, uma tropa armada não gasta munição nem recarrega.", "tactical_ammo"),
         )
         active_profile = bool(owner.player_name)
@@ -495,6 +496,8 @@ class MenuRenderingMixin:
                 owner.profile_error, owner.fonts.small, RED,
                 pygame.Rect(245, 552, 790, 45), 2, center=True,
             )
+        self.draw_text("Na batalha: H = kit médico; T = munição. Clique na tropa; Esc cancela.",
+                       owner.fonts.tiny, GRAY, (WIDTH / 2, 619), "center")
         self.button("VOLTAR", self.button_rect("Voltar", 50, 645, 170, 46), (92, 126, 137))
 
     def draw_settings(self):

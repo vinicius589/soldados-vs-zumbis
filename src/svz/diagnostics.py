@@ -33,7 +33,7 @@ def verify(output: str) -> None:
             report['audio_ready'] = game.audio.ready
             report['renderer'] = game.renderer_label
             game.audio.set_enabled(False)
-            for scene in ('title', 'campaign', 'characters', 'story', 'settings', 'bindings', 'howto'):
+            for scene in ('title', 'campaign', 'characters', 'story', 'settings', 'bindings', 'howto', 'profile', 'scores'):
                 game.scene = scene
                 game.draw()
                 game.present_frame()
@@ -60,7 +60,8 @@ def verify(output: str) -> None:
             report['video'] = verify_video(game, destination)
             report['review'] = verify_review(game)
             report['runners'] = verify_runners(game, destination.parent)
-            assert len(game.scenario_runtime.tractor) == 8
+            parked = game.scenario_runtime.lane_defense_frame("city", 0, moving=False, water=False)
+            assert parked == game.scenario_runtime.lane_defense_frame("city", 0, moving=True, water=False)
             assert len(game.scenario_runtime.drone) == 8
             assert len(game.scenario_runtime.splash) == 8
         finally:
@@ -135,7 +136,7 @@ def verify_resume(output: str, campaign_path: str) -> None:
     """Ensaio em outro processo, sem modificar o save fornecido."""
     import pygame
     from .app import Game
-    from .snapshot import capture
+    from .snapshot import SCHEMA, capture, restore
     from .config import VERSION
     destination = Path(output).resolve()
     destination.parent.mkdir(parents=True, exist_ok=True)
@@ -146,8 +147,16 @@ def verify_resume(output: str, campaign_path: str) -> None:
         game.assets.prepare_production_animations()
         assert not game.assets.error, game.assets.error
         assert game.pending_snapshot is not None, game.session_notice
-        expected = game.pending_snapshot
-        expected['battle']['paused'] = not expected['battle']['finished']
+        original = game.pending_snapshot
+        preview, _ = restore(original, game)
+        preview.paused = not preview.finished
+        if game.player_name:
+            preview.player_name = game.player_name
+        expected = capture(preview)
+        # Compare o estado normalizado; um save antigo não precisa conter
+        # os campos novos e pode ter vida convertida durante a migração.
+        for name in ('random', 'scenario', 'scene_elapsed', 'integration_preview'):
+            expected[name] = original[name]
         game.scene = 'title'
         game.draw()
         pygame.image.save(game.screen, str(destination.with_suffix('.menu.png')))
@@ -161,6 +170,8 @@ def verify_resume(output: str, campaign_path: str) -> None:
             game.battle.update(1 / 60)
             game.draw()
         report = {'version': VERSION, 'region': game.region,
+                  'source_schema': original['schema'], 'schema': SCHEMA,
+                  'migration_applied': original['schema'] != SCHEMA,
                   'difficulty': game.difficulty, 'restored_exact_state': True,
                   'resumed_paused': restored['battle']['paused'],
                   'continued_steps': 120, 'fullscreen': game.video.fullscreen,

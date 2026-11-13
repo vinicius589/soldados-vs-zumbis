@@ -1,0 +1,9 @@
+CHECK_OK: 109 recursos íntegros; 46 arquivos Python.
+pygame-ce 2.5.8 (SDL 2.32.10, Python 3.12.14)
+.........................................................................................................................
+----------------------------------------------------------------------
+Ran 121 tests in 49.150s
+
+OK
+pygame-ce 2.5.8 (SDL 2.32.10, Python 3.12.14)
+SMOKE_OK: versão 1.1.0, regiões, grade, inspeção e counters validados.

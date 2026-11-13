@@ -32,8 +32,11 @@ class BattleHudRenderingMixin:
         pygame.draw.rect(screen, (153, 194, 166), crate, 2, border_radius=3)
         pygame.draw.line(screen, (34, 71, 65), (crate.left+8, crate.top), (crate.left+8, crate.bottom), 3)
         pygame.draw.line(screen, (34, 71, 65), (crate.right-8, crate.top), (crate.right-8, crate.bottom), 3)
-        self.draw_text(str(battle.supplies), self.owner.fonts.h2, GOLD, (supply.centerx, 84), "center")
-        self.draw_text(f"LIMITE {int(battle.difficulty_data['supply_cap'])}", self.owner.fonts.tiny, GRAY, (supply.centerx, 108), "center")
+        amount = self.owner.fonts.h2.render(str(battle.supplies), True, GOLD)
+        if amount.get_width() > supply.width - 12:
+            ratio = (supply.width - 12) / amount.get_width()
+            amount = pygame.transform.smoothscale(amount, (supply.width - 12, max(1, round(amount.get_height() * ratio))))
+        screen.blit(amount, amount.get_rect(center=(supply.centerx, 92)))
         for index, ((key, display), rect) in enumerate(zip(battle.selected, rects)):
             data = DEFENSES[key]
             active = index == battle.selected_card and not battle.remove_mode
@@ -93,7 +96,11 @@ class BattleHudRenderingMixin:
             pygame.draw.polygon(screen, (211, 128, 79), [(x, bar.bottom+2), (x-9, bar.bottom+2), (x-9, bar.bottom+9), (x, bar.bottom+7)])
         self.draw_text("CONCLUÍDAS", self.owner.fonts.tiny, GRAY, (bar.x, bar.bottom+4))
         self.button("PRÓXIMA", battle.next_wave_rect(), battle.region_color(), not battle.started_wave and not battle.finished)
-        status = "EM COMBATE" if battle.started_wave else f"INTERVALO {max(0, math.ceil(battle.intermission))}s"
+        if battle.wave == 0 or battle.first_wave_countdown > 0:
+            seconds = math.ceil(battle.first_wave_countdown) if battle.wave else 5
+            status = f"ONDA 1 EM {seconds}s"
+        else:
+            status = "EM COMBATE" if battle.started_wave else f"INTERVALO {max(0, math.ceil(battle.intermission))}s"
         self.draw_text(status, self.owner.fonts.tiny, WHITE, (battle.next_wave_rect().centerx, 649), "center", True)
 
         # Ficha completa por hover ou F1 para comparar as cartas.

@@ -100,13 +100,8 @@ class ControlesAudioDificuldadeTests(unittest.TestCase):
             self.assertTrue(path.exists(), path)
             self.assertGreater(path.stat().st_size, 8_000, path)
 
-    def test_curva_comeca_mais_leve_e_termina_muito_mais_forte(self) -> None:
-        self.assertLess(enemy_wave_scale(1), 0.70)
-        self.assertLess(enemy_damage_scale(1), 0.70)
-        self.assertGreater(enemy_wave_scale(12), enemy_wave_scale(1) * 3.0)
-        self.assertGreater(enemy_damage_scale(12), enemy_damage_scale(1) * 2.6)
-        self.assertGreater(boss_wave_scale(12), boss_wave_scale(4) * 1.9)
-
-
-if __name__ == "__main__":
-    unittest.main()
+    def test_atributos_nao_aumentam_com_as_ondas(self) -> None:
+        for wave in range(1,13):
+            self.assertEqual(enemy_wave_scale(wave),1.0)
+            self.assertEqual(enemy_damage_scale(wave),1.0)
+            self.assertEqual(boss_wave_scale(wave),1.0)

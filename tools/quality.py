@@ -42,7 +42,8 @@ def main():
     env=dict(os.environ,SDL_VIDEODRIVER='dummy',SDL_AUDIODRIVER='dummy',SVZ_RENDERER='software',
              PYTHONPATH=str(ROOT/'src'),PYTHONUTF8='1',PYTHONDONTWRITEBYTECODE='1',
              SVZ_DATA_DIR=str(run/'saves'),SVZ_SAVE_PATH=str(run/'saves/campanha.json'),
-             TEMP=str(temp),TMP=str(temp),COVERAGE_FILE=str(run/'.coverage'))
+             TEMP=str(temp),TMP=str(temp),COVERAGE_FILE=str(run/'.coverage'),
+             HYPOTHESIS_STORAGE_DIRECTORY=str(run/'.hypothesis'))
     report={'ok':False,'directory':str(run),'stages':[]}
     def execute(name,arguments,timeout=600):
         started=time.monotonic()

@@ -35,6 +35,10 @@ class MenuNavigation:
                 ("reset",pygame.Rect(485,574,310,42)), back]
         if scene == "howto":
             return [back]
+        if scene == "scores":
+            return [back, ("view", pygame.Rect(430,645,260,46)),
+                    ("prev", pygame.Rect(735,645,150,46)),
+                    ("next", pygame.Rect(910,645,280,46))]
         return []
 
     def rect(self):

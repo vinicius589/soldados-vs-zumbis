@@ -45,9 +45,13 @@ def test() -> int:
     if check():
         return 1
     env = dict(os.environ, SDL_VIDEODRIVER='dummy', SDL_AUDIODRIVER='dummy', SVZ_RENDERER='software', PYTHONDONTWRITEBYTECODE='1', PYTHONUTF8='1', PYTHONPATH=str(ROOT / 'src'))
-    with tempfile.TemporaryDirectory(prefix='svz-tests-') as directory:
+    scratch = ROOT / 'reports' / 'temp'
+    scratch.mkdir(parents=True, exist_ok=True)
+    with tempfile.TemporaryDirectory(prefix='svz-tests-', dir=scratch) as directory:
         env['SVZ_SAVE_PATH'] = str(Path(directory) / 'campanha.json')
         env['SVZ_DATA_DIR'] = directory
+        env['TEMP'] = env['TMP'] = directory
+        env['HYPOTHESIS_STORAGE_DIRECTORY'] = str(Path(directory) / '.hypothesis')
         for args in (['-m', 'unittest', 'discover', '-s', str(ROOT / 'tests'), '-p', 'test_*.py'], [str(ROOT / 'tests/smoke_test.py')]):
             result = subprocess.run([sys.executable, *args], cwd=ROOT, env=env)
             if result.returncode:
@@ -102,11 +106,14 @@ def package(destination: Path) -> int:
     report = ROOT / 'reports/diagnostico-pacote.json'
     report.parent.mkdir(exist_ok=True)
     env = dict(os.environ, SVZ_DATA_DIR=str(ROOT / 'reports/dados-diagnostico'), SVZ_SAVE_PATH=str(ROOT / 'reports/dados-diagnostico/campanha.json'))
+    temporary = ROOT / 'reports' / 'temp'
+    temporary.mkdir(parents=True, exist_ok=True)
+    env.update(TEMP=str(temporary), TMP=str(temporary))
     result = subprocess.run([str(ROOT / 'SoldadosVsZumbis.exe'), '--headless', '--self-test', str(report)], cwd=report.parent, env=env, timeout=120)
     result_data = json.loads(report.read_text(encoding='utf-8')) if report.exists() else {}
     if result.returncode or not result_data.get('ok') or result_data.get('build') != stamp['revision']:
         return 1
-    selected = [ROOT / name for name in ('SoldadosVsZumbis.exe', 'JOGAR.bat', 'LEIA-ME.txt', 'CREDITOS.md', 'build-info.json')]
+    selected = [ROOT / name for name in ('SoldadosVsZumbis.exe', 'JOGAR.bat', 'LEIA-ME.txt', 'CREDITOS.md', 'LICENSE', 'build-info.json')]
     for folder in ('assets', '_internal', 'licenses'):
         selected.extend(p for p in (ROOT / folder).rglob('*') if p.is_file())
     destination = destination.resolve()

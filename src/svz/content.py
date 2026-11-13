@@ -649,7 +649,6 @@ DIFFICULTIES = {
         "defender_damage": 1.18,
         "supply_gain": 1.40,
         "supply_cycle": 0.74,
-        "supply_cap": 650,
         "accent": (112, 212, 139),
         "summary": "320 SUP e começo acolhedor; a pressão cresce de forma contínua até a onda 12.",
     },
@@ -668,7 +667,6 @@ DIFFICULTIES = {
         "defender_damage": 1.00,
         "supply_gain": 1.00,
         "supply_cycle": 1.00,
-        "supply_cap": 430,
         "accent": GOLD,
         "summary": "240 SUP; início ensinável, meio exigente e reta final de alta pressão.",
     },
@@ -687,7 +685,6 @@ DIFFICULTIES = {
         "defender_damage": 0.94,
         "supply_gain": 0.86,
         "supply_cycle": 1.12,
-        "supply_cap": 330,
         "accent": RED,
         "summary": "190 SUP; dá para montar a defesa inicial, mas a onda 12 exige counters e economia.",
     },
@@ -888,8 +885,8 @@ CITY_TACTICAL_UNITS = {
     "operador_radio_policial": ("Comando e Logística", 1, "Gera suprimentos durante a onda sem exigir outra carta.", "Não ataca e precisa ser protegido."),
     "atirador_precisao_swat": ("SWAT de Observação", 1, "Prioriza alvos de maior vida.", "Cadência baixa e fraco contra enxames."),
     "agente_entrada": ("Tropa de Choque", 1, "Leque devastador à queima-roupa.", "Só cobre a casa imediatamente à frente."),
-    "especialista_antipraga": ("Unidade Antipraga", 2, "A nuvem química corrói blindagem biológica e contamina grupos.", "Ocupa duas casas, usa tambor de seis granadas e recarrega lentamente."),
-    "lancador_foguetes": ("Resposta Pesada", 2, "Explosão quebra grupos e blindados.", "Ocupa duas casas, um disparo e recarga longa."),
+    "especialista_antipraga": ("Unidade Antipraga", 1, "A nuvem química corrói blindagem biológica e contamina grupos.", "Usa tambor de seis granadas e recarrega lentamente."),
+    "lancador_foguetes": ("Resposta Pesada", 1, "Explosão quebra grupos e blindados.", "Um disparo por recarga, com intervalo longo."),
     "escudeiro_tropa_choque": ("Tropa de Choque", 1, "Interrompe a primeira investida recebida.", "Corpo a corpo e sem resposta a atacantes distantes."),
 }
 for _key, (_unit, _space, _advantage, _disadvantage) in CITY_TACTICAL_UNITS.items():
@@ -973,7 +970,7 @@ def regional_sprite_index(region: str, key: str) -> int:
 ENEMIES = {
     "infectado_urbano": {
         "name": "Infectado Urbano",
-        "hp": 124,
+        "hp": 186,
         "speed": 11,
         "damage": 17,
         "attack": 1.2,
@@ -982,7 +979,7 @@ ENEMIES = {
     },
     "desperto_khepra": {
         "name": "Desperto de Khepra",
-        "hp": 130,
+        "hp": 195,
         "speed": 10.5,
         "damage": 17,
         "attack": 1.18,
@@ -991,7 +988,7 @@ ENEMIES = {
     },
     "afogado_cachoeira": {
         "name": "Afogado da Cachoeira",
-        "hp": 126,
+        "hp": 189,
         "speed": 11,
         "damage": 16,
         "attack": 1.16,
@@ -1000,22 +997,22 @@ ENEMIES = {
     },
     "corredor_cidade": {
         "name": "Corredor do Metrô",
-        "hp": 340,
+        "hp": 85,
         "speed": 24,
-        "damage": 46,
+        "damage": 23,
         "attack": 0.78,
         "sprite": 1,
         "armor": 0.25,
         "first_attack_multiplier": 2.0,
         "contact_distance": 72,
-        "tags": ("runner", "unstaggerable", "constant_speed", "signal_jammer"),
+        "tags": ("runner", "unstaggerable", "constant_speed"),
         "ability": "Infectado urbano resistente. Corre em velocidade constante, ignora interrupções por tiro e causa dano dobrado somente na primeira mordida.",
     },
     "corredor_deserto": {
         "name": "Corredor da Necrópole",
-        "hp": 360,
+        "hp": 90,
         "speed": 22,
-        "damage": 54,
+        "damage": 27,
         "attack": 0.82,
         "sprite": 1,
         "armor": 0.26,
@@ -1026,9 +1023,9 @@ ENEMIES = {
     },
     "corredor_cachoeira": {
         "name": "Corredor da Trilha",
-        "hp": 350,
+        "hp": 87.5,
         "speed": 23,
-        "damage": 39,
+        "damage": 19.5,
         "attack": 0.80,
         "sprite": 1,
         "armor": 0.25,
@@ -1751,7 +1748,6 @@ ACTIVE_ENEMY_SKILL_TAGS = frozenset(
         "parasite",
         "stomp",
         "steal",
-        "signal_jammer",
     }
 )
 

@@ -6,7 +6,8 @@ O estado serializado de Projectile permanece compatível com a versão 1.3.1.
 """
 from __future__ import annotations
 
-from .board import terrain_y
+from .board import terrain_y, lane_depth
+from .content import CRAWLER_ENEMIES
 from .config import CELL_H, GOLD, ROWS
 from .entities import Defender, Enemy
 from .motion import VisualEffect
@@ -22,6 +23,15 @@ def fixed_impact(projectile) -> bool:
     return projectile.radius > 0 and (projectile.kind in EXPLOSIVE_KINDS or not projectile.friendly)
 
 
+def friendly_aim_y(target: Enemy, origin_y: float, kind: str) -> float:
+    """Tiros diretos seguem horizontais; rastejantes exigem mira mais baixa."""
+    if kind in EXPLOSIVE_KINDS or kind == "melee":
+        return target.y - 16
+    if target.key in CRAWLER_ENEMIES or target.key == "rastejante":
+        return target.y - 35.0 * lane_depth(target.region, target.row)
+    return origin_y
+
+
 def update_aim(battle, projectile) -> None:
     """Mantém o destino desenhado coerente com o acerto de tiros dirigidos."""
     if fixed_impact(projectile):
@@ -31,7 +41,10 @@ def update_aim(battle, projectile) -> None:
     expected = Enemy if projectile.friendly else Defender
     if isinstance(target, expected) and any(actor is target for actor in population) and target.hp > 0:
         projectile.target_x = target.x
-        projectile.target_y = target.y - (16 if projectile.friendly else 12)
+        projectile.target_y = (
+            friendly_aim_y(target, projectile.y, projectile.kind)
+            if projectile.friendly else target.y - 12
+        )
 
 
 def resolve_impact(battle, projectile) -> None:

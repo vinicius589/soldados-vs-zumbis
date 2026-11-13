@@ -1,6 +1,7 @@
 [project]
 name = "Soldados vs Zumbis"
-version = "1.5.0"
+version = "1.6.0"
+stage = "Alfa da Beta 5"
 source = "src/svz"
 assets = "assets"
 entrypoint = "main.py"
