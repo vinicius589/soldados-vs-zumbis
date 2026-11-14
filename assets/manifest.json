@@ -446,5 +446,29 @@
   "assets/actors/city_technician_4x4_v1.png": {
     "sha256": "3a740b5e40f89c152c7f6123b96df9b9b5d6f36e204c723307423cf12ca37186",
     "bytes": 1484364
+  },
+  "assets/actors/city_demolisher_4x4_v1.png": {
+    "sha256": "95b04dba604b812681d8a3aa8ef35fd3f69c1707333c46292f4d117420fd24af",
+    "bytes": 1441632
+  },
+  "assets/actors/city_quarantine_brute_4x4_v1.png": {
+    "sha256": "c5b55fe12125f42a22d4b1e782b6e237c1823d39fc0574d5839afa01fa682f25",
+    "bytes": 2393886
+  },
+  "assets/actors/city_mutant_commander_4x4_v1.png": {
+    "sha256": "28b7a5a6f579f04764963ef53e80642fffb7cf822115a9d4152c04c6f6bbeed3",
+    "bytes": 1615904
+  },
+  "assets/actors/city_boss_director_4x4_v1.png": {
+    "sha256": "4fe18df0f6bbbbeb51ccbb96c834d235a7b0bae6e7a1588e9ad604b317d65d22",
+    "bytes": 2184325
+  },
+  "assets/actors/city_boss_director_4x2_v2.png": {
+    "sha256": "c5807fff0209c1794b786c8189424d9e7bd0b6c3daffc5cdf6f9b28926251fda",
+    "bytes": 1472959
+  },
+  "assets/actors/city_boss_commander_4x4_v1.png": {
+    "sha256": "0c4ba28650a62495fc6e412cdca3f746ec023e148577d0c035a0c0d6a4625807",
+    "bytes": 1555202
   }
 }

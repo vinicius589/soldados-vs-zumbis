@@ -96,11 +96,11 @@ ENEMY_ROSTER_ROWS: dict[str, tuple[str, int, str]] = {
     "city_police_infected": ("city_police_infected_4x4_v1.png", 0, "common"),
     "city_scientist": ("city_scientist_4x4_v1.png", 0, "common"),
     "city_technician": ("city_technician_4x4_v1.png", 0, "common"),
-    "city_demolisher": ("city_elites_rebuilt_16x6_v1.png", 0, "subboss"),
-    "city_quarantine_brute": ("city_elites_rebuilt_16x6_v1.png", 1, "subboss"),
-    "city_mutant_commander": ("city_elites_rebuilt_16x6_v1.png", 2, "subboss"),
-    "city_boss_director": ("city_elites_rebuilt_16x6_v1.png", 3, "boss"),
-    "city_boss_commander": ("city_elites_rebuilt_16x6_v1.png", 4, "boss"),
+    "city_demolisher": ("city_demolisher_4x4_v1.png", 0, "subboss"),
+    "city_quarantine_brute": ("city_quarantine_brute_4x4_v1.png", 0, "subboss"),
+    "city_mutant_commander": ("city_mutant_commander_4x4_v1.png", 0, "subboss"),
+    "city_boss_director": ("city_boss_director_4x2_v2.png", 0, "boss"),
+    "city_boss_commander": ("city_boss_commander_4x4_v1.png", 0, "boss"),
     "city_boss_alpha": ("city_elites_rebuilt_16x6_v1.png", 5, "boss"),
     # Egito / Escavação Khepra
     "desert_zombie_v2": ("desert_zombies_hd_16x6_v3.png", 0, "common"),
@@ -854,9 +854,33 @@ def _roster_enemy_clips(
     sheet = SpriteSheet.from_file(path)
     columns = ROSTER_GRID_COLUMNS.get(path.name, 8)
     custom_bounds = ROSTER_VERTICAL_BOUNDS.get(path.name)
-    if actor in {"city_scientist", "city_technician"}:
+    if actor == "city_boss_director":
         width, height = sheet.surface.get_size()
-        ys = (0, 325, 625, 945, 1280)
+        cells = []
+        for strip in range(2):
+            xs = (0, .25, .46, .75, 1) if strip else (0, .25, .5, .75, 1)
+            for col in range(4):
+                left, right = round(xs[col]*width), round(xs[col+1]*width)
+                top, bottom = round(strip*height/2), round((strip+1)*height/2)
+                cells.append(sheet.surface.subsurface((left, top, right-left, bottom-top)).copy())
+        # Reutiliza poses completas para estados auxiliares, sem novos recortes.
+        cells += [frame.copy() for frame in cells[:4]] + [frame.copy() for frame in cells[4:8]]
+        columns = 16
+    elif actor == "city_quarantine_brute":
+        # Limites entre silhuetas, incluindo os braços estendidos.
+        width, height = sheet.surface.get_size()
+        ys = (0, 320, 620, 945, 1254)
+        cells = []
+        for strip in range(4):
+            xs = (0, 305, 607, 978, 1254) if strip == 1 else (0, 313, 627, 940, 1254)
+            for col in range(4):
+                left, right = round(xs[col]*width/1254), round(xs[col+1]*width/1254)
+                top, bottom = round(ys[strip]*height/1254), round(ys[strip+1]*height/1254)
+                cells.append(sheet.surface.subsurface((left, top, right-left, bottom-top)).copy())
+        columns = 16
+    elif actor in {"city_scientist", "city_technician", "city_demolisher"}:
+        width, height = sheet.surface.get_size()
+        ys = (0, 320, 620, 915, 1280) if actor == "city_demolisher" else (0, 325, 625, 945, 1280)
         cells = []
         for strip in range(4):
             xs = (0, 320, 590, 960, 1280) if strip == 1 else (0, 320, 640, 960, 1280)
@@ -865,7 +889,7 @@ def _roster_enemy_clips(
                 top, bottom = round(ys[strip] * height / 1280), round(ys[strip+1] * height / 1280)
                 cells.append(sheet.surface.subsurface((left, top, right-left, bottom-top)).copy())
         columns = 16
-    elif actor == "city_police_infected":
+    elif actor in {"city_police_infected", "city_mutant_commander", "city_boss_director", "city_boss_commander"}:
         cells = sheet.slice_equal(4, 4)
         columns = 16  # Dezesseis poses na folha exclusiva, em ordem de leitura.
     elif custom_bounds is None:
@@ -956,9 +980,9 @@ def _roster_enemy_clips(
     target_height = 88 if kind == "crawler" else (140 if kind == "boss" else (132 if kind == "subboss" else 124))
     # Cada quadro recebe a mesma altura corporal. O gesto muda, mas a criatura
     # não troca de escala entre caminhada, ataque, dano e habilidade.
-    if actor in {"city_police_infected", "city_scientist", "city_technician"}:
+    if actor in {"city_police_infected", "city_scientist", "city_technician", "city_demolisher", "city_quarantine_brute", "city_mutant_commander", "city_boss_director", "city_boss_commander"}:
         # Escala única conserva o agachamento sem ampliar o corpo no ataque.
-        frames = _normalize_actor_height(cells, 248, reference_height)
+        frames = _normalize_actor_height(cells, target_height * 2, reference_height)
     else:
         frames = _normalize_each_actor_height(cells, target_height)
     if columns >= 16:
@@ -980,7 +1004,7 @@ def _roster_enemy_clips(
         skill_frames = [frames[0], frames[4], frames[7], frames[1]]
         if actor == "desert_plague_priest":
             skill_frames = [frames[0], frames[7], frames[1], frames[0]]
-        if actor in {"city_scientist", "city_technician"}:
+        if actor in {"city_scientist", "city_technician", "city_demolisher", "city_quarantine_brute", "city_mutant_commander", "city_boss_director", "city_boss_commander"}:
             skill_frames = frames[12:16]
         hit_frames = frames[8:12]
         if actor == "desert_plague_priest":
@@ -1060,6 +1084,20 @@ def _roster_enemy_clips(
         skill_durations,
         ((0, -0.70), (-1, -1.05), (-1, 0.85), (0, 0.45)),
     )
+    if actor == "city_boss_commander":
+        # Os tubos e botas chegam aos extremos da silhueta. Não rotacionar
+        # dentro da caixa fixa: a rotação cortava as pontas em intermediários.
+        for sequence in (idle_frames, move_frames, bite_frames, hit_frames, skill_frames):
+            for index in range(1, len(sequence), 2):
+                sequence[index] = _pose_inbetween(sequence[index-1], dx=1, angle=0.0)
+    if actor == "city_boss_director":
+        # Mantém as durações e o instante de contato sem rotações artificiais,
+        # que fazem bordas finas oscilar ao reduzir a imagem para o jogo.
+        idle_frames = [f for f in groups["idle"] for _ in range(2)]
+        move_frames = [f for f in groups["move"] for _ in range(2)]
+        bite_frames = [f for f in groups["bite"] for _ in range(2)]
+        hit_frames = [f for f in groups["hit"] for _ in range(2)]
+        skill_frames = [f for f in groups["bite"] for _ in range(2)]
     return {
         "move": AnimationClip.timed(
             move_frames, move_durations, loop=True, name="locomoção 16-bit fluida"

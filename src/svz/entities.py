@@ -119,6 +119,11 @@ class Enemy:
     attack_target: Defender | None = None
     attack_damage: float = 0.0
     first_attack_done: bool = False
+    director_windup: float = 0.0
+    director_entrance: bool = False
+    gun_windup: float = 0.0
+    acid_windup: float = 0.0
+    slam_windup: float = 0.0
     skill_timer: float = 1.8
     age: float = 0.0
     stun: float = 0.0
@@ -175,6 +180,10 @@ class Enemy:
 
     @property
     def bite_contact_time(self) -> float:
+        if self.key in {"divisor", "policial", "bruto_demolidor", "comandante_mortos"} and self.visual_animation is not None:
+            clip = self.visual_animation.animations["bite"]
+            contact = sum(clip.frame_durations[:len(clip.frames)//2])
+            return contact * self.bite_cycle / max(.001, clip.duration)
         return min(0.46 if self.is_boss else 0.38, self.bite_duration * 0.42)
 
     @property

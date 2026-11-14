@@ -176,13 +176,15 @@ class CombatActionsMixin:
         self.dead_history.append((enemy.key, enemy.row, enemy.x))
         if len(self.dead_history) > 12:
             self.dead_history.pop(0)
-        if enemy.is_boss or enemy.data.get("subboss"):
+        show_death_explosion = enemy.key not in {"policial", "divisor"}
+        if show_death_explosion and (enemy.is_boss or enemy.data.get("subboss")):
             self.explosion(enemy.x, enemy.y, GOLD, 26)
         if "explode_death" in enemy.tags:
             for defender in self.defenders[:]:
                 if defender.row == enemy.row and abs(defender.x - enemy.x) < CELL_W * 1.15:
                     self.damage_defender(defender, self.scaled_enemy_damage(enemy, 52), "acid")
-            self.explosion(enemy.x, enemy.y, (114, 212, 99), 25)
+            if show_death_explosion:
+                self.explosion(enemy.x, enemy.y, (114, 212, 99), 25)
         if enemy.is_boss:
             bonus = int(round((46 + self.wave * 2) * float(self.difficulty_data["supply_gain"])))
             self.supplies += bonus

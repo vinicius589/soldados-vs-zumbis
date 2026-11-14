@@ -323,7 +323,7 @@ class EntityRenderingMixin:
                 # um zumbi comum artificialmente gigante.
                 category = "common"
             body_height, source_height = ENEMY_BODY_LAYOUTS[category]
-            if enemy.key in {"policial_helix", "cientista_helix", "tecnico_subestacao"}:
+            if enemy.key in {"policial_helix", "cientista_helix", "tecnico_subestacao", "bruto", "divisor", "policial", "bruto_demolidor", "comandante_mortos"}:
                 source_height *= 2.0
             scale = animated_actor_render_scale(
                 sprite,

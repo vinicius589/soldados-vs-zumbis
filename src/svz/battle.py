@@ -613,10 +613,24 @@ class Battle(EnemyMotionMixin, CombatActionsMixin, EnemyAbilityMixin):
                 self.take_enemy_damage(enemy, 2.0 * dt, "acid")
                 if enemy not in self.enemies:
                     continue
+            if enemy.gun_windup > 0:
+                enemy.gun_windup = max(0.0, enemy.gun_windup - dt)
+                if enemy.gun_windup == 0 and enemy.hp > 0:
+                    self.release_enemy_gun(enemy)
+            if enemy.acid_windup > 0:
+                enemy.acid_windup = max(0.0, enemy.acid_windup - dt)
+                if enemy.acid_windup == 0 and enemy.hp > 0:
+                    self.release_enemy_acid(enemy)
+            if enemy.slam_windup > 0:
+                enemy.slam_windup = max(0.0, enemy.slam_windup - dt)
+                if enemy.slam_windup == 0 and enemy.hp > 0:
+                    self.resolve_stomp(enemy)
             if enemy.skill_timer <= 0:
                 self.enemy_special(enemy)
                 if enemy not in self.enemies:
                     continue
+            if enemy.key in {"bruto", "cientista_helix", "divisor", "policial", "bruto_demolidor", "comandante_mortos"} and enemy.motion.state == "skill" and enemy.motion.event_left > 0:
+                continue
             if self.update_enemy_motion(enemy, dt):
                 continue
             if enemy.stun > 0:

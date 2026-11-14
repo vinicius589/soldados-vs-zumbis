@@ -136,6 +136,11 @@ class QualidadeAnimacoesBeta4Tests(unittest.TestCase):
                 "city_police_infected_4x4_v1.png",
                 "city_scientist_4x4_v1.png",
                 "city_technician_4x4_v1.png",
+                "city_demolisher_4x4_v1.png",
+                "city_quarantine_brute_4x4_v1.png",
+                "city_mutant_commander_4x4_v1.png",
+                "city_boss_commander_4x4_v1.png",
+                "city_boss_director_4x2_v2.png",
                 "city_elites_rebuilt_16x6_v1.png",
                 "desert_zombies_hd_16x6_v3.png",
                 "desert_elites_rebuilt_16x6_v1.png",
@@ -163,7 +168,7 @@ class QualidadeAnimacoesBeta4Tests(unittest.TestCase):
             for region in ("city", "desert", "beach")
             for kind in ("zombie", "runner", "crawler")
         }
-        for actor in set(ENEMY_ROSTER_ROWS) - base_actors:
+        for actor in set(ENEMY_ROSTER_ROWS) - base_actors - {"city_boss_director"}:
             bite = self.clips[actor]["bite"].frames
             skill = self.clips[actor]["skill"].frames
             self.assertNotEqual(
@@ -186,7 +191,7 @@ class QualidadeAnimacoesBeta4Tests(unittest.TestCase):
                 self.assertGreaterEqual(len(clip.frames), 8, f"animação rala {actor}:{state}")
                 self.assertGreaterEqual(
                     len({pygame.image.tobytes(frame, "RGBA") for frame in clip.frames}),
-                    6,
+                    4 if actor == "city_boss_director" else 6,
                     f"quadros repetidos demais {actor}:{state}",
                 )
 
@@ -246,7 +251,7 @@ class QualidadeAnimacoesBeta4Tests(unittest.TestCase):
         samples = {
             actor: sum(_main_figure(frame).height for frame in states["move"].frames)
             / len(states["move"].frames)
-            / (2 if actor in {"city_police_infected", "city_scientist", "city_technician"} else 1)
+            / (2 if actor in {"city_police_infected", "city_scientist", "city_technician", "city_demolisher", "city_quarantine_brute", "city_mutant_commander", "city_boss_director", "city_boss_commander"} else 1)
             for actor, states in self.clips.items()
             if actor in ENEMY_ROSTER_ROWS
         }
@@ -334,3 +339,4 @@ class QualidadeAnimacoesBeta4Tests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+

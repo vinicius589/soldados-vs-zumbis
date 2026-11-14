@@ -33,8 +33,18 @@ class EnemyAbilityMixin:
         que vem depois é menor, localizada e possui um intervalo legível.
         """
         boss_type = enemy.data.get("type", "")
+        if boss_type == "bruto_demolidor":
+            enemy.director_windup = 0.0
+            enemy.director_entrance = False
+            enemy.skill_timer = 9999.0
+            for defender in self.defenders:
+                if defender.hp > 0 and self.is_military_defender(defender):
+                    defender.stun = max(defender.stun, 3.0)
+            self.announce("Diretor Demolidor: tropas paralisadas por 3 s!", 2.8, RED)
+            return
         skill_duration = self.enemy_skill_duration(enemy, 0.72)
-        enemy.motion.trigger("skill", skill_duration)
+        if boss_type != "comandante":
+            enemy.motion.trigger("skill", skill_duration)
         self.shake = max(self.shake, 0.42)
         entrance_visuals = {
             "bruto_demolidor": ("ground_slam", (230, 91, 61)),
@@ -49,18 +59,19 @@ class EnemyAbilityMixin:
         }
         visual_kind, visual_color = entrance_visuals.get(str(boss_type), ("ground_slam", RED))
         effect_x, effect_y = self.enemy_effect_origin(enemy, visual_kind)
-        self.effects.append(
-            VisualEffect(
-                visual_kind,
-                effect_x,
-                effect_y,
-                visual_color,
-                skill_duration,
-                scale=1.45,
-                owner=enemy,
-                anchor_kind=visual_kind,
+        if boss_type != "comandante":
+            self.effects.append(
+                VisualEffect(
+                    visual_kind,
+                    effect_x,
+                    effect_y,
+                    visual_color,
+                    skill_duration,
+                    scale=1.45,
+                    owner=enemy,
+                    anchor_kind=visual_kind,
+                )
             )
-        )
         if boss_type == "bruto_demolidor":
             for defender in self.defenders:
                 if self.is_military_defender(defender):
@@ -124,8 +135,26 @@ class EnemyAbilityMixin:
         body_height, source_height = ENEMY_BODY_LAYOUTS[category]
         depth = lane_depth(enemy.region, enemy.row)
         dx, height_ratio = ENEMY_ATTACK_ORIGINS.get(kind, (-16.0, 0.55))
+        if enemy.key in {"divisor", "policial", "comandante_mortos"}:
+            source_height *= 2
         emitter_height = body_height * height_ratio
         animation = enemy.visual_animation
+        if enemy.key == "cientista_helix" and kind == "acid" and animation is not None:
+            source_height *= 2
+            clip = animation.animations["skill"]
+            frame = clip.frames[len(clip.frames)//2]
+            dx, emitter_height = sprite_emitter_contact(
+                frame, -36.0, body_height * .55,
+                body_height=body_height, source_body_height=source_height, facing=-1,
+            )
+            return enemy.x + dx * depth, enemy.y - emitter_height * depth
+        if enemy.key in {"policial", "comandante_mortos"} and kind == "enemy_bullet" and animation is not None:
+            clip = animation.animations["skill"]
+            dx, emitter_height = sprite_emitter_contact(
+                clip.frames[len(clip.frames)//2], -40.0, body_height * .73,
+                body_height=body_height, source_body_height=source_height, facing=-1,
+            )
+            return enemy.x + dx * depth, enemy.y - emitter_height * depth
         if animation is not None and animation.state == "skill":
             dx, emitter_height = sprite_emitter_contact(
                 animation.frame,
@@ -140,6 +169,8 @@ class EnemyAbilityMixin:
     @staticmethod
     def enemy_effect_origin(enemy: Enemy, kind: str) -> tuple[float, float]:
         """Ancora efeitos no chão, na água ou no corpo conforme a habilidade."""
+        if kind == "ground_slam" and enemy.key == "bruto":
+            return enemy.x - 48 * lane_depth(enemy.region, enemy.row), enemy.y - 4
         if kind in {"ground_slam", "tidal_surge", "water_splash"}:
             return enemy.x, enemy.y - 12 * lane_depth(enemy.region, enemy.row)
         if kind == "toxic_wave":
@@ -203,6 +234,21 @@ class EnemyAbilityMixin:
             "leviathan": 18.0,
         }
         enemy.skill_timer = cooldowns.get(boss_type, 12.0) * float(self.difficulty_data["skill_cooldown"])
+        if boss_type == "bruto_demolidor":
+            enemy.skill_timer = 9999.0
+            return
+        if boss_type == "comandante":
+            if not self.isotopic_targets(enemy):
+                enemy.skill_timer = 0.15
+                return
+            duration = self.enemy_skill_duration(enemy)
+            enemy.motion.trigger("skill", duration)
+            clip = None
+            if enemy.visual_animation is not None:
+                enemy.visual_animation.play("skill", restart=True)
+                clip = enemy.visual_animation.animations["skill"]
+            enemy.gun_windup = sum(clip.frame_durations[:len(clip.frames)//2]) if clip else duration * .5
+            return
         skill_duration = self.enemy_skill_duration(enemy)
         enemy.motion.trigger("skill", skill_duration)
         if enemy.visual_animation is not None and "skill" in enemy.visual_animation.animations:
@@ -315,9 +361,22 @@ class EnemyAbilityMixin:
         # Inimigos básicos e rastejadores não fingem possuir um poder. A ação
         # especial só toca quando existe uma regra real associada à ficha.
         # Mordida e devorar continuam usando o estado físico de ataque.
+        if enemy.key in {"divisor", "policial"} and enemy.motion.state == "attack" and enemy.motion.event_left > 0:
+            return
         active_tags = ACTIVE_ENEMY_SKILL_TAGS.intersection(enemy.tags)
         if not active_tags:
             enemy.skill_timer = 9999.0
+            return
+        if enemy.key == "bruto" and not any(
+            d.hp > 0 and d.row == enemy.row and 0 <= enemy.x - d.x <= CELL_W * 2
+            for d in self.defenders
+        ):
+            enemy.skill_timer = 0.15
+            return
+        if enemy.key in {"cientista_helix", "policial"} and not any(
+            self.target_within_two_cells(enemy, d) for d in self.defenders
+        ):
+            enemy.skill_timer = 0.15
             return
         skill_duration = (
             enemy.visual_animation.animations["skill"].duration
@@ -330,7 +389,8 @@ class EnemyAbilityMixin:
             # Bala, ácido, rede e demais efeitos consultam exatamente o quadro
             # de habilidade que começou agora, nunca a pose de caminhada.
             enemy.visual_animation.play("skill", restart=True)
-        self.app.audio.play("ability", min_interval_ms=140)
+        if enemy.key not in {"bruto", "cientista_helix", "divisor", "policial"}:
+            self.app.audio.play("ability", min_interval_ms=140)
         # No Difícil os poderes inimigos retornam um pouco antes. No Fácil o
         # multiplicador é 1, portanto o equilíbrio aprovado não se altera.
         enemy.skill_timer = random.uniform(3.4, 5.8) * float(self.difficulty_data["skill_cooldown"])
@@ -345,19 +405,17 @@ class EnemyAbilityMixin:
             effect_x, effect_y = self.enemy_effect_origin(enemy, "water_splash")
             self.effects.append(VisualEffect("water_splash", effect_x, effect_y, (84, 196, 203), skill_duration, scale=0.55, owner=enemy, anchor_kind="water_splash"))
         if "gun" in enemy.tags:
-            targets = [d for d in self.defenders if d.row == enemy.row and d.x < enemy.x and enemy.x - d.x < CELL_W * 4]
-            if targets:
-                victim = max(targets, key=lambda d: d.x)
-                damage = self.scaled_enemy_damage(enemy, 20)
-                origin_x, origin_y = self.enemy_projectile_origin(enemy, "enemy_bullet")
-                self.projectiles.append(Projectile(origin_x, origin_y, victim, victim.x, victim.y - 20, damage, "enemy_bullet", enemy, 0, False, 0.30))
+            if enemy.key == "policial":
+                clip = enemy.visual_animation.animations["skill"] if enemy.visual_animation else None
+                enemy.gun_windup = sum(clip.frame_durations[:len(clip.frames)//2]) if clip else skill_duration * .5
+            else:
+                self.release_enemy_gun(enemy)
         if "acid" in enemy.tags:
-            targets = [d for d in self.defenders if d.row == enemy.row and d.x < enemy.x and enemy.x - d.x < CELL_W * 3.2]
-            if targets:
-                victim = max(targets, key=lambda d: d.x)
-                damage = self.scaled_enemy_damage(enemy, 16)
-                origin_x, origin_y = self.enemy_projectile_origin(enemy, "acid")
-                self.projectiles.append(Projectile(origin_x, origin_y, victim, victim.x, victim.y - 18, damage, "acid", enemy, CELL_W * 0.34, False, 0.48, effect="acid"))
+            if enemy.key in {"cientista_helix", "divisor"}:
+                clip = enemy.visual_animation.animations["skill"] if enemy.visual_animation else None
+                enemy.acid_windup = sum(clip.frame_durations[:len(clip.frames)//2]) if clip else skill_duration * .5
+            else:
+                self.release_enemy_acid(enemy)
         if "shock" in enemy.tags:
             effect_x, effect_y = self.enemy_effect_origin(enemy, "signal_pulse")
             self.effects.append(VisualEffect("signal_pulse", effect_x, effect_y, TEAL, skill_duration, scale=0.76, owner=enemy, anchor_kind="signal_pulse"))
@@ -443,11 +501,12 @@ class EnemyAbilityMixin:
                     defender.stun = max(defender.stun, 2.6)
             self.announce("Parasita: tiro das tropas foi desabilitado.", 1.4, RED)
         if "stomp" in enemy.tags:
-            effect_x, effect_y = self.enemy_effect_origin(enemy, "ground_slam")
-            self.effects.append(VisualEffect("ground_slam", effect_x, effect_y, (223, 132, 73), skill_duration, scale=0.84, owner=enemy, anchor_kind="ground_slam"))
-            for defender in self.defenders:
-                if defender.row == enemy.row and abs(defender.x - enemy.x) < CELL_W * 1.8:
-                    self.damage_defender(defender, self.scaled_enemy_damage(enemy, 24), "stun")
+            if enemy.key == "bruto":
+                clip = enemy.visual_animation.animations["skill"] if enemy.visual_animation else None
+                # A terceira pose é o contato; as duas primeiras preparam o golpe.
+                enemy.slam_windup = sum(clip.frame_durations[:len(clip.frames)//2]) if clip else skill_duration * .5
+            else:
+                self.resolve_stomp(enemy, skill_duration)
         if "steal" in enemy.tags:
             effect_x, effect_y = self.enemy_effect_origin(enemy, "supply_snatch")
             self.effects.append(VisualEffect("supply_snatch", effect_x, effect_y, GOLD, skill_duration, scale=0.68, owner=enemy, anchor_kind="supply_snatch"))
@@ -456,3 +515,71 @@ class EnemyAbilityMixin:
             enemy.stolen += stolen
             self.announce("Ladrão de Suprimentos roubou carga — clique nele!", 2.0, GOLD)
 
+
+    def resolve_stomp(self, enemy: Enemy, duration: float = 0.38) -> None:
+        effect_x, effect_y = self.enemy_effect_origin(enemy, "ground_slam")
+        self.effects.append(VisualEffect("ground_slam", effect_x, effect_y, (223, 132, 73), duration, scale=0.84))
+        if enemy.key == "bruto":
+            self.app.audio.play("ability", min_interval_ms=140)
+        for defender in self.defenders[:]:
+            if defender.hp > 0 and defender.row == enemy.row and (
+                0 <= enemy.x - defender.x <= CELL_W * 2 if enemy.key == "bruto"
+                else abs(defender.x - enemy.x) < CELL_W * 1.8
+            ):
+                self.damage_defender(defender, self.scaled_enemy_damage(enemy, 24), "stun")
+
+    @staticmethod
+    def target_within_two_cells(enemy: Enemy, defender) -> bool:
+        return (defender.hp > 0 and defender.row == enemy.row
+                and 0 <= enemy.x - defender.x <= CELL_W * 2)
+
+    def release_enemy_acid(self, enemy: Enemy) -> None:
+        targets = [d for d in self.defenders if d.hp > 0 and d.row == enemy.row
+                   and 0 < enemy.x - d.x < CELL_W * 3.2]
+        if enemy.key == "cientista_helix":
+            targets = [d for d in self.defenders if self.target_within_two_cells(enemy, d)]
+        if not targets:
+            return
+        victim = max(targets, key=lambda d: d.x)
+        damage = self.scaled_enemy_damage(enemy, 16)
+        origin_x, origin_y = self.enemy_projectile_origin(enemy, "acid")
+        self.projectiles.append(Projectile(origin_x, origin_y, victim, victim.x, victim.y - 18,
+                                           damage, "acid", enemy, CELL_W * .34, False, .48, effect="acid"))
+        if enemy.key in {"cientista_helix", "divisor"}:
+            self.app.audio.play("ability", min_interval_ms=140)
+
+    def release_enemy_gun(self, enemy: Enemy) -> None:
+        if enemy.key == "comandante_mortos":
+            self.release_isotopic_burst(enemy)
+            return
+        targets = [d for d in self.defenders if d.hp > 0 and d.row == enemy.row and 0 < enemy.x - d.x < CELL_W * 4]
+        if enemy.key == "policial":
+            targets = [d for d in self.defenders if self.target_within_two_cells(enemy, d)]
+        if not targets:
+            return
+        victim = max(targets, key=lambda d: d.x)
+        origin_x, origin_y = self.enemy_projectile_origin(enemy, "enemy_bullet")
+        self.projectiles.append(Projectile(origin_x, origin_y, victim, victim.x, victim.y - 20, self.scaled_enemy_damage(enemy, 20), "enemy_bullet", enemy, 0, False, .30))
+        if enemy.key == "policial":
+            self.app.audio.play("ability", min_interval_ms=140)
+
+
+
+    def isotopic_targets(self, enemy: Enemy) -> list[Defender]:
+        return [d for d in self.defenders if d.hp > 0 and d.row == enemy.row
+                and 0 <= enemy.x - d.x <= CELL_W * 4]
+
+    def release_isotopic_burst(self, enemy: Enemy) -> None:
+        targets = self.isotopic_targets(enemy)
+        if not targets:
+            return
+        for other in self.enemies:
+            if other is not enemy and other.hp > 0 and abs(other.row-enemy.row) <= 1 and abs(other.x-enemy.x) < CELL_W * 2.8:
+                other.rage = max(other.rage, 2.2)
+        self.app.audio.play("ability", min_interval_ms=140)
+        if targets:
+            victim = max(targets, key=lambda d:d.x)
+            x, y = self.enemy_projectile_origin(enemy, "enemy_bullet")
+            for offset in (-3,3):
+                self.projectiles.append(Projectile(x, y+offset, victim, victim.x, victim.y-24, self.scaled_enemy_damage(enemy,10), "enemy_bullet", enemy, 0, False, .32))
+        self.announce("Comandante: escolta próxima acelerada e rajada dupla disparada.", 1.9, RED)

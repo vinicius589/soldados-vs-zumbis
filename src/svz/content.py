@@ -1431,12 +1431,12 @@ ENEMIES["cacador"].update({
 BOSSES = {
     "bruto_demolidor": {
         "name": "BRUTO DEMOLIDOR",
-        "hp": 1000,
-        "speed": 6,
+        "hp": 1250,
+        "speed": 7.5,
         "damage": 30,
         "attack": 1.05,
         "sprite": 10,
-        "ability": "Entrada: paralisa militares por 3 s. Depois, o Martelo fecha só a própria faixa por 1,2 s a cada 18 s.",
+        "ability": "Entrada: paralisa militares por 3 s. Depois, utiliza apenas o ataque básico.",
         "type": "bruto_demolidor",
     },
     "comandante_mortos": {
