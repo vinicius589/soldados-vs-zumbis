@@ -7,7 +7,6 @@ import pygame
 from .config import (
     GOLD,
     HEIGHT,
-    LANE_PROTECTION_COLUMN,
     RED,
     WHITE,
     WIDTH,
@@ -55,14 +54,6 @@ class GameRenderer(MenuRenderingMixin, EffectsRenderingMixin, ProjectileRenderin
             if self.owner.control_mode == "keyboard"
             else battle.board_cell_at(mouse)
         )
-        # O contorno volta quando o trator libera a posição para soldados.
-        if (
-            battle.region == "city"
-            and hovered_cell
-            and hovered_cell[1] == LANE_PROTECTION_COLUMN
-            and battle.lane_bombs[hovered_cell[0]].state != "spent"
-        ):
-            hovered_cell = None
         if hovered_cell and not battle.finished:
             row, col = hovered_cell
             outline = battle.ground_cell_rect(row, col)
@@ -97,8 +88,6 @@ class GameRenderer(MenuRenderingMixin, EffectsRenderingMixin, ProjectileRenderin
             self.owner.overlay_surface.fill((0, 0, 0, 0))
         if self.owner.scene == "loading":
             self.draw_loading()
-        elif self.owner.scene == "developer":
-            self.owner.developer_lab.draw(self)
         elif self.owner.scene == "title":
             self.draw_title()
         elif self.owner.scene in ("confirm_new", "confirm_exit"):

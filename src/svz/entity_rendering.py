@@ -132,7 +132,7 @@ class EntityRenderingMixin:
                     enemy=enemy,
                     vertical_offset=vertical_offset,
                     alpha=max(0, min(255, int(alpha))),
-                    hit_flash=motion.hit_flash if enemy or not frame_animated else 0.0,
+                    hit_flash=0.0 if frame_animated else motion.hit_flash,
                     progress=action_progress,
                     profile="sprite_sequence" if frame_animated else profile,
                 )
@@ -156,12 +156,7 @@ class EntityRenderingMixin:
         rendered = pygame.transform.rotate(self.owner.assets.scaled(sprite, *size), angle)
         if alpha < 255:
             rendered.set_alpha(max(0, alpha))
-        if enemy and motion.hit_flash > 0:
-            # Mistura com branco apenas nos canais RGB, preservando o alfa do recorte.
-            light = round(140 * clamp(motion.hit_flash / 0.13, 0.0, 1.0))
-            rendered.fill((255 - light,) * 3, special_flags=pygame.BLEND_RGB_MULT)
-            rendered.fill((light,) * 3, special_flags=pygame.BLEND_RGB_ADD)
-        elif motion.hit_flash > 0 and not frame_animated:
+        if motion.hit_flash > 0 and not frame_animated:
             flash_alpha = int(105 * clamp(motion.hit_flash / 0.13, 0.0, 1.0))
             flash = pygame.Surface(rendered.get_size(), pygame.SRCALPHA)
             flash.fill((255, 238, 210, flash_alpha))
@@ -242,9 +237,7 @@ class EntityRenderingMixin:
             else:
                 total = max(0.001, defender.motion.state_elapsed + defender.motion.event_left)
                 attack_progress = clamp(defender.motion.state_elapsed / total, 0.0, 1.0)
-            shot_age = (attack_progress * defender.visual_animation.clip.duration
-                        if frame_animated else defender.motion.state_elapsed)
-            stage = min(7, int(shot_age / 0.10 * 8.0))
+            stage = min(7, int(attack_progress * 8.0))
             # O cano está à frente do peito, nunca no centro/perna do ator.
             # Água, fogo e veneno não ganham uma segunda figura colada na
             # arma. O fluxo real é desenhado pelo projétil contínuo, usando a
@@ -257,7 +250,7 @@ class EntityRenderingMixin:
             if (
                 weapon_profile is not None
                 and weapon_profile.flash_size[0] > 0
-                and shot_age < 0.10
+                and not self.frame_has_muzzle_flash(sprite, defender)
             ):
                 muzzle_x, muzzle_y = defender_weapon_origin(defender)
                 flash_width, flash_height = weapon_profile.flash_size
@@ -298,16 +291,15 @@ class EntityRenderingMixin:
             animation = enemy.visual_animation
             assert animation is not None
             if animation.state == "bite":
-                # Atinge o maior avanço no mesmo instante em que a mordida causa dano.
-                elapsed = max(0.0, enemy.data["attack"] - enemy.attack_timer)
-                contact = enemy.bite_contact_time
-                if elapsed <= contact:
-                    phase = elapsed / contact
-                else:
-                    phase = 1.0 - (elapsed - contact) / max(0.001, enemy.bite_cycle - contact)
-                phase = clamp(phase, 0.0, 1.0)
-                reach = 4 if "runner" in enemy.tags else 23
-                render_x -= reach * phase * phase * (3.0 - 2.0 * phase) * depth
+                offsets = (
+                    (0, 1, 2, 4, 7, 6, 3, 0)
+                    if "runner" in enemy.tags
+                    else (0, 2, 7, 14, 23, 21, 11, 0)
+                )
+                render_x -= offsets[min(animation.frame_index, len(offsets) - 1)] * depth
+            elif animation.state == "hit":
+                offsets = (0, 3, 7, 10, 8, 5, 2, 0)
+                render_x += offsets[min(animation.frame_index, len(offsets) - 1)] * depth
             crawler = enemy.key in CRAWLER_ENEMIES
             if crawler:
                 category = "crawler"
@@ -323,8 +315,6 @@ class EntityRenderingMixin:
                 # um zumbi comum artificialmente gigante.
                 category = "common"
             body_height, source_height = ENEMY_BODY_LAYOUTS[category]
-            if enemy.key in {"policial_helix", "cientista_helix", "tecnico_subestacao", "bruto", "divisor", "policial", "bruto_demolidor", "comandante_mortos"}:
-                source_height *= 2.0
             scale = animated_actor_render_scale(
                 sprite,
                 depth,

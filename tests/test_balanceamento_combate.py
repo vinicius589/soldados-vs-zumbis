@@ -127,49 +127,6 @@ class BalanceamentoCombateTests(unittest.TestCase):
         battle.take_enemy_damage(runner, 1.0)
         self.assertEqual(runner.stun, 0.0)
 
-    def test_dano_acende_o_zumbi_e_preserva_a_acao(self) -> None:
-        battle = self.battle()
-        for action, clip in (("walk", "move"), ("attack", "bite")):
-            enemy = self._spawn_for_test(battle, "infectado_urbano", 1)
-            enemy.motion.trigger(action, 0.8)
-            battle.update_production_animations(0.07)
-            for _ in range(3):
-                elapsed = enemy.motion.state_elapsed
-                battle.take_enemy_damage(enemy, 1.0)
-                battle.update_enemies(1 / 60)
-                battle.update_production_animations(1 / 60)
-                self.assertEqual(enemy.motion.state, action)
-                self.assertGreater(enemy.motion.state_elapsed, elapsed)
-                self.assertGreater(enemy.motion.hit_flash, 0)
-                self.assertEqual(enemy.visual_animation.state, clip)
-
-    def test_cada_mordida_reinicia_o_gesto_no_contato_continuo(self) -> None:
-        for region, keys in REGION_ENEMIES.items():
-            for key in keys[:3]:
-                with self.subTest(region=region, enemy=key):
-                    battle = self.battle(region)
-                    row = 0 if region == "beach" else 1
-                    defender = self.deploy(battle, row)
-                    defender.stats = dict(defender.stats, combat_class=99)  # alvo fora da regra de devorar
-                    defender.hp = 100000
-                    enemy = self._spawn_for_test(battle, key, row)
-                    enemy.x = defender.x + enemy.data.get("contact_distance", 58) - 0.25
-                    starts = 0
-                    impacts = 0
-                    for _ in range(600):
-                        hp = defender.hp
-                        timer = enemy.attack_timer
-                        battle.update_enemies(1 / 60)
-                        battle.update_production_animations(1 / 60)
-                        if enemy.attack_timer > timer:
-                            starts += 1
-                            self.assertEqual(enemy.visual_animation.state, "bite")
-                            self.assertEqual(enemy.visual_animation.frame_index, 0)
-                        impacts += defender.hp < hp
-                        if impacts == 3:
-                            break
-                    self.assertEqual((starts, impacts), (3, 3))
-
     def _spawn_for_test(self, battle: Battle, key: str, row: int):
         battle.spawn_enemy(SpawnOrder(0.0, key, row))
         enemy = battle.enemies[-1]
@@ -217,7 +174,7 @@ class BalanceamentoCombateTests(unittest.TestCase):
         second = runner.attack_damage
         self.assertAlmostEqual(first, second * 2.0, places=4)
 
-    def test_defensor_vence_um_comum_ou_um_corredor_isolado_nos_tres_mapas(self) -> None:
+    def test_basico_perde_um_contra_um_e_corredor_vence_nos_tres_mapas(self) -> None:
         for region, enemies in REGION_ENEMIES.items():
             row = 0 if region == "beach" else 1
             with self.subTest(region=region, kind="basic"):
@@ -230,8 +187,8 @@ class BalanceamentoCombateTests(unittest.TestCase):
                 battle = self.battle(region)
                 defender = self.deploy(battle, row)
                 defender, enemy, _ = self.duel(battle, defender, enemies[1])
-                self.assertIn(defender, battle.defenders)
-                self.assertNotIn(enemy, battle.enemies)
+                self.assertNotIn(defender, battle.defenders)
+                self.assertIn(enemy, battle.enemies)
 
     def test_cinco_zumbis_basicos_vencem_em_grupo_nos_tres_mapas(self) -> None:
         for region, enemies in REGION_ENEMIES.items():

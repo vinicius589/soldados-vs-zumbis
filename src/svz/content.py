@@ -885,8 +885,8 @@ CITY_TACTICAL_UNITS = {
     "operador_radio_policial": ("Comando e Logística", 1, "Gera suprimentos durante a onda sem exigir outra carta.", "Não ataca e precisa ser protegido."),
     "atirador_precisao_swat": ("SWAT de Observação", 1, "Prioriza alvos de maior vida.", "Cadência baixa e fraco contra enxames."),
     "agente_entrada": ("Tropa de Choque", 1, "Leque devastador à queima-roupa.", "Só cobre a casa imediatamente à frente."),
-    "especialista_antipraga": ("Unidade Antipraga", 1, "A nuvem química corrói blindagem biológica e contamina grupos.", "Usa tambor de seis granadas e recarrega lentamente."),
-    "lancador_foguetes": ("Resposta Pesada", 1, "Explosão quebra grupos e blindados.", "Um disparo por recarga, com intervalo longo."),
+    "especialista_antipraga": ("Unidade Antipraga", 2, "A nuvem química corrói blindagem biológica e contamina grupos.", "Ocupa duas casas, usa tambor de seis granadas e recarrega lentamente."),
+    "lancador_foguetes": ("Resposta Pesada", 2, "Explosão quebra grupos e blindados.", "Ocupa duas casas, um disparo e recarga longa."),
     "escudeiro_tropa_choque": ("Tropa de Choque", 1, "Interrompe a primeira investida recebida.", "Corpo a corpo e sem resposta a atacantes distantes."),
 }
 for _key, (_unit, _space, _advantage, _disadvantage) in CITY_TACTICAL_UNITS.items():
@@ -970,7 +970,7 @@ def regional_sprite_index(region: str, key: str) -> int:
 ENEMIES = {
     "infectado_urbano": {
         "name": "Infectado Urbano",
-        "hp": 186,
+        "hp": 124,
         "speed": 11,
         "damage": 17,
         "attack": 1.2,
@@ -979,7 +979,7 @@ ENEMIES = {
     },
     "desperto_khepra": {
         "name": "Desperto de Khepra",
-        "hp": 195,
+        "hp": 130,
         "speed": 10.5,
         "damage": 17,
         "attack": 1.18,
@@ -988,7 +988,7 @@ ENEMIES = {
     },
     "afogado_cachoeira": {
         "name": "Afogado da Cachoeira",
-        "hp": 189,
+        "hp": 126,
         "speed": 11,
         "damage": 16,
         "attack": 1.16,
@@ -997,22 +997,22 @@ ENEMIES = {
     },
     "corredor_cidade": {
         "name": "Corredor do Metrô",
-        "hp": 85,
+        "hp": 340,
         "speed": 24,
-        "damage": 23,
+        "damage": 46,
         "attack": 0.78,
         "sprite": 1,
         "armor": 0.25,
         "first_attack_multiplier": 2.0,
         "contact_distance": 72,
-        "tags": ("runner", "unstaggerable", "constant_speed"),
+        "tags": ("runner", "unstaggerable", "constant_speed", "signal_jammer"),
         "ability": "Infectado urbano resistente. Corre em velocidade constante, ignora interrupções por tiro e causa dano dobrado somente na primeira mordida.",
     },
     "corredor_deserto": {
         "name": "Corredor da Necrópole",
-        "hp": 90,
+        "hp": 360,
         "speed": 22,
-        "damage": 27,
+        "damage": 54,
         "attack": 0.82,
         "sprite": 1,
         "armor": 0.26,
@@ -1023,9 +1023,9 @@ ENEMIES = {
     },
     "corredor_cachoeira": {
         "name": "Corredor da Trilha",
-        "hp": 87.5,
+        "hp": 350,
         "speed": 23,
-        "damage": 19.5,
+        "damage": 39,
         "attack": 0.80,
         "sprite": 1,
         "armor": 0.25,
@@ -1431,12 +1431,12 @@ ENEMIES["cacador"].update({
 BOSSES = {
     "bruto_demolidor": {
         "name": "BRUTO DEMOLIDOR",
-        "hp": 1250,
-        "speed": 7.5,
+        "hp": 1000,
+        "speed": 6,
         "damage": 30,
         "attack": 1.05,
         "sprite": 10,
-        "ability": "Entrada: paralisa militares por 3 s. Depois, utiliza apenas o ataque básico.",
+        "ability": "Entrada: paralisa militares por 3 s. Depois, o Martelo fecha só a própria faixa por 1,2 s a cada 18 s.",
         "type": "bruto_demolidor",
     },
     "comandante_mortos": {
@@ -1748,6 +1748,7 @@ ACTIVE_ENEMY_SKILL_TAGS = frozenset(
         "parasite",
         "stomp",
         "steal",
+        "signal_jammer",
     }
 )
 

@@ -60,7 +60,6 @@ class Defender:
     deployment_x: float | None = None
     deployment_target_x: float | None = None
     deployment_speed: float = 260.0
-    idle_reload_delay: float = 0.0
 
     def __post_init__(self) -> None:
         self.hp = float(self.stats["hp"])
@@ -119,11 +118,6 @@ class Enemy:
     attack_target: Defender | None = None
     attack_damage: float = 0.0
     first_attack_done: bool = False
-    director_windup: float = 0.0
-    director_entrance: bool = False
-    gun_windup: float = 0.0
-    acid_windup: float = 0.0
-    slam_windup: float = 0.0
     skill_timer: float = 1.8
     age: float = 0.0
     stun: float = 0.0
@@ -171,24 +165,6 @@ class Enemy:
         scale = boss_wave_scale(self.wave) if self.is_boss else enemy_wave_scale(self.wave)
         scale *= float(profile["boss_hp" if self.is_boss else "enemy_hp"])
         return float(self.data["hp"]) * scale
-
-    @property
-    def bite_duration(self) -> float:
-        if self.visual_animation is None:
-            return 0.44 if self.is_boss else 0.34
-        return self.visual_animation.animations["bite"].duration
-
-    @property
-    def bite_contact_time(self) -> float:
-        if self.key in {"divisor", "policial", "bruto_demolidor", "comandante_mortos"} and self.visual_animation is not None:
-            clip = self.visual_animation.animations["bite"]
-            contact = sum(clip.frame_durations[:len(clip.frames)//2])
-            return contact * self.bite_cycle / max(.001, clip.duration)
-        return min(0.46 if self.is_boss else 0.38, self.bite_duration * 0.42)
-
-    @property
-    def bite_cycle(self) -> float:
-        return min(self.bite_duration, float(self.data["attack"]))
 
     @property
     def is_boss(self) -> bool:

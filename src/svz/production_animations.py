@@ -12,14 +12,10 @@ from pathlib import Path
 
 import pygame
 
-from svz.actor_animation import ActorAnimation, ActorClip
 from svz.animation import AnimationClip, AnimationManager, SpriteSheet
 
 
 from .paths import ASSET_ROOT
-from .actor_visuals import sprite_emitter_contact
-from .visual_layout import defender_layout, DEFENDER_WEAPON_PROFILES
-from .content import DEFENDER_ACTOR_BY_KEY
 
 ASSETS = ASSET_ROOT / "actors"
 
@@ -93,14 +89,14 @@ ENEMY_ROSTER_ROWS: dict[str, tuple[str, int, str]] = {
     "city_zombie_v2": ("city_zombies_hd_16x6_v3.png", 0, "common"),
     "city_runner_v2": ("city_zombies_hd_16x6_v3.png", 1, "runner"),
     "city_crawler_v2": ("city_zombies_hd_16x6_v3.png", 2, "crawler"),
-    "city_police_infected": ("city_police_infected_4x4_v1.png", 0, "common"),
-    "city_scientist": ("city_scientist_4x4_v1.png", 0, "common"),
-    "city_technician": ("city_technician_4x4_v1.png", 0, "common"),
-    "city_demolisher": ("city_demolisher_4x4_v1.png", 0, "subboss"),
-    "city_quarantine_brute": ("city_quarantine_brute_4x4_v1.png", 0, "subboss"),
-    "city_mutant_commander": ("city_mutant_commander_4x4_v1.png", 0, "subboss"),
-    "city_boss_director": ("city_boss_director_4x2_v2.png", 0, "boss"),
-    "city_boss_commander": ("city_boss_commander_4x4_v1.png", 0, "boss"),
+    "city_police_infected": ("city_zombies_hd_16x6_v3.png", 3, "common"),
+    "city_scientist": ("city_zombies_hd_16x6_v3.png", 4, "common"),
+    "city_technician": ("city_zombies_hd_16x6_v3.png", 5, "common"),
+    "city_demolisher": ("city_elites_rebuilt_16x6_v1.png", 0, "subboss"),
+    "city_quarantine_brute": ("city_elites_rebuilt_16x6_v1.png", 1, "subboss"),
+    "city_mutant_commander": ("city_elites_rebuilt_16x6_v1.png", 2, "subboss"),
+    "city_boss_director": ("city_elites_rebuilt_16x6_v1.png", 3, "boss"),
+    "city_boss_commander": ("city_elites_rebuilt_16x6_v1.png", 4, "boss"),
     "city_boss_alpha": ("city_elites_rebuilt_16x6_v1.png", 5, "boss"),
     # Egito / Escavação Khepra
     "desert_zombie_v2": ("desert_zombies_hd_16x6_v3.png", 0, "common"),
@@ -586,19 +582,7 @@ def _sheet_rows(
     sanitize: bool = False,
     remove_green_residue: bool = False,
 ) -> list[list[pygame.Surface]]:
-    sheet = SpriteSheet.from_file(path)
-    if path.name == ACTOR_SHEETS["desert_radio"][0]:
-        # A folha da torre tem cinco faixas de alturas diferentes. A grade
-        # uniforme cortava o pedestal e o levava para cima da pose seguinte.
-        bounds = (0, 216, 427, 641, 835, 992)
-        width = sheet.surface.get_width()
-        cells = sheet.slice_rects([
-            (col * width // 8, top, (col + 1) * width // 8 - col * width // 8, bottom - top)
-            for top, bottom in zip(bounds, bounds[1:])
-            for col in range(8)
-        ])
-    else:
-        cells = sheet.slice_equal(8, rows)
+    cells = SpriteSheet.from_file(path).slice_equal(8, rows)
     if remove_green_residue:
         cells = [_remove_bright_green_residue(cell) for cell in cells]
     if isolate_main:
@@ -659,19 +643,6 @@ def _soldier_clips(
         idle = [_isolate_main_component(frame) for frame in idle]
         reload = [_isolate_main_component(frame) for frame in reload]
         hit = [_isolate_main_component(frame) for frame in hit]
-    # A mesma tropa pode ter sido desenhada maior nas linhas de ação.
-    # A espera define a altura máxima: preservar poses agachadas e o recuo.
-    # Normalizar antes de alinhar os pés evita deslocar a unidade no terreno.
-    standing_height = sorted(_main_figure(frame).height for frame in idle)[len(idle) // 2]
-    for poses in (shoot, reload):
-        for index, frame in enumerate(poses):
-            height = _main_figure(frame).height
-            if height > standing_height:
-                ratio = standing_height / height
-                poses[index] = pygame.transform.smoothscale(
-                    frame, (max(1, round(frame.get_width() * ratio)),
-                            max(1, round(frame.get_height() * ratio)))
-                )
     groups = _pad_groups(
         {"move": move, "idle": idle, "shoot": shoot, "reload": reload, "hit": hit}
     )
@@ -679,32 +650,13 @@ def _soldier_clips(
         # A água é desenhada pelo projétil contínuo no renderizador. Nunca
         # conservar uma segunda explosão de espuma dentro da pose corporal.
         groups["shoot"] = [_remove_baked_waterjet(frame) for frame in groups["shoot"]]
-    weapon = next((profile for key, profile in DEFENDER_WEAPON_PROFILES.items()
-                   if DEFENDER_ACTOR_BY_KEY.get(key) == actor), None)
-    if weapon and actor not in {"beach_boat", "beach_sub"}:
-        # Uma pose de mira por arma. Apenas o trecho livre do cano recua;
-        # rosto, mãos, tronco, pernas e pivô continuam nos mesmos pixels.
-        base = groups["shoot"][0]
-        layout = defender_layout(actor)
-        forward, elevation = sprite_emitter_contact(
-            base, layout.muzzle_forward, layout.muzzle_height,
-            body_height=layout.body_height, source_body_height=layout.source_height, facing=1)
-        ratio = layout.source_height / layout.body_height
-        tip_x = round(base.get_width() / 2 + forward * ratio)
-        tip_y = round(base.get_height() - elevation * ratio)
-        barrel = pygame.Rect(tip_x - 10, tip_y - 3, 12, 7).clip(base.get_rect())
-        frames = []
-        for kick in (0, 1, 0.66, 0.33, 0, 0, 0, 0):
-            shift = min(barrel.width - 1, round(kick * weapon.recoil * ratio))
-            if shift > 0 and barrel.height:
-                pose = base.copy()
-                pose.fill((0, 0, 0, 0), barrel)
-                pose.blit(pygame.transform.scale(base.subsurface(barrel),
-                          (barrel.width - shift, barrel.height)), barrel.topleft)
-                frames.append(pose)
-            else:
-                frames.append(base)
-        groups["shoot"] = frames
+    if actor == "city_entry":
+        # A SPAS-12 empurra ombro, braços e arma para trás antes da recuperação.
+        # O deslocamento ocorre dentro da caixa já estabilizada, portanto não
+        # aumenta o personagem nem corta pé, coronha ou cano.
+        groups["shoot"] = _shift_on_canvas(
+            groups["shoot"], (0, -1, -3, -5, -4, -2, -1, 0)
+        )
     return {
         "move": AnimationClip.timed(
             groups["move"],
@@ -763,22 +715,6 @@ def _support_clips(path: Path) -> dict[str, AnimationClip]:
     }
 
 
-def _runner_bite(frame: pygame.Surface) -> AnimationClip:
-    """Articula o tronco da pose de corrida, mantendo os pés no mesmo lugar."""
-    body = _main_figure(frame)
-    poses = []
-    for reach, dip in ((0, 0), (-2, 1), (4, 2), (12, 5), (10, 6), (7, 4), (3, 2), (0, 0)):
-        pose = pygame.Surface(frame.get_size(), pygame.SRCALPHA)
-        for y in range(frame.get_height()):
-            weight = max(0.0, min(1.0, (body.bottom - y) / body.height))
-            # A cabeça avança e baixa para o contato. A perna de apoio fica fixa.
-            dx = round(reach * weight ** 2)
-            dy = round(dip * weight ** 2)
-            pose.blit(frame, (-dx, y + dy), (0, y, frame.get_width(), 1))
-        poses.append(pose)
-    return AnimationClip.timed(poses, (0.112,) * 3 + (0.10,) * 5, loop=False, name="mordida")
-
-
 def _zombie_clips(
     path: Path,
     *,
@@ -819,8 +755,7 @@ def _zombie_clips(
     idle = _normalize_each_actor_height(idle, target_height)
     bite = _normalize_each_actor_height(bite, target_height)
     hit = _normalize_each_actor_height(hit, target_height)
-    groups = _pad_groups({"move": move, "idle": idle, "bite": bite, "hit": hit},
-                         horizontal_padding=16 if move_path is not None else 8)
+    groups = _pad_groups({"move": move, "idle": idle, "bite": bite, "hit": hit})
     return {
         "move": AnimationClip.uniform(groups["move"], fps=move_fps, name="caminhada"),
         "idle": AnimationClip.uniform(groups["idle"], fps=4.5, name="ameaça"),
@@ -854,45 +789,7 @@ def _roster_enemy_clips(
     sheet = SpriteSheet.from_file(path)
     columns = ROSTER_GRID_COLUMNS.get(path.name, 8)
     custom_bounds = ROSTER_VERTICAL_BOUNDS.get(path.name)
-    if actor == "city_boss_director":
-        width, height = sheet.surface.get_size()
-        cells = []
-        for strip in range(2):
-            xs = (0, .25, .46, .75, 1) if strip else (0, .25, .5, .75, 1)
-            for col in range(4):
-                left, right = round(xs[col]*width), round(xs[col+1]*width)
-                top, bottom = round(strip*height/2), round((strip+1)*height/2)
-                cells.append(sheet.surface.subsurface((left, top, right-left, bottom-top)).copy())
-        # Reutiliza poses completas para estados auxiliares, sem novos recortes.
-        cells += [frame.copy() for frame in cells[:4]] + [frame.copy() for frame in cells[4:8]]
-        columns = 16
-    elif actor == "city_quarantine_brute":
-        # Limites entre silhuetas, incluindo os braços estendidos.
-        width, height = sheet.surface.get_size()
-        ys = (0, 320, 620, 945, 1254)
-        cells = []
-        for strip in range(4):
-            xs = (0, 305, 607, 978, 1254) if strip == 1 else (0, 313, 627, 940, 1254)
-            for col in range(4):
-                left, right = round(xs[col]*width/1254), round(xs[col+1]*width/1254)
-                top, bottom = round(ys[strip]*height/1254), round(ys[strip+1]*height/1254)
-                cells.append(sheet.surface.subsurface((left, top, right-left, bottom-top)).copy())
-        columns = 16
-    elif actor in {"city_scientist", "city_technician", "city_demolisher"}:
-        width, height = sheet.surface.get_size()
-        ys = (0, 320, 620, 915, 1280) if actor == "city_demolisher" else (0, 325, 625, 945, 1280)
-        cells = []
-        for strip in range(4):
-            xs = (0, 320, 590, 960, 1280) if strip == 1 else (0, 320, 640, 960, 1280)
-            for col in range(4):
-                left, right = round(xs[col] * width / 1280), round(xs[col+1] * width / 1280)
-                top, bottom = round(ys[strip] * height / 1280), round(ys[strip+1] * height / 1280)
-                cells.append(sheet.surface.subsurface((left, top, right-left, bottom-top)).copy())
-        columns = 16
-    elif actor in {"city_police_infected", "city_mutant_commander", "city_boss_director", "city_boss_commander"}:
-        cells = sheet.slice_equal(4, 4)
-        columns = 16  # Dezesseis poses na folha exclusiva, em ordem de leitura.
-    elif custom_bounds is None:
+    if custom_bounds is None:
         grid_rows = ROSTER_GRID_ROWS.get(path.name, 12)
         cells = sheet.slice_equal(columns, grid_rows)[
             row * columns : (row + 1) * columns
@@ -980,11 +877,7 @@ def _roster_enemy_clips(
     target_height = 88 if kind == "crawler" else (140 if kind == "boss" else (132 if kind == "subboss" else 124))
     # Cada quadro recebe a mesma altura corporal. O gesto muda, mas a criatura
     # não troca de escala entre caminhada, ataque, dano e habilidade.
-    if actor in {"city_police_infected", "city_scientist", "city_technician", "city_demolisher", "city_quarantine_brute", "city_mutant_commander", "city_boss_director", "city_boss_commander"}:
-        # Escala única conserva o agachamento sem ampliar o corpo no ataque.
-        frames = _normalize_actor_height(cells, target_height * 2, reference_height)
-    else:
-        frames = _normalize_each_actor_height(cells, target_height)
+    frames = _normalize_each_actor_height(cells, target_height)
     if columns >= 16:
         # Todas as folhas HD seguem o mesmo contrato visual: quatro passos,
         # quatro quadros de contato, quatro de reação e quatro da habilidade.
@@ -1004,8 +897,6 @@ def _roster_enemy_clips(
         skill_frames = [frames[0], frames[4], frames[7], frames[1]]
         if actor == "desert_plague_priest":
             skill_frames = [frames[0], frames[7], frames[1], frames[0]]
-        if actor in {"city_scientist", "city_technician", "city_demolisher", "city_quarantine_brute", "city_mutant_commander", "city_boss_director", "city_boss_commander"}:
-            skill_frames = frames[12:16]
         hit_frames = frames[8:12]
         if actor == "desert_plague_priest":
             # Os quadros 9 e 10 da folha-fonte contêm só um pedaço do corpo.
@@ -1084,20 +975,6 @@ def _roster_enemy_clips(
         skill_durations,
         ((0, -0.70), (-1, -1.05), (-1, 0.85), (0, 0.45)),
     )
-    if actor == "city_boss_commander":
-        # Os tubos e botas chegam aos extremos da silhueta. Não rotacionar
-        # dentro da caixa fixa: a rotação cortava as pontas em intermediários.
-        for sequence in (idle_frames, move_frames, bite_frames, hit_frames, skill_frames):
-            for index in range(1, len(sequence), 2):
-                sequence[index] = _pose_inbetween(sequence[index-1], dx=1, angle=0.0)
-    if actor == "city_boss_director":
-        # Mantém as durações e o instante de contato sem rotações artificiais,
-        # que fazem bordas finas oscilar ao reduzir a imagem para o jogo.
-        idle_frames = [f for f in groups["idle"] for _ in range(2)]
-        move_frames = [f for f in groups["move"] for _ in range(2)]
-        bite_frames = [f for f in groups["bite"] for _ in range(2)]
-        hit_frames = [f for f in groups["hit"] for _ in range(2)]
-        skill_frames = [f for f in groups["bite"] for _ in range(2)]
     return {
         "move": AnimationClip.timed(
             move_frames, move_durations, loop=True, name="locomoção 16-bit fluida"
@@ -1217,9 +1094,6 @@ def build_production_clips() -> dict[str, dict[str, AnimationClip]]:
                 move_path=ASSETS / RUNNER_MOVE_SHEETS[actor],
                 move_flip_frames=RUNNER_MOVE_FLIP_FRAMES[actor],
             )
-            planted = clips[actor]["move"].frames[0]
-            clips[actor]["bite"] = _runner_bite(planted)
-            clips[actor]["idle"] = AnimationClip.uniform([planted], fps=4.5, name="ameaça")
         elif kind == "crawler":
             clips[actor] = _zombie_clips(
                 path,
@@ -1269,14 +1143,6 @@ def build_production_clips() -> dict[str, dict[str, AnimationClip]]:
             **crawler,
             "skill": crawler["bite"],
         }
-    # Os aliases regionais compartilham o mesmo clipe e os mesmos intermediários.
-    shared: dict[int, ActorClip] = {}
-    for states in clips.values():
-        for state, clip in states.items():
-            key = id(clip)
-            if key not in shared:
-                shared[key] = ActorClip(clip.frames, clip.frame_durations, clip.loop, clip.name)
-            states[state] = shared[key]
     return clips
 
 
@@ -1284,4 +1150,4 @@ def new_production_animation(
     clips: dict[str, dict[str, AnimationClip]], actor: str
 ) -> AnimationManager:
     initial = "move" if "bite" in clips[actor] else "idle"
-    return ActorAnimation(clips[actor], initial_state=initial)
+    return AnimationManager(clips[actor], initial_state=initial)

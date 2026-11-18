@@ -330,7 +330,7 @@ class ProjectileRenderingMixin:
     def draw_projectiles(self, battle: Battle) -> None:
         arcing_kinds = {
             "grenade", "grenade_40mm", "gas_grenade", "mortar",
-            "mortar_shell", "bazooka",
+            "mortar_shell", "bazooka", "rpg7_rocket",
         }
         for projectile in battle.projectiles:
             if projectile.elapsed < 0:

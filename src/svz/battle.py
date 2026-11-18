@@ -434,11 +434,9 @@ class Battle(EnemyMotionMixin, CombatActionsMixin, EnemyAbilityMixin):
         *,
         playback_rate: float = 1.0,
     ) -> None:
-        animation.play(state)
-        if state in {"move", "idle"}:
-            # Cada pose principal fica visível por pelo menos 200 ms.
-            playback_rate = min(playback_rate, min(animation.clip.frame_durations) / 0.20)
-        animation.playback_rate = max(0.05, playback_rate)
+        changed = animation.play(state)
+        if changed:
+            animation.playback_rate = max(0.05, float(playback_rate))
 
     def update_production_animations(self, dt: float) -> None:
         """Sincroniza a lógica real com as novas sprites, sempre por ``dt``."""
@@ -451,11 +449,11 @@ class Battle(EnemyMotionMixin, CombatActionsMixin, EnemyAbilityMixin):
                 # A passada acompanha os pixels realmente percorridos. O ator
                 # não é simplesmente transladado sobre uma pose lenta.
                 move_clip = animation.animations["move"]
-                stride = 130.0
+                stride = 62.0
                 rate = clamp(
                     move_clip.duration * defender.deployment_speed / stride,
-                    0.55,
-                    1.35,
+                    0.85,
+                    3.8,
                 )
             elif defender.motion.state == "attack":
                 state, rate = "shoot", 1.0
@@ -468,8 +466,9 @@ class Battle(EnemyMotionMixin, CombatActionsMixin, EnemyAbilityMixin):
             elif defender.motion.state in {"hit", "stunned"}:
                 state, rate = "hit", 1.0
             else:
-                state, rate = "idle", 0.70
+                state, rate = "idle", 1.0
             self._play_visual_state(animation, state, playback_rate=rate)
+            animation.playback_rate = max(0.05, float(rate))
             animation.update(dt)
 
         for enemy in self.enemies:
@@ -479,14 +478,15 @@ class Battle(EnemyMotionMixin, CombatActionsMixin, EnemyAbilityMixin):
             rate = 1.0
             if enemy.motion.state == "attack":
                 state = "bite"
-                rate = enemy.bite_duration / enemy.bite_cycle
             elif (
                 enemy.motion.state
                 in {"skill", "jump", "dig_enter", "dig_tunnel", "dig_emerge"}
                 and "skill" in animation.animations
             ):
                 state = "skill"
-            elif enemy.motion.state in {"walk", "spawn", "hit", "stunned"}:
+            elif enemy.motion.state in {"hit", "stunned"}:
+                state = "hit"
+            elif enemy.motion.state in {"walk", "spawn"}:
                 state = "move"
                 # Cada ciclo cobre um comprimento de passada coerente com a
                 # silhueta. Corredores alternam os pés mais depressa;
@@ -496,11 +496,12 @@ class Battle(EnemyMotionMixin, CombatActionsMixin, EnemyAbilityMixin):
                     speed *= 0.68
                 if enemy.poisoned > 0:
                     speed *= 0.88
-                stride = 32.0 if "runner" in enemy.tags else (17.0 if enemy.key in CRAWLER_ENEMIES else 26.0)
-                rate = clamp(animation.animations["move"].duration * speed / stride, 0.34, 1.55)
+                stride = 22.0 if "runner" in enemy.tags else (12.0 if enemy.key in CRAWLER_ENEMIES else 18.0)
+                rate = clamp(animation.animations["move"].duration * speed / stride, 0.48, 2.4)
             else:
-                state, rate = "idle", 0.70
+                state = "idle"
             self._play_visual_state(animation, state, playback_rate=rate)
+            animation.playback_rate = rate
             animation.update(dt)
 
     def update_defenders(self, dt: float) -> None:
@@ -508,7 +509,6 @@ class Battle(EnemyMotionMixin, CombatActionsMixin, EnemyAbilityMixin):
             role = defender.stats["role"]
             defender.motion.advance(dt, "armed" if role == "mine" else "idle")
             defender.attack_timer -= dt
-            defender.idle_reload_delay = max(0.0, defender.idle_reload_delay - dt)
             defender.utility_timer -= dt
             defender.tactical_ammo_timer = max(0.0, defender.tactical_ammo_timer - dt)
             defender.stun = max(0.0, defender.stun - dt)
@@ -613,27 +613,14 @@ class Battle(EnemyMotionMixin, CombatActionsMixin, EnemyAbilityMixin):
                 self.take_enemy_damage(enemy, 2.0 * dt, "acid")
                 if enemy not in self.enemies:
                     continue
-            if enemy.gun_windup > 0:
-                enemy.gun_windup = max(0.0, enemy.gun_windup - dt)
-                if enemy.gun_windup == 0 and enemy.hp > 0:
-                    self.release_enemy_gun(enemy)
-            if enemy.acid_windup > 0:
-                enemy.acid_windup = max(0.0, enemy.acid_windup - dt)
-                if enemy.acid_windup == 0 and enemy.hp > 0:
-                    self.release_enemy_acid(enemy)
-            if enemy.slam_windup > 0:
-                enemy.slam_windup = max(0.0, enemy.slam_windup - dt)
-                if enemy.slam_windup == 0 and enemy.hp > 0:
-                    self.resolve_stomp(enemy)
             if enemy.skill_timer <= 0:
                 self.enemy_special(enemy)
                 if enemy not in self.enemies:
                     continue
-            if enemy.key in {"bruto", "cientista_helix", "divisor", "policial", "bruto_demolidor", "comandante_mortos"} and enemy.motion.state == "skill" and enemy.motion.event_left > 0:
-                continue
             if self.update_enemy_motion(enemy, dt):
                 continue
             if enemy.stun > 0:
+                enemy.motion.trigger("stunned", enemy.stun)
                 continue
             speed = float(enemy.data["speed"]) * (1.55 if enemy.rage > 0 else 1.0)
             if (
@@ -671,12 +658,21 @@ class Battle(EnemyMotionMixin, CombatActionsMixin, EnemyAbilityMixin):
                         # se alcançar uma tropa básica/avançada, a mordida é
                         # fatal como contrapartida explícita à baixa velocidade.
                         damage = max(damage, blocker.hp + 1.0)
+                    attack_duration = (
+                        enemy.visual_animation.animations["bite"].duration
+                        if enemy.visual_animation is not None
+                        else (0.44 if enemy.is_boss else 0.34)
+                    )
                     enemy.attack_target = blocker
                     enemy.attack_damage = damage
-                    enemy.attack_windup = enemy.bite_contact_time
-                    if enemy.visual_animation is not None:
-                        enemy.visual_animation.play("bite", restart=True)
-                    enemy.motion.trigger("attack", enemy.bite_cycle)
+                    # A animação agora é deliberadamente mais lenta para que
+                    # cada pose possa ser lida. O momento lógico do contato
+                    # não pode ficar preso à duração total do clipe: a mordida
+                    # acerta no avanço do corpo e a recuperação visual termina
+                    # depois, sem enfraquecer o zumbi por causa da apresentação.
+                    contact_cap = 0.46 if enemy.is_boss else 0.38
+                    enemy.attack_windup = min(contact_cap, attack_duration * 0.42)
+                    enemy.motion.trigger("attack", attack_duration)
                     enemy.attack_timer = float(enemy.data["attack"])
                 elif enemy.motion.event_left <= 0:
                     enemy.motion.trigger("brace", min(0.28, max(0.08, enemy.attack_timer)))

@@ -80,7 +80,7 @@ class ProjectileImpactTests(unittest.TestCase):
         hp = self.target.hp
         self.b.update_projectiles(.1)
         self.assertEqual(p.target_x, self.target.x)
-        self.assertEqual(p.target_y, p.y)
+        self.assertEqual(p.target_y, self.target.y - 16)
         self.assertEqual(self.target.hp, hp)
         self.b.update_projectiles(.11)
         self.assertLess(self.target.hp, hp)
@@ -91,20 +91,6 @@ class ProjectileImpactTests(unittest.TestCase):
         hp = self.neighbor.hp
         self.b.update_projectiles(.21)
         self.assertEqual(self.neighbor.hp, hp)
-
-    def test_direct_shot_aims_at_crawler_body(self):
-        from svz.board import lane_depth
-        crawler = Enemy('rastejante', 0, ENEMIES['rastejante'], 'city', 1, x=500)
-        self.b.enemies.append(crawler)
-        p = self.projectile('rifle', 0, target=crawler)
-        p.y = crawler.y - 65
-        self.b.update_projectiles(.1)
-        self.assertAlmostEqual(p.target_y, crawler.y - 35 * lane_depth('city', 0))
-        self.assertGreater(p.target_y, p.y)
-        self.assertLess(p.target_y, crawler.y - 16)
-        hp = crawler.hp
-        self.b.update_projectiles(.11)
-        self.assertLess(crawler.hp, hp)
 
     def test_area_respects_lane_and_exclusive_radius_boundary(self):
         outside = self.enemy(580)
@@ -172,17 +158,13 @@ class ProjectileImpactTests(unittest.TestCase):
         self.assertLess(other.hp, hp)
         self.assertTrue(self.b.effects)
 
-    def test_city_runner_does_not_interrupt_nearby_defender(self):
-        key = REGION_ROSTERS['city'][0][0]
-        defender = Defender(key, key, 0, 2, DEFENSES[key], 0, region='city')
-        defender.attack_timer = 0.1
-        self.b.defenders.append(defender)
-        runner = Enemy('corredor_cidade', 0, ENEMIES['corredor_cidade'], 'city', 1, x=defender.x + 50)
-        runner.motion.loop('walk')
-        self.b.enemy_special(runner)
-        self.assertEqual(runner.motion.state, 'walk')
-        self.assertEqual(defender.attack_timer, 0.1)
-        self.assertFalse(self.b.effects)
+    def test_signal_jammer_effect_matches_skill_duration(self):
+        key = next(k for k, data in ENEMIES.items() if 'signal_jammer' in data.get('tags', ()))
+        jammer = Enemy(key, 0, ENEMIES[key], 'city', 1, x=500)
+        self.b.enemy_special(jammer)
+        effect = next(e for e in self.b.effects if e.kind == 'signal_pulse')
+        self.assertAlmostEqual(effect.duration, .61)
+        self.assertEqual(effect.elapsed, 0)
 
 
 if __name__ == '__main__':

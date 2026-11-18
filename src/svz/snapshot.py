@@ -27,11 +27,6 @@ COLLECTIONS = {'defenders': Defender, 'enemies': Enemy, 'projectiles': Projectil
                'particles': Particle, 'texts': FloatingText, 'effects': VisualEffect,
                'orders': SpawnOrder, 'lane_bombs': LaneBomb}
 MAX_OBJECTS = 12000
-# Vida base do último balanceamento nos saves que ainda não registravam esse valor.
-PREVIOUS_BASE_HP = {
-    'infectado_urbano': 124, 'desperto_khepra': 130, 'afogado_cachoeira': 126,
-    'corredor_cidade': 170, 'corredor_deserto': 180, 'corredor_cachoeira': 175,
-}
 
 
 def require(condition, message='Partida salva inválida.'):
@@ -69,8 +64,6 @@ def capture(battle):
             identifiers[marker] = index
             node = {'type': type(value).__name__, 'fields': {}}
             nodes.append(node)
-            if isinstance(value, Enemy):
-                node["base_hp"] = value.data["hp"]
             node['fields'] = {f.name: encode(getattr(value, f.name)) for f in fields(value)
                               if f.name not in ENTITY_EXCLUDED}
             if isinstance(value, (Defender, Enemy)):
@@ -142,8 +135,6 @@ def restore(snapshot, app):
                 and type(attributes) is dict and 'tactical_ammo_timer' not in attributes):
             # Saves da Alfa anterior não continham o consumível novo.
             attributes = {**attributes, 'tactical_ammo_timer': 0.0}
-        if isinstance(obj, Defender) and isinstance(attributes, dict) and 'idle_reload_delay' not in attributes:
-            attributes = {**attributes, 'idle_reload_delay': 3.0}
         require(type(attributes) is dict and set(attributes) == expected)
         hints = get_type_hints(type(obj))
         for name, raw in attributes.items():
@@ -161,22 +152,12 @@ def restore(snapshot, app):
             require(obj.region == state['region'] and obj.difficulty == state['difficulty'])
             require(0 <= obj.wave <= TOTAL_WAVES)
             obj.data = BOSSES.get(obj.key) or ENEMIES[obj.key]
-            base_hp = obj.data["hp"]
-            previous = PREVIOUS_BASE_HP.get(obj.key, base_hp)
-            if snapshot['schema'] < 3 and obj.key.startswith('corredor_'):
-                previous *= 2
-            saved_base = record.get('base_hp', previous)
-            require(typed(saved_base, float) and saved_base > 0)
-            if base_hp != saved_base:
-                obj.hp *= base_hp / saved_base
             if snapshot['schema'] == 1:
                 # Só o schema 1 usava vida escalada por onda. Conserva a
                 # porcentagem restante; o schema 2 já tem atributos fixos.
                 progress = min(1.0, max(0.0, (obj.wave - 1) / max(1, TOTAL_WAVES - 1)))
                 old_scale = (0.78 + 1.25 * progress ** 1.40) if obj.is_boss else (0.66 + 1.50 * progress ** 1.55)
                 obj.hp = min(obj.max_hp, obj.hp / old_scale)
-            elif base_hp != saved_base:
-                obj.hp = min(obj.hp, obj.max_hp)
         if isinstance(obj, SpawnOrder):
             require(obj.key in ENEMIES or obj.key in BOSSES)
             require(not obj.boss or obj.key in BOSSES)

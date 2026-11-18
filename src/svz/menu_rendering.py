@@ -87,6 +87,8 @@ class MenuRenderingMixin:
             self.panel(pygame.Rect(430,526,800,86),235,TEAL,10)
             self.draw_text("PARTIDA SALVA",self.owner.fonts.h2,GOLD,(452,540))
             self.draw_text(info,self.owner.fonts.small,WHITE,(452,576))
+        self.draw_text(f"{VERSION} • Cidade • Deserto • Cachoeira", self.owner.fonts.small, WHITE, (40, HEIGHT - 28))
+        self.draw_text("Artes originais • campanha de 12 ondas", self.owner.fonts.small, WHITE, (WIDTH - 36, HEIGHT - 28), "topright")
 
     def draw_difficulty(self) -> None:
         self.owner.screen.blit(self.owner.assets.images["menu"], (0, 0))
