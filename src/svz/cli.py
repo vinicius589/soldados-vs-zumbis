@@ -8,7 +8,7 @@ from pathlib import Path
 
 def main() -> int:
     from .version import VERSION
-    parser = argparse.ArgumentParser(description='Soldados vs Zumbis ' + VERSION)
+    parser = argparse.ArgumentParser(description='Fábrica dos Mortos ' + VERSION)
     parser.add_argument('--self-test', metavar='RELATORIO', help='Verificar o pacote e gravar um diagnóstico JSON.')
     parser.add_argument('--headless', action='store_true', help='Usar drivers simulados durante o diagnóstico.')
     parser.add_argument('--resume-save', metavar='CAMPANHA', help=argparse.SUPPRESS)
@@ -25,7 +25,7 @@ def main() -> int:
         migrated = prepare_default_data() if not args.self_test else []
         directory.mkdir(parents=True, exist_ok=True)
         logging.basicConfig(level=logging.INFO, force=True, handlers=[RotatingFileHandler(directory / 'jogo.log', maxBytes=1024 * 1024, backupCount=2, encoding='utf-8')])
-        logging.info('Inicializando Soldados vs Zumbis %s.', VERSION)
+        logging.info('Inicializando Fábrica dos Mortos %s.', VERSION)
         if migrated:
             logging.info('Dados legados copiados, originais preservados: %s', ', '.join(migrated))
         if args.self_test:
@@ -39,8 +39,8 @@ def main() -> int:
             Game().run()
         return 0
     except Exception as exc:
-        logging.exception('Falha ao executar Soldados vs Zumbis.')
+        logging.exception('Falha ao executar Fábrica dos Mortos.')
         if not args.self_test:
             import ctypes
-            ctypes.windll.user32.MessageBoxW(None, f'Não foi possível abrir o jogo.\n{exc}\nRegistro (se disponível):\n{directory / "jogo.log"}', 'Soldados vs Zumbis', 0x10)
+            ctypes.windll.user32.MessageBoxW(None, f'Não foi possível abrir o jogo.\n{exc}\nRegistro (se disponível):\n{directory / "jogo.log"}', 'Fábrica dos Mortos', 0x10)
         return 1

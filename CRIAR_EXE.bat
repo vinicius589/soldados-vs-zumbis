@@ -1,7 +1,7 @@
 @echo off
 setlocal
 cd /d "%~dp0"
-title Soldados vs Zumbis - Construir executavel
+title Fábrica dos Mortos - Construir executavel
 if not exist ".venv\Scripts\python.exe" (
   echo Execute PREPARAR_AMBIENTE.bat primeiro.
   pause

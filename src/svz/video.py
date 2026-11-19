@@ -46,9 +46,10 @@ class VideoDisplay:
         self.desktop_size = desktops[self.display_index] if desktops else LOGICAL_SIZE
         available = (max(320, self.desktop_size[0] - 40),
                      max(180, self.desktop_size[1] - 80))
-        self.window_size = fit_viewport((min(WIDTH, available[0]),
-                                        min(HEIGHT, available[1]))).size
+        self.window_size = fit_viewport((min(1920, available[0]),
+                                        min(1080, available[1]))).size
         self.scaled_surface = None
+        self.integer_surface = None
 
     def load_preference(self) -> bool:
         try:
@@ -69,6 +70,7 @@ class VideoDisplay:
             display=self.display_index,
         )
         self.scaled_surface = None
+        self.integer_surface = None
         return surface
 
     def mouse_position(self, pos: tuple[int, int] | None = None) -> tuple[int, int]:
@@ -83,7 +85,20 @@ class VideoDisplay:
         else:
             if self.scaled_surface is None or self.scaled_surface.get_size() != rect.size:
                 self.scaled_surface = pygame.Surface(rect.size).convert(frame)
-            pygame.transform.smoothscale(frame, rect.size, self.scaled_surface)
+            if rect.width > WIDTH:
+                # Escala inteira conserva os pixels. Nas frações, aplicar a
+                # suavização somente depois de ampliar para a grade superior.
+                factor = (rect.width + WIDTH - 1) // WIDTH
+                integer_size = (WIDTH * factor, HEIGHT * factor)
+                if rect.size == integer_size:
+                    pygame.transform.scale(frame, rect.size, self.scaled_surface)
+                else:
+                    if self.integer_surface is None or self.integer_surface.get_size() != integer_size:
+                        self.integer_surface = pygame.Surface(integer_size).convert(frame)
+                    pygame.transform.scale(frame, integer_size, self.integer_surface)
+                    pygame.transform.smoothscale(self.integer_surface, rect.size, self.scaled_surface)
+            else:
+                pygame.transform.smoothscale(frame, rect.size, self.scaled_surface)
             scaled = self.scaled_surface
         if rect.size != target.get_size():
             target.fill((0, 0, 0))

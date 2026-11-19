@@ -1,5 +1,5 @@
 [project]
-name = "Soldados vs Zumbis"
+name = "Fábrica dos Mortos"
 version = "1.6.0"
 stage = "Alfa da Beta 5"
 source = "src/svz"

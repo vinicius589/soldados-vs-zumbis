@@ -5,11 +5,13 @@ from svz.animation import AnimationManager
 from svz.production_animations import build_production_clips
 from svz.production_animations import new_production_animation
 from pathlib import Path
+import math
+import random
 import pygame
 from .cache import SurfaceCache
 
 from .config import (
-    ASSET_DIR,
+    ASSET_DIR, BOARD, CELL_W, LANE_PROTECTION_COLUMN, LAST_PLACEABLE_COLUMN,
     HEIGHT,
     PRODUCTION_ASSET_DIR,
     WIDTH,
@@ -49,13 +51,13 @@ class Assets:
         # ``assets/beta4_producao`` (elenco regional completo e doze ameaças por
         # região na integração jogável atual).
         self.jobs: list[tuple[str, Path, str]] = [
-            ("loading_beta3", ASSET_DIR / "loading_beta3_reference.png", "image"),
+            ("loading_beta3", ASSET_DIR / "loading_fabrica_dos_mortos.jpeg", "image"),
             ("menu", ASSET_DIR / "menu.png", "image"),
             *[
                 (f"{region}_bg", ASSET_DIR / info["bg"], "image")
                 for region, info in REGIONS.items()
             ],
-            ("elemental_effects", ASSET_DIR / "elemental_effects_sheet_beta4_v2.png", "effects_4x3"),
+            ("elemental_effects", ASSET_DIR / "elemental_effects_sheet_beta4_v3.png", "effects_4x3"),
             ("combat_effects", ASSET_DIR / "combat_effects_sheet_beta4.png", "effects_4x3"),
             ("ability_effects", ASSET_DIR / "ability_effects_sheet_beta4.png", "effects_4x3"),
             ("projectile_sprites", ASSET_DIR / "projectile_sprites_sheet_beta4.png", "effects_4x3"),
@@ -102,7 +104,23 @@ class Assets:
                     self.portrait_actor(frame) for frame in self.slice_grid(source, 3, 1)
                 ]
             elif kind == "effects_4x3":
-                self.effect_frames[key] = [self.trim_alpha(frame) for frame in self.slice_grid(source, 4, 3)]
+                if key == "elemental_effects":
+                    # A arte usa colunas de larguras diferentes. Recorte nas
+                    # margens reais e mantenha uma tela comum para cada fase.
+                    xs = [round(source.get_width() * q) for q in (0, .19, .44, .75, 1)]
+                    frames = []
+                    for row in range(3):
+                        top = round(source.get_height() * row / 3)
+                        bottom = round(source.get_height() * (row + 1) / 3)
+                        group = [self.trim_alpha(source.subsurface((xs[c], top, xs[c+1]-xs[c], bottom-top)).copy()) for c in range(4)]
+                        size = (max(f.get_width() for f in group) + 12, max(f.get_height() for f in group) + 12)
+                        for frame in group:
+                            canvas = pygame.Surface(size, pygame.SRCALPHA)
+                            canvas.blit(frame, frame.get_rect(center=(size[0] // 2, size[1] // 2)))
+                            frames.append(canvas)
+                    self.effect_frames[key] = frames
+                else:
+                    self.effect_frames[key] = [self.trim_alpha(frame) for frame in self.slice_grid(source, 4, 3)]
             else:
                 sprites = self.slice_atlas(source)
                 if kind == "units":
@@ -147,9 +165,32 @@ class Assets:
         descritos em ``LANE_BOUNDS``. Recortar e esticar bandas individualmente
         quebrava calçadas, pedras, água e a entrada dos zumbis.
         """
-        if source.get_size() == (WIDTH, HEIGHT):
-            return source.copy()
-        return pygame.transform.smoothscale(source, (WIDTH, HEIGHT))
+        size = (WIDTH, HEIGHT)
+        background = source.copy() if source.get_size() == size else pygame.transform.smoothscale(source, size)
+        if region == "beach":
+            # Reduz a luminosidade do cenário em cerca de 12%, sem suavizar detalhes.
+            background.fill((224, 224, 224), special_flags=pygame.BLEND_RGB_MULT)
+        if region == "city":
+            # Limites do asfalto na pintura 1280x720, entre os meios-fios.
+            asphalt = ((239, 301), (324, 392), (415, 490), (516, 596))
+            rng = random.Random(2047)
+            cracks = pygame.Surface(size, pygame.SRCALPHA)
+            for top, bottom in asphalt:
+                for col in range(LANE_PROTECTION_COLUMN + 1, LAST_PLACEABLE_COLUMN + 2):
+                    edge = math.ceil(BOARD.left + col * CELL_W)
+                    x, y = edge + rng.randint(-5, 5), top + rng.randint(1, 6)
+                    end = bottom - rng.randint(1, 6)
+                    while y < end:
+                        nx = edge + max(-9, min(9, x - edge + rng.choice((-6, -3, 2, 5))))
+                        ny = min(end, y + rng.randint(4, 12))
+                        pygame.draw.aaline(cracks, (9, 11, 15, 210), (x, y), (nx, ny))
+                        if rng.random() < 0.24:
+                            side = rng.choice((-1, 1))
+                            tip = (x + side * rng.randint(6, 14), min(end, y + rng.randint(2, 8)))
+                            pygame.draw.aaline(cracks, (13, 15, 18, 155), (x, y), tip)
+                        x, y = nx, ny
+            background.blit(cracks, (0, 0))
+        return background
 
     @staticmethod
     def slice_atlas(source: pygame.Surface) -> list[pygame.Surface]:

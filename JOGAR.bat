@@ -1,7 +1,7 @@
 @echo off
 setlocal
 cd /d "%~dp0"
-title Soldados vs Zumbis
+title Fábrica dos Mortos
 
 if not exist "main.py" if exist "SoldadosVsZumbis.exe" goto executavel
 
@@ -11,7 +11,7 @@ if not exist ".venv\Scripts\python.exe" goto preparar_primeiro
 ".venv\Scripts\python.exe" -c "import sys; assert sys.version_info[:2] == (3, 12); import pygame, OpenGL, numpy" >nul 2>nul
 if errorlevel 1 goto preparar_primeiro
 
-echo Abrindo Soldados vs Zumbis...
+echo Abrindo Fábrica dos Mortos...
 ".venv\Scripts\python.exe" main.py %*
 set "RC=%ERRORLEVEL%"
 if not "%RC%"=="0" (

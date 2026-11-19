@@ -11,6 +11,7 @@ from .battle import Battle
 from .board import lane_depth
 from .config import HEIGHT, WIDTH
 from .entities import Defender, Enemy, Projectile
+from .content import CRAWLER_ENEMIES
 from .math_utils import clamp, lerp
 from .rendering_geometry import flow_points, ribbon_polygon, water_ribbon_polygon
 
@@ -330,15 +331,18 @@ class ProjectileRenderingMixin:
     def draw_projectiles(self, battle: Battle) -> None:
         arcing_kinds = {
             "grenade", "grenade_40mm", "gas_grenade", "mortar",
-            "mortar_shell", "bazooka", "rpg7_rocket",
+            "mortar_shell", "bazooka",
         }
         for projectile in battle.projectiles:
             if projectile.elapsed < 0:
                 continue
             t = clamp(projectile.elapsed / projectile.travel, 0, 1)
             x = lerp(projectile.x, projectile.target_x, t)
+            has_arc = projectile.kind in arcing_kinds
+            if projectile.kind == "bazooka":
+                has_arc = getattr(projectile.target, "key", "") in CRAWLER_ENEMIES or getattr(projectile.target, "key", "") == "rastejante"
             y = lerp(projectile.y, projectile.target_y, t) - (
-                math.sin(t * math.pi) * 46 if projectile.kind in arcing_kinds else 0
+                math.sin(t * math.pi) * 46 if has_arc else 0
             )
             if projectile.kind in {"flame", "poison", "waterjet"}:
                 self.draw_elemental_stream(projectile, x, y)
@@ -351,7 +355,7 @@ class ProjectileRenderingMixin:
             next_x = lerp(projectile.x, projectile.target_x, next_t)
             next_y = lerp(projectile.y, projectile.target_y, next_t) - (
                 math.sin(next_t * math.pi) * 46
-                if projectile.kind in arcing_kinds
+                if has_arc
                 else 0
             )
             angle = -math.degrees(math.atan2(next_y - y, next_x - x))

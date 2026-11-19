@@ -2,7 +2,7 @@
 import random
 import pygame
 from .battle import Battle
-from .content import DEFENSES, ENEMIES, BOSSES, REGION_ROSTERS, DEFENDER_ACTOR_BY_KEY
+from .content import DEFENSES, ENEMIES, BOSSES, REGION_ROSTERS, REGION_ENEMIES, REGION_SUBBOSSES, REGION_BOSSES, DEFENDER_ACTOR_BY_KEY
 from .entities import Defender
 from .waves import SpawnOrder
 from .actor_visuals import defender_weapon_origin
@@ -42,8 +42,10 @@ class DeveloperLab:
 
     def entries(self):
         if self.team == 'soldiers':
-            return list(dict((key, name) for roster in REGION_ROSTERS.values() for key, name in roster).items())
-        return [(k, v.get('name', k)) for k, v in {**ENEMIES, **BOSSES}.items()]
+            return list(REGION_ROSTERS[self.region])
+        keys = dict.fromkeys(REGION_ENEMIES[self.region] + REGION_SUBBOSSES[self.region] + REGION_BOSSES[self.region])
+        data = {**ENEMIES, **BOSSES}
+        return [(key, data[key].get('name', key)) for key in keys]
 
     def spawn(self, row, col):
         key, name = self.entries()[self.index % len(self.entries())]
@@ -138,7 +140,10 @@ class DeveloperLab:
         elif action == 'combat': self.pose = None; self.paused = False
         elif action == 'boxes': self.boxes = not self.boxes
         elif action == 'speed': self.speed = {0.25:0.5,0.5:1.0,1.0:2.0,2.0:0.25}[self.speed]
-        elif action in ('city','desert','beach'): self.region = action; self.reset()
+        elif action in ('city','desert','beach'):
+            self.region = action
+            self.index = 0
+            self.reset()
         else: self.animate(action)
 
     def edit_selected(self, action):
@@ -213,12 +218,13 @@ class DeveloperLab:
         label('LABORATÓRIO • sessão descartável',18,8)
         label(('PAUSADO' if self.paused else 'EM EXECUÇÃO') + ' • ' + (self.pose or 'combate') + ' • ' + str(self.speed) + 'x',480,8)
         label(f'{len(b.defenders)} soldados / {len(b.enemies)} zumbis',940,8)
-        label(('SOLDADO' if self.team == 'soldiers' else 'ZUMBI') + ': ' + self.entries()[self.index][1],18,36)
+        region_name = {'city':'Cidade', 'desert':'Deserto', 'beach':'Cachoeira'}[self.region]
+        label(region_name + ' • ' + ('SOLDADO' if self.team == 'soldiers' else 'ZUMBI') + ': ' + self.entries()[self.index][1],18,36)
         self.buttons=[]
         controls=[('Catálogo','catalog'),('Soldado / Zumbi','team'),('<','prev'),('>','next'),('Cidade','city'),('Deserto','desert'),('Cachoeira','beach'),('Limpar','clear'),('Voltar','exit'),('Retomar' if self.paused else 'Pausar','pause'),('1 quadro','step'),(str(self.speed)+'x','speed'),('Combate','combat'),('Caixas / cano','boxes'),('Parado','idle'),('Andar','move'),('Atirar','shoot'),('Morder','bite'),('Recarregar','reload'),('Habilidade','skill'),('Selecionar' if not self.select_mode else 'Adicionar','select'),('Curar / munição','heal'),('Dano 25%','damage'),('Morte','death'),('Remover','remove'),('Repetir: '+('sim' if self.repeat else 'não'),'repeat')]
         for i,(text,action) in enumerate(controls):
             r=pygame.Rect(14+(i%10)*125,60+(i//10)*34,119,29)
-            active = action == self.pose or (action == 'select' and self.select_mode)
+            active = action == self.region or action == self.pose or (action == 'select' and self.select_mode)
             pygame.draw.rect(app.screen,(49,115,113) if active else (37,65,75),r,border_radius=5)
             app.screen.blit(font.render(text,True,(240,240,240)),(r.x+5,r.y+5))
             self.buttons.append((r,action))
@@ -233,7 +239,7 @@ class DeveloperLab:
             pygame.draw.rect(app.screen,(12,23,31),panel,border_radius=12)
             page=self.index//24
             entries=self.entries()
-            label(f'CATÁLOGO • página {page+1}/{(len(entries)+23)//24} • escolha para colocar no mapa',200,215)
+            label(f'{region_name} • {"Soldados" if self.team == "soldiers" else "Zumbis e chefes"} • página {page+1}/{(len(entries)+23)//24} • escolha para colocar no mapa',200,215)
             for offset,(key,name) in enumerate(entries[page*24:(page+1)*24]):
                 r=pygame.Rect(195+(offset%3)*300,250+(offset//3)*47,290,41)
                 pygame.draw.rect(app.screen,(37,65,75),r,border_radius=5)

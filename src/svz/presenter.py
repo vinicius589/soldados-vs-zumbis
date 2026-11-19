@@ -1,4 +1,4 @@
-"""Compositor OpenGL para o framebuffer 2D de Soldados vs Zumbis.
+"""Compositor OpenGL para o framebuffer 2D de Fábrica dos Mortos.
 
 O Pygame continua responsável por input, áudio, superfícies, textos e lógica.
 Este módulo envia o quadro final para uma textura OpenGL e usa um pequeno
@@ -66,6 +66,18 @@ class OpenGLPresenter:
         }
     """
 
+    # Mantém o centro do texel nítido e filtra só a borda projetada na tela.
+    SCREEN_SAMPLING = """
+        vec2 crisp_uv(vec2 uv) {
+            vec2 size = u_frame_size;
+            vec2 pixel = uv * size;
+            vec2 footprint = clamp(fwidth(pixel), vec2(0.001), vec2(1.0));
+            vec2 local = fract(pixel);
+            vec2 blend = min(local / footprint, vec2(0.5))
+                       + max((local - 1.0) / footprint + 0.5, vec2(0.0));
+            return (floor(pixel) + blend) / size;
+        }
+    """
     FRAGMENT_SHADER = """
         #version 120
         uniform sampler2D u_frame;
@@ -74,8 +86,10 @@ class OpenGLPresenter:
         uniform float u_strength;
         varying vec2 v_uv;
 
+        uniform vec2 u_frame_size;
+    """ + SCREEN_SAMPLING + """
         void main() {
-            vec4 source = texture2D(u_frame, v_uv);
+            vec4 source = texture2D(u_frame, crisp_uv(v_uv));
             vec2 centered = v_uv - vec2(0.5);
             float distance_from_center = length(centered * vec2(1.0, 0.86));
             float vignette = 1.0 - smoothstep(0.30, 0.78, distance_from_center);
@@ -208,7 +222,7 @@ class OpenGLPresenter:
                 deform.x += sin(u_time * 26.0 + local.y * 10.0) * 0.018;
                 scale_y -= lower_body * 0.10;
             } else if (u_state == 9) {
-                float fall = clamp(u_progress, 0.0, 1.0);
+                float fall = smoothstep(0.0, 1.0, u_progress);
                 float angle = -u_direction * fall * 1.05;
                 vec2 pivoted = vec2(local.x - 0.5, local.y - 1.0);
                 mat2 rotation = mat2(cos(angle), -sin(angle), sin(angle), cos(angle));
@@ -299,12 +313,15 @@ class OpenGLPresenter:
         uniform sampler2D u_sprite;
         uniform float u_alpha;
         uniform float u_flash;
+        uniform float u_direction;
         varying vec2 v_uv;
 
         void main() {
             vec4 color = texture2D(u_sprite, v_uv);
             if (color.a < 0.015) discard;
-            color.rgb = mix(color.rgb, vec3(1.0, 0.90, 0.72), clamp(u_flash, 0.0, 1.0));
+            float flash = clamp(u_flash, 0.0, 1.0);
+            // Soldados e inimigos: branco translúcido seguindo o alfa da sprite.
+            color.rgb = mix(color.rgb, vec3(1.0), flash * (115.0 / 255.0));
             color.a *= u_alpha;
             gl_FragColor = color;
         }
@@ -315,8 +332,10 @@ class OpenGLPresenter:
         uniform sampler2D u_overlay;
         varying vec2 v_uv;
 
+        uniform vec2 u_frame_size;
+    """ + SCREEN_SAMPLING + """
         void main() {
-            gl_FragColor = texture2D(u_overlay, v_uv);
+            gl_FragColor = texture2D(u_overlay, crisp_uv(v_uv));
         }
     """
 
@@ -390,11 +409,16 @@ class OpenGLPresenter:
         self.actor_vbo = 0
         self.actor_ebo = 0
         self.actor_index_count = 0
+        self.actor_quad_offset = 0
         self.closed = False
 
         self.program = self._link_program(self.VERTEX_SHADER, self.FRAGMENT_SHADER)
         self.actor_program = self._link_program(self.ACTOR_VERTEX_SHADER, self.ACTOR_FRAGMENT_SHADER)
         self.overlay_program = self._link_program(self.VERTEX_SHADER, self.OVERLAY_FRAGMENT_SHADER)
+        for program in (self.program, self.overlay_program):
+            GL.glUseProgram(program)
+            GL.glUniform2f(GL.glGetUniformLocation(program, "u_frame_size"), self.width, self.height)
+        GL.glUseProgram(0)
         self.frame_texture = self._make_texture(self.width, self.height)
         self.overlay_texture = self._make_texture(self.width, self.height)
         self._make_actor_mesh(columns=12, rows=14)
@@ -455,11 +479,16 @@ class OpenGLPresenter:
                 bottom_right = bottom_left + 1
                 indices.extend((top_left, top_right, bottom_right, top_left, bottom_right, bottom_left))
 
+        # Sequências prontas não precisam da malha articulada: dois triângulos
+        # preservam uma única superfície contínua, sem divisões internas.
+        mesh_index_count = len(indices)
+        self.actor_quad_offset = mesh_index_count * 2
+        indices.extend((0, columns, rows*stride+columns, 0, rows*stride+columns, rows*stride))
         vertex_data = numpy.asarray(vertices, dtype=numpy.float32)
         index_data = numpy.asarray(indices, dtype=numpy.uint16)
         self.actor_vbo = int(GL.glGenBuffers(1))
         self.actor_ebo = int(GL.glGenBuffers(1))
-        self.actor_index_count = int(index_data.size)
+        self.actor_index_count = mesh_index_count
         GL.glBindBuffer(GL.GL_ARRAY_BUFFER, self.actor_vbo)
         GL.glBufferData(GL.GL_ARRAY_BUFFER, vertex_data.nbytes, vertex_data, GL.GL_STATIC_DRAW)
         GL.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, self.actor_ebo)
@@ -628,9 +657,9 @@ class OpenGLPresenter:
 
         GL.glDrawElements(
             GL.GL_TRIANGLES,
-            self.actor_index_count,
+            6 if command.state == "sprite_sequence" else self.actor_index_count,
             GL.GL_UNSIGNED_SHORT,
-            ctypes.c_void_p(0),
+            ctypes.c_void_p(self.actor_quad_offset if command.state == "sprite_sequence" else 0),
         )
 
     def _begin_actor_batch(self) -> None:
@@ -723,3 +752,4 @@ class OpenGLPresenter:
         self.actor_vbo = 0
         self.actor_ebo = 0
         self.actor_index_count = 0
+        self.actor_quad_offset = 0

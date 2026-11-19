@@ -83,7 +83,7 @@ class Game:
     def __init__(self, *, integration_preview: bool = False, save_path=None) -> None:
         self.renderer = GameRenderer(self)
         pygame.init()
-        pygame.display.set_caption(f"Soldados vs Zumbis — {VERSION}")
+        pygame.display.set_caption("Fábrica dos Mortos")
         self.presenter: OpenGLPresenter | None = None
         self.renderer_error = ""
         self.renderer_label = "SOFTWARE · CPU/RAM"
@@ -178,7 +178,7 @@ class Game:
                     self.presenter = None
                 pygame.display.quit()
                 pygame.display.init()
-                pygame.display.set_caption(f"Soldados vs Zumbis — {VERSION}")
+                pygame.display.set_caption("Fábrica dos Mortos")
         self.video.create_mode()
         self.renderer_label = "SOFTWARE · CPU/RAM"
         self.overlay_surface = None
@@ -280,6 +280,8 @@ class Game:
                 # navegação escolhida pelo jogador nem abre o mapa sozinho.
                 self.scene = "title"
                 self.scene_elapsed = 0
+        elif self.scene == "developer":
+            self.developer_lab.update(dt)
         elif self.scene == "battle" and self.battle:
             was_finished = self.battle.finished
             previous_wave = self.battle.wave
@@ -334,6 +336,9 @@ class Game:
             self.toggle_fullscreen()
             return
         if key == pygame.K_ESCAPE:
+            if self.scene == "developer":
+                self.developer_lab.key(key)
+                return
             if self.scene == "profile":
                 self.cancel_profile()
             elif self.scene == "battle" and self.pending_powerup:
@@ -346,6 +351,14 @@ class Game:
                 self.leave_battle_to_title()
             else:
                 self.scene = "settings" if self.scene == "bindings" else "title"
+            return
+        if key == pygame.K_F12 and self.scene == "title":
+            from .developer_lab import DeveloperLab
+            self.developer_lab = DeveloperLab(self)
+            self.scene = "developer"
+            return
+        if self.scene == "developer":
+            self.developer_lab.key(key)
             return
         if self.scene == "profile":
             if key == pygame.K_BACKSPACE:
@@ -422,6 +435,9 @@ class Game:
                     b.start_next_wave()
 
     def handle_click(self, pos: tuple[int, int]) -> None:
+        if self.scene == "developer":
+            self.developer_lab.click(pos)
+            return
         if self.scene == "loading":
             return
         if self.scene != "battle":
@@ -752,6 +768,8 @@ class Game:
         return self.battle is not None or self.pending_snapshot is not None
 
     def checkpoint(self) -> bool:
+        if self.scene == "developer":
+            return True
         if self.battle is None:
             return True
         score_ok = True

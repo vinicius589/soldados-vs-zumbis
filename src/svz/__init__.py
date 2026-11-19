@@ -1,1 +1,1 @@
-"""Núcleo modular de Soldados vs Zumbis. Importe os módulos por responsabilidade."""
+"""Núcleo modular de Fábrica dos Mortos. Importe os módulos por responsabilidade."""

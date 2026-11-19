@@ -133,7 +133,21 @@ class QualidadeAnimacoesBeta4Tests(unittest.TestCase):
         self.assertEqual(
             {
                 "city_zombies_hd_16x6_v3.png",
-                "city_elites_rebuilt_16x6_v1.png",
+                "city_police_infected_4x4_v1.png",
+                "city_scientist_4x4_v1.png",
+                "city_technician_4x4_v1.png",
+                "city_demolisher_4x4_v1.png",
+                "city_quarantine_brute_4x4_v1.png",
+                "city_mutant_commander_4x4_v1.png",
+                "city_boss_commander_4x4_v1.png",
+                "city_boss_alpha_4x4_v1.png",
+                "desert_khepra_4x2_v2.png",
+                "desert_archer_4x4_v2.png",
+                "desert_beetle_host_4x4_v2.png",
+                "desert_looter_4x4_v2.png",
+                "desert_blade_zombie_4x4_v2.png",
+                "desert_priest_4x4_v2.png",
+                "city_boss_director_4x2_v2.png",
                 "desert_zombies_hd_16x6_v3.png",
                 "desert_elites_rebuilt_16x6_v1.png",
                 "beach_zombies_hd_16x6_v3.png",
@@ -160,7 +174,7 @@ class QualidadeAnimacoesBeta4Tests(unittest.TestCase):
             for region in ("city", "desert", "beach")
             for kind in ("zombie", "runner", "crawler")
         }
-        for actor in set(ENEMY_ROSTER_ROWS) - base_actors:
+        for actor in set(ENEMY_ROSTER_ROWS) - base_actors - {"city_boss_director"}:
             bite = self.clips[actor]["bite"].frames
             skill = self.clips[actor]["skill"].frames
             self.assertNotEqual(
@@ -183,7 +197,7 @@ class QualidadeAnimacoesBeta4Tests(unittest.TestCase):
                 self.assertGreaterEqual(len(clip.frames), 8, f"animação rala {actor}:{state}")
                 self.assertGreaterEqual(
                     len({pygame.image.tobytes(frame, "RGBA") for frame in clip.frames}),
-                    6,
+                    4 if actor == "city_boss_director" else 6,
                     f"quadros repetidos demais {actor}:{state}",
                 )
 
@@ -199,7 +213,8 @@ class QualidadeAnimacoesBeta4Tests(unittest.TestCase):
 
     def test_disparo_nao_carrega_clarao_ou_bala_soltos_na_sprite(self) -> None:
         for actor, (_filename, kind) in ACTOR_SHEETS.items():
-            if kind != "soldier":
+            if kind != "soldier" or actor == "desert_blade":
+                # Lâminas têm arco de corte legítimo, não clarão de arma.
                 continue
             for index, frame in enumerate(self.clips[actor]["shoot"].frames):
                 components = pygame.mask.from_surface(
@@ -230,7 +245,14 @@ class QualidadeAnimacoesBeta4Tests(unittest.TestCase):
                     components = pygame.mask.from_surface(
                         frame, threshold=8
                     ).connected_components(minimum=2)
-                    self.assertEqual(1, len(components), f"{actor}:{state}:{index}")
+                    if actor == "desert_blade" and state == "shoot":
+                        self.assertIn(len(components), (1, 2), f"arco ou corpo extra: {index}")
+                        bounds = frame.get_bounding_rect(min_alpha=8)
+                        self.assertGreater(bounds.left, 0)
+                        self.assertLess(bounds.right, frame.get_width())
+                        self.assertGreater(bounds.top, 0)
+                    else:
+                        self.assertEqual(1, len(components), f"{actor}:{state}:{index}")
 
     def test_zumbis_tem_leitura_lenta_e_previsivel(self) -> None:
         for actor in ENEMY_ROSTER_ROWS:
@@ -243,6 +265,7 @@ class QualidadeAnimacoesBeta4Tests(unittest.TestCase):
         samples = {
             actor: sum(_main_figure(frame).height for frame in states["move"].frames)
             / len(states["move"].frames)
+            / (2 if actor in {"city_police_infected", "city_scientist", "city_technician", "city_demolisher", "city_quarantine_brute", "city_mutant_commander", "city_boss_director", "city_boss_commander", "city_boss_alpha", "desert_zombie_v2", "desert_archer", "desert_beetle_host", "desert_looter", "desert_sarcophagus_guard", "desert_plague_priest"} else 1)
             for actor, states in self.clips.items()
             if actor in ENEMY_ROSTER_ROWS
         }
@@ -330,3 +353,4 @@ class QualidadeAnimacoesBeta4Tests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+

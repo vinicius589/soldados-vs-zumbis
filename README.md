@@ -1,4 +1,4 @@
-# Soldados vs Zumbis
+# Fábrica dos Mortos
 
 Jogo de estratégia 2D em Python/Pygame-CE, com três regiões, quatro faixas,
 oito cartas por região e campanha de 12 ondas. Inclui retomada de partida,

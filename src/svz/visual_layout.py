@@ -236,7 +236,6 @@ ENEMY_ACTIVE_INTERACTIONS: dict[str, str] = {
     "parasite": "surto_parasita",
     "stomp": "impacto_no_solo",
     "steal": "roubo_de_suprimentos",
-    "signal_jammer": "interferência_de_sinal",
 }
 
 ENEMY_PASSIVE_TRAITS = frozenset(

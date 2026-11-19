@@ -60,7 +60,8 @@ def verify(output: str) -> None:
             report['video'] = verify_video(game, destination)
             report['review'] = verify_review(game)
             report['runners'] = verify_runners(game, destination.parent)
-            assert len(game.scenario_runtime.tractor) == 8
+            parked = game.scenario_runtime.lane_defense_frame("city", 0, moving=False, water=False)
+            assert parked == game.scenario_runtime.lane_defense_frame("city", 0, moving=True, water=False)
             assert len(game.scenario_runtime.drone) == 8
             assert len(game.scenario_runtime.splash) == 8
         finally:

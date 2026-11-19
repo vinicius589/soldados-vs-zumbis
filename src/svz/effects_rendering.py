@@ -186,12 +186,21 @@ class EffectsRenderingMixin:
             "tidal_surge": ("ability_effects", 2, 260, 142),
             "water_splash": ("ability_effects", 2, 138, 82),
             "electric_arc": ("combat_effects", 0, 78, 54),
-            "explosion": ("combat_effects", 2, 184, 146),
+            "explosion": ("combat_effects", 2, 138, 110),
             "ballistic_impact": ("combat_effects", 0, 92, 66),
         }
         for effect in battle.effects:
             progress = clamp(effect.elapsed / max(0.01, effect.duration), 0.0, 1.0)
             effect_x, effect_y = effect.x, effect.y
+            if effect.kind == "spent_case" and isinstance(effect.owner, Defender):
+                depth = lane_depth(battle.region, effect.owner.row)
+                x = effect_x - (13 + 20 * progress) * depth
+                y = effect_y + (3 - 52 * progress + 78 * progress ** 2) * depth
+                angle = progress * math.tau * 1.4
+                dx, dy = 2.5 * depth * math.cos(angle), 2.5 * depth * math.sin(angle)
+                pygame.draw.line(self.owner.screen, (219, 171, 76),
+                                 (x - dx, y - dy), (x + dx, y + dy), 2)
+                continue
             if isinstance(effect.owner, Enemy):
                 effect_x, effect_y = battle.enemy_effect_origin(
                     effect.owner,
@@ -199,7 +208,10 @@ class EffectsRenderingMixin:
                 )
             previous_clip = self.owner.screen.get_clip()
             boss_can_cross = isinstance(effect.owner, Enemy) and effect.owner.is_boss
-            if not boss_can_cross:
+            # A cura envolve o corpo, não o terreno. Recortá-la à pista
+            # transforma os círculos em semicírculos junto às divisórias.
+            body_heal = effect.kind in {"heal_pulse", "heal_receive"}
+            if not boss_can_cross and not body_heal and effect.kind != "explosion":
                 if isinstance(effect.owner, (Enemy, Defender)):
                     effect_row = effect.owner.row
                 else:
@@ -221,6 +233,8 @@ class EffectsRenderingMixin:
                 effect.kind,
                 ("combat_effects", 2, 184, 146),
             )
+            if sheet == "elemental_effects":
+                stage = min(3.0, progress * 3.0)
             growth = 0.80 + progress * 0.36
             fade = 1.0 - clamp((progress - 0.72) / 0.28, 0.0, 1.0)
             self.blit_effect_frame(
@@ -239,7 +253,7 @@ class EffectsRenderingMixin:
         self,
         sheet: str,
         row: int,
-        stage: int,
+        stage: float,
         x: float,
         y: float,
         width: float,
@@ -256,6 +270,19 @@ class EffectsRenderingMixin:
         if index >= len(frames) or frames[index].get_width() <= 1:
             return None
         rendered = self.owner.assets.scaled(frames[index], width, height)
+        if sheet == "elemental_effects":
+            # Mistura contínua em tamanho fixo, sem saltos entre as quatro poses.
+            phase = max(0.0, float(stage)) % 4.0
+            blend = phase - int(phase)
+            if blend > 0.001:
+                following = row * 4 + (int(phase) + 1) % 4
+                if following < len(frames):
+                    other = self.owner.assets.scaled(frames[following], width, height).copy()
+                    rendered = rendered.copy()
+                    weight = round(255 * blend)
+                    rendered.fill((255 - weight,) * 4, special_flags=pygame.BLEND_RGBA_MULT)
+                    other.fill((weight,) * 4, special_flags=pygame.BLEND_RGBA_MULT)
+                    rendered.blit(other, (0, 0), special_flags=pygame.BLEND_RGBA_ADD)
         if flip_x:
             rendered = pygame.transform.flip(rendered, True, False)
         if angle:

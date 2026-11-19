@@ -53,21 +53,26 @@ class MenuRenderingMixin:
             progress = asset_progress * 0.74 + gpu_progress * 0.26
         else:
             progress = asset_progress
-        # A arte entregue pelo usuário já contém o título. O painel discreto
-        # abaixo não a redesenha nem esconde o logotipo central.
-        panel = pygame.Rect(WIDTH // 2 - 282, HEIGHT - 150, 564, 108)
-        self.panel(panel, 204, (166, 130, 62), 12)
-        self.draw_text(f"{VERSION} — CARREGANDO", self.owner.fonts.h2, WHITE, (panel.centerx, panel.y + 17), "center", True)
-        bar = pygame.Rect(panel.x + 42, panel.y + 51, panel.width - 84, 18)
+        # Fundo discreto reúne a barra e a legenda, sem contorno.
+        bar = pygame.Rect(WIDTH // 2 - 240, HEIGHT - 99, 480, 14)
+        backing_rect = pygame.Rect(bar.x - 14, bar.y - 8, bar.width + 28, 54)
+        backing = pygame.Surface(backing_rect.size, pygame.SRCALPHA)
+        pygame.draw.rect(backing, (0, 0, 0, 175), backing.get_rect(), border_radius=8)
+        self.owner.screen.blit(backing, backing_rect)
         pygame.draw.rect(self.owner.screen, (31, 42, 47), bar, border_radius=9)
         pygame.draw.rect(self.owner.screen, TEAL, (bar.x, bar.y, int(bar.width * progress), bar.height), border_radius=9)
         if self.owner.presenter is not None and self.owner.assets.complete:
             status = f"Enviando atores para a GPU  {self.owner.gpu_preloaded}/{len(self.owner.gpu_preload_queue)}"
         else:
             status = f"Preparando artes e animações  {self.owner.assets.loaded}/{self.owner.assets.total}"
-        self.draw_text(status, self.owner.fonts.small, WHITE, (panel.centerx, panel.y + 79), "center")
+        # Contorno acompanha somente as letras para destacar sobre a arte.
+        label_pos = (bar.centerx, bar.bottom + 17)
+        for dx, dy in ((-2, 0), (2, 0), (0, -2), (0, 2), (-1, -1), (1, -1), (-1, 1), (1, 1)):
+            self.draw_text(status, self.owner.fonts.body, (3, 8, 12),
+                           (label_pos[0] + dx, label_pos[1] + dy), "center")
+        self.draw_text(status, self.owner.fonts.body, WHITE, label_pos, "center")
         if self.owner.assets.error:
-            self.draw_text(self.owner.assets.error, self.owner.fonts.small, RED, (panel.centerx, panel.y - 18), "center")
+            self.draw_text(self.owner.assets.error, self.owner.fonts.small, RED, (bar.centerx, bar.y - 20), "center", True)
 
     def draw_title(self) -> None:
         self.owner.screen.blit(self.owner.assets.images["menu"], (0, 0))
@@ -75,9 +80,8 @@ class MenuRenderingMixin:
         tint.fill((3, 8, 12, 92))
         self.owner.screen.blit(tint, (0, 0))
         self.panel(pygame.Rect(36, 80, 336, 588), 218, (74, 123, 132), 14)
-        self.draw_text("SOLDADOS", self.owner.fonts.title, (242, 239, 218), (62, 108), shadow=True)
-        self.draw_text("VS", self.owner.fonts.small, (225, 153, 91), (338, 153), "topright", True)
-        self.draw_text("ZUMBIS", self.owner.fonts.title, (124, 202, 188), (62, 166), shadow=True)
+        self.draw_text("FÁBRICA", self.owner.fonts.title, (242, 239, 218), (62, 108), shadow=True)
+        self.draw_text("DOS MORTOS", self.owner.fonts.h1, (124, 202, 188), (62, 166), shadow=True)
         self.draw_text("DEFENDA. RECARREGUE. RESISTA.", self.owner.fonts.small, (184, 202, 204), (64, 224))
         for label, rect in self.owner.title_buttons():
             accent = TEAL if label in ("INICIAR", "CONTINUAR") else (66, 104, 116)
@@ -87,8 +91,6 @@ class MenuRenderingMixin:
             self.panel(pygame.Rect(430,526,800,86),235,TEAL,10)
             self.draw_text("PARTIDA SALVA",self.owner.fonts.h2,GOLD,(452,540))
             self.draw_text(info,self.owner.fonts.small,WHITE,(452,576))
-        self.draw_text(f"{VERSION} • Cidade • Deserto • Cachoeira", self.owner.fonts.small, WHITE, (40, HEIGHT - 28))
-        self.draw_text("Artes originais • campanha de 12 ondas", self.owner.fonts.small, WHITE, (WIDTH - 36, HEIGHT - 28), "topright")
 
     def draw_difficulty(self) -> None:
         self.owner.screen.blit(self.owner.assets.images["menu"], (0, 0))
@@ -227,7 +229,7 @@ class MenuRenderingMixin:
         text_x = card.x + 306
         self.draw_text(str(data.get("base", data.get("name"))), self.owner.fonts.h1, WHITE, (text_x, card.y + 32), shadow=True)
         faction = {
-            "city": "Polícia dos Estados Unidos • Terminal Félix-13",
+            "city": "Polícia dos Estados Unidos • Terminal Félix",
             "desert": "Forças Armadas do Egito • Escavação Khepra",
             "beach": "Marinha do Brasil • Cachoeira Contaminada",
         }[region]
@@ -307,13 +309,10 @@ class MenuRenderingMixin:
         sprite = frames[frame_index % len(frames)]
         content = sprite.get_bounding_rect(min_alpha=8)
         sprite = sprite.subsurface(content).copy()
-        source_height = 130.0 if actor.endswith("guard") else 136.0
-        width, height = animated_actor_render_scale(
-            sprite,
-            1.0,
-            body_height=body_height,
-            source_body_height=source_height,
-        )
+        # O tamanho no quadrinho independe da resolução da arte original.
+        # Sprites em alta resolução não devem dobrar o tamanho do personagem.
+        height = body_height
+        width = sprite.get_width() * height / max(1, sprite.get_height())
         rendered = pygame.transform.smoothscale(sprite, (max(1, round(width)), max(1, round(height))))
         if flip:
             rendered = pygame.transform.flip(rendered, True, False)
@@ -330,7 +329,7 @@ class MenuRenderingMixin:
                 "captions": (
                     "NOVA YORK — 23h47. O reator experimental perde contenção.",
                     "A descarga mistura radiação, fármacos e material biológico.",
-                    "A polícia fecha o Terminal Félix-13 — tarde demais.",
+                    "A polícia fecha o Terminal Félix — tarde demais.",
                 ),
                 "dialogue": (
                     "Central, o reator da Félix explodiu!",

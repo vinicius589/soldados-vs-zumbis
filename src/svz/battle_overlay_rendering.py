@@ -27,7 +27,8 @@ class BattleOverlayRenderingMixin:
                 water=is_water_buoy,
             )
             width, height = base_size[0] * depth, base_size[1] * depth
-            self.draw_actor_sprite(sprite, x, y, width, height, cart.motion, enemy=False)
+            self.draw_actor_sprite(sprite, x, y, width, height, cart.motion, enemy=False,
+                                   frame_animated=battle.region == "city")
 
     def draw_particles(self, battle: Battle) -> None:
         # Partículas circulares foram retiradas. Impactos e matéria usam folhas
